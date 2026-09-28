@@ -1,0 +1,48 @@
+enrichment_domain,airports_affected,match_quality,clay_matched_name,linkedin_company_url,clay_employee_count,headcount_trustworthy,issue,required_action
+dfwairport.com,DFW,clean_match,Dallas Fort Worth International Airport (DFW),https://www.linkedin.com/company/dfwairport,3422,Yes,,Use as-is
+portseattle.org,SEA,clean_match,Port of Seattle,https://www.linkedin.com/company/port-of-seattle,2096,No,"Count is PORT-WIDE (seaport+airport), not the aviation division",Filter people by Aviation division; do not use headcount as airport size
+flydenver.com,DEN,clean_match,Denver International Airport - City & County of Denver Dept of Aviation,https://www.linkedin.com/company/city-&-county-of-denver---department-of-aviation,1218,Yes,,Use as-is
+flysfo.com,SFO,clean_match,San Francisco International Airport,https://www.linkedin.com/company/flysfo,1359,Yes,,Use as-is
+atl.com,ATL,clean_match,Hartsfield-Jackson Atlanta International Airport,https://www.linkedin.com/company/atlairport,696,No,"Second stale record on same domain ('Department of Aviation', 162, industry=Accounting)",Pin LinkedIn URL to atlairport
+lawa.org,LAX,clean_match,Los Angeles World Airports,https://www.linkedin.com/company/los-angeles-world-airports,1097,No,Only resolves on lawa.org - flylax.com returns nothing,"Enrich on lawa.org, keep flylax.com as the row key"
+san.org,SAN,clean_match,San Diego County Regional Airport Authority,https://www.linkedin.com/company/sdcraa,439,Yes,,Use as-is
+mwaa.com,"DCA, IAD",clean_match,Metropolitan Washington Airports Authority,https://www.linkedin.com/company/mwaahq,1173,No,One record serves BOTH the IAD and DCA rows,Dedupe contacts across IAD/DCA
+flychicago.com,ORD,clean_match,Chicago Department of Aviation (CDA) - O'Hare & Midway,https://www.linkedin.com/company/chicago-department-of-aviation,532,No,One record serves ORD and MDW,"Disambiguate by IATA, not domain"
+massport.com,BOS,clean_match,Massachusetts Port Authority,https://www.linkedin.com/company/massachusetts-port-authority,774,No,Port-wide (airports+seaport+cruise),Filter people by aviation
+flynashville.com,BNA,clean_match,Metropolitan Nashville Airport Authority,https://www.linkedin.com/company/mnaa,306,Yes,,Use as-is
+metroairport.com,DTW,clean_match,Wayne County Airport Authority,https://www.linkedin.com/company/wayne-county-airport-authority,459,Yes,,Use as-is
+tampaairport.com,TPA,clean_match,Tampa International Airport (TPA),https://www.linkedin.com/company/tampa-international-airport,439,No,Duplicate HCAA record (405) is explicitly retired ('We've consolidated'),Pin LinkedIn URL to tampa-international-airport
+slcairport.com,SLC,clean_match,Salt Lake City International Airport,https://www.linkedin.com/company/slc-international-airport,192,Yes,,Use as-is
+harryreidairport.com,LAS,clean_match,Harry Reid International Airport,https://www.linkedin.com/company/lasairport,425,No,Second record 'Las Vegas Air Service Development' is a route-marketing page,Pin LinkedIn URL to lasairport
+fly2houston.com,IAH,clean_match,Houston Airport System,https://www.linkedin.com/company/houston-airports,498,No,"One record serves IAH, HOU and EFD","Disambiguate by IATA, not domain"
+skyharbor.com,PHX,clean_match,Phoenix Sky Harbor International Airport,https://www.linkedin.com/company/phoenix-sky-harbor-international-airport,336,No,"Size band says 10,001+ but employee_count says 336",Trust neither as authority headcount; use dept budget/org chart
+phl.org,PHL,clean_match,Philadelphia International Airport (PHL),https://www.linkedin.com/company/phlairport,306,Yes,,Use as-is
+cltairport.com,CLT,clean_match,Charlotte Douglas International Airport,https://www.linkedin.com/company/charlotte-douglas-international-airport,502,Yes,,Use as-is
+bwiairport.com,BWI,clean_match,BWI Thurgood Marshall Airport,https://www.linkedin.com/company/bwi_airport,67,No,"employee_count 67 vs size band 10,001+ - almost certainly wrong",Do not use headcount; MAA staff sit under MDOT
+metroairports.org,MSP,clean_match,Metropolitan Airports Commission,https://www.linkedin.com/company/metroairportsmn,511,No,"Only resolves on metroairports.org, not mspairport.com",Enrich on metroairports.org
+yvr.ca,YVR,clean_match,Vancouver Airport Authority,https://www.linkedin.com/company/vancouver-airport-authority,798,Yes,,Use as-is
+admtl.com,YUL,clean_match,ADM Aeroports de Montreal,https://www.linkedin.com/company/adm-aeroports-de-montreal,730,Yes,,Use as-is
+heathrow.com,LHR,clean_match,Heathrow,https://www.linkedin.com/company/heathrow-airport,6033,No,Legal entity in CRM is 'FGP TOPCO'; Ardian investment dated 2025-07-08,Keep legal-entity alias for CRM matching
+gatwickairport.com,LGW,clean_match,London Gatwick,https://www.linkedin.com/company/gatwick-airport,1922,Yes,,Use as-is
+aena.es,MAD,clean_match,Aena,https://www.linkedin.com/company/aena,5412,No,ONE record covers 46 Spanish airports - no MAD-specific entity exists,Treat as network account; MAD is not separately addressable
+fraport.com,FRA,clean_match,Fraport AG,https://www.linkedin.com/company/fraport-ag,3331,No,"Group count only (29 airports, 4 continents); FRA site staff far higher",Use for group-level buyer; not FRA headcount
+flughafen-zuerich.ch,ZRH,clean_match,Zurich Airport Ltd,https://www.linkedin.com/company/zurich-airport-ltd,1272,No,"~1,700 direct staff vs 27,000 across 280 partner firms on site",Authority staff only
+daa.ie,DUB,clean_match,daa,https://www.linkedin.com/company/dublin-airport-authority-daa-,2407,No,Covers Dublin+Cork+ARI retail+daa International,Filter to Dublin Airport
+dubaiairports.ae,DXB,clean_match,Dubai Airports,https://www.linkedin.com/company/dubaiairports,10432,No,Count looks inflated for an asset-owner that outsources heavily,Verify before using as department-size proxy
+dohahamadairport.com,DOH,clean_match,Hamad International Airport,https://www.linkedin.com/company/hamad-international-airport,2979,No,Operator is MATAR under Qatar Airways Group,Also enrich qatarairways.com as the true parent
+changiairport.com,SIN,clean_match,Changi Airport Group,https://www.linkedin.com/company/changiairportgroup,2674,Yes,,Use as-is
+airport.kr,ICN,clean_match,Incheon International Airport Corporation,https://www.linkedin.com/company/incheon-international-airport-corporation,584,Yes,,Use as-is
+gru.com.br,GRU,clean_match,GRU Airport - Aeroporto Internacional de Sao Paulo,https://www.linkedin.com/company/gru-airport---aeroporto-internacional-de-s-o-paulo,2039,Yes,,Use as-is
+aicm.com.mx,MEX,clean_match,Aeropuerto Internacional de la Ciudad de Mexico,https://www.linkedin.com/company/aeropuerto-internacional-de-la-ciudad-de-méxico,582,Yes,,Use as-is
+austintexas.gov,AUS,satellite_only,City of Austin / Austin Public Library / Austin Water,https://www.linkedin.com/company/city-of-austin,8992,No,"Domain returns the whole city: City of Austin (8,992), Austin Public Library (280), Austin Water (534). The real AUS page (226) exists but is NOT the top match",MUST pin LinkedIn URL to austin-bergstrom-international-airport
+schiphol.nl,AMS,satellite_only,Aviation Solutions - by Schiphol Group / Schiphol Real Estate,https://www.linkedin.com/company/aviation-solutions-by-schiphol-group,18,No,Royal Schiphol Group's MAIN page was never returned - only an 18-person product unit and a 71-person real-estate arm,Pin LinkedIn URL to Royal Schiphol Group manually
+munich-airport.com,MUC,satellite_only,Munich Airport International / Munich Airport NJ LLC,https://www.linkedin.com/company/munich-airport-international-gmbh,245,No,Flughafen Muenchen GmbH's MAIN page was never returned. NOTE: the NJ subsidiary operates EWR Terminal A - a separate buying center,Pin FMG LinkedIn URL; treat Munich Airport NJ as its own EWR row
+panynj.gov,"EWR, JFK, LGA",satellite_only,John F. Kennedy International Airport / Port Of New York Authority,https://www.linkedin.com/company/john-f.-kennedy-international-airport,58,No,Both records are stale stubs (58 and 17 employees; one description references a 2011 anniversary). The real PANYNJ page was never returned,"MUST pin PANYNJ LinkedIn URL - affects JFK, LGA and EWR rows"
+adp.fr,CDG,no_match,,,,No,No company record returned,"Resolve Groupe ADP LinkedIn URL via Claygent, then pin"
+istairport.com,IST,no_match,,,,No,No company record returned,"Resolve iGA LinkedIn URL via Claygent, then pin"
+eldorado.aero,BOG,no_match,,,,No,No company record returned,"Resolve Opain S.A. LinkedIn URL via Claygent, then pin"
+sydneyairport.com.au,SYD,no_match,,,,No,"No company record returned (delisted 2022, disclosure dropped)",Resolve via Claygent; lean on Sydney Aviation Alliance/IFM reporting
+tokyo-airport-bldg.co.jp,HND,no_match,,,,No,No company record returned,"Resolve Japan Airport Terminal Co. + TIAT separately, then pin"
+orlandoairports.net,MCO,no_match,,,,No,No company record returned,"Resolve GOAA LinkedIn URL via Claygent, then pin"
+miami-airport.com,MIA,no_match,,,,No,No company record returned,"Resolve MDAD LinkedIn URL via Claygent, then pin"
+gtaa.com,YYZ,no_match,,,,No,No company record returned on gtaa.com or torontopearson.com,"Resolve GTAA LinkedIn URL via Claygent, then pin"
