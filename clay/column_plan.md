@@ -14,7 +14,7 @@ Two companion tables handle the things that do not fit one-row-per-airport.
 
 ## Stage 1 - Foundation (built, no credits)
 
-Written by `build/seed_airports.py`. 23 columns, all populated.
+Written by `build/seed_airports.py`. 25 columns, all populated.
 
 | Column | Notes |
 |---|---|

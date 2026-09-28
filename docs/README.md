@@ -5,7 +5,7 @@ An account foundation and Clay build spec for 50 airports, keyed on airport doma
 ## What is here
 
 ```
-data/airports.csv            50 rows, 23 columns - the account list
+data/airports.csv            50 rows, 25 columns - the account list
 data/buying_centers.csv      87 rows - who actually signs, normalized out of the airport row
 data/clay_match_quality.csv  47 rows - observed Clay match quality per enrichment domain
 data/signals.csv             17 rows - aviation signal dictionary

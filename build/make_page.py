@@ -157,6 +157,29 @@ tr.detail>td{background:var(--bg);padding:0 11px 18px;border-bottom:2px solid va
 .warnbox.none{background:color-mix(in oklab,var(--bad) 10%,var(--surface));
   border-color:color-mix(in oklab,var(--bad) 32%,var(--line))}
 .warnbox b{color:var(--ink);font-weight:600}
+.dgm{max-width:100%;height:auto;color:var(--ink);display:block;margin:0 auto}
+.dgm .bx{fill:var(--surface);stroke:var(--line-strong);stroke-width:1.25}
+.dgm .bx-key{fill:color-mix(in oklab,var(--brand) 12%,var(--surface));stroke:var(--brand);stroke-width:1.6}
+.dgm .bx-warn{fill:color-mix(in oklab,var(--warn) 14%,var(--surface));stroke:var(--warn);stroke-width:1.5}
+.dgm text{fill:currentColor;font-family:Barlow,"Helvetica Neue",Arial,sans-serif;font-size:12px}
+.dgm .t-h{font-family:Archivo,"Helvetica Neue",Arial,sans-serif;font-weight:600;font-size:12.5px}
+.dgm .t-s{fill:var(--muted);font-size:10.5px}
+.dgm .t-m{font-family:"IBM Plex Mono",monospace;font-size:11px}
+.dgm .ln{stroke:currentColor;stroke-width:1.25;fill:none;opacity:.5}
+.dgm .ln-bad{stroke:var(--bad);stroke-width:1.5;fill:none;stroke-dasharray:5 4}
+.dgm .ah{fill:currentColor;opacity:.5}
+.dgm .ah-bad{fill:var(--bad)}
+.dgm .lbl{fill:var(--muted);font-size:10.5px}
+.dgm .lbl-bad{fill:var(--bad);font-size:10.5px;font-weight:600;font-family:Archivo,sans-serif}
+figure.fig{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;
+  padding:18px 16px 14px;box-shadow:var(--shadow);margin-top:14px;overflow-x:auto}
+figure.fig figcaption{margin-top:12px;font-size:13px;color:var(--ink-2);max-width:88ch;
+  border-top:1px solid var(--line);padding-top:10px}
+figure.fig figcaption b{color:var(--ink);font-weight:600}
+.stepnote{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 12px;margin-top:12px;font-size:13.5px}
+.stepnote dt{font-family:Archivo,sans-serif;font-weight:600;font-size:12px;color:var(--brand);
+  white-space:nowrap;padding-top:2px}
+.stepnote dd{margin:0;color:var(--ink-2)}
 .empty{padding:34px 14px;text-align:center;color:var(--muted);font-size:14px}
 .legend{display:flex;flex-wrap:wrap;gap:12px;margin:11px 0 0;font-size:12px;color:var(--muted)}
 .legend span{display:inline-flex;align-items:center;gap:5px}
@@ -183,14 +206,15 @@ tr.detail>td{background:var(--bg);padding:0 11px 18px;border-bottom:2px solid va
   </div>
   <div class="tiles" id="tiles"></div>
   <nav class="tabs" role="tablist">
-    <button role="tab" aria-selected="true" data-tab="airports">Airports</button>
+    <button role="tab" aria-selected="true" data-tab="workflow">Workflow</button>
+    <button role="tab" aria-selected="false" data-tab="airports">Airports</button>
     <button role="tab" aria-selected="false" data-tab="centers">Buying centers</button>
     <button role="tab" aria-selected="false" data-tab="signals">Signal dictionary</button>
     <button role="tab" aria-selected="false" data-tab="match">Clay match quality</button>
   </nav>
 </header>
 
-<section id="tab-airports">
+<section id="tab-airports" hidden>
   <div class="controls">
     <input type="search" id="q" placeholder="Airport, domain, IATA, authority, operator…" aria-label="Search airports">
     <select id="fRegion" aria-label="Region"><option value="">All regions</option></select>
@@ -222,6 +246,167 @@ tr.detail>td{background:var(--bg);padding:0 11px 18px;border-bottom:2px solid va
     <span><i style="background:var(--r-terminal)"></i>Terminal operator</span>
     <span><i style="background:var(--r-handling)"></i>Handling / subsidiary</span>
     <span><i style="background:var(--r-state)"></i>State / regulator</span>
+  </div>
+</section>
+
+<section id="tab-workflow">
+  <div class="panel">
+    <h2>How the table gets built</h2>
+    <p>Six stages. The first two cost nothing and are already done; the third is the one that can quietly corrupt the table; the fifth is what makes a row actionable. Stage 3 is drawn as a gate because that is how it behaves — 14 of the 50 rows cannot pass through it unattended.</p>
+  </div>
+
+  <figure class="fig">
+  <svg class="dgm" viewBox="0 0 880 700" role="img" width="880"
+       aria-label="The build pipeline: 50 airport domains become 87 buying centers, then split on Clay match quality. 35 clean domains enrich directly, while 12 domains covering 14 airport rows must have a LinkedIn company URL pinned first. Skipping the pin attaches those rows to the wrong company.">
+    <defs>
+      <marker id="wfA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <polygon class="ah" points="0,1.5 10,5 0,8.5"/></marker>
+      <marker id="wfB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <polygon class="ah-bad" points="0,1.5 10,5 0,8.5"/></marker>
+    </defs>
+
+    <rect class="bx" x="330" y="18"  width="220" height="46" rx="7"/>
+    <text class="t-h" x="440" y="38"  text-anchor="middle">50 airport domains</text>
+    <text class="t-s" x="440" y="53"  text-anchor="middle">primary key: airport_domain</text>
+
+    <rect class="bx" x="280" y="92"  width="320" height="46" rx="7"/>
+    <text class="t-h" x="440" y="112" text-anchor="middle">1 · Foundation — 25 structural columns</text>
+    <text class="t-s" x="440" y="127" text-anchor="middle">operator model · authority · parent · terminals · assoc · pubs</text>
+
+    <rect class="bx" x="280" y="166" width="320" height="46" rx="7"/>
+    <text class="t-h" x="440" y="186" text-anchor="middle">2 · Normalize — 87 buying centers</text>
+    <text class="t-s" x="440" y="201" text-anchor="middle">82 distinct organizations · 27 airports have more than one</text>
+
+    <rect class="bx" x="250" y="240" width="380" height="46" rx="7"/>
+    <text class="t-h" x="440" y="260" text-anchor="middle">3 · Clay company match, per enrichment domain</text>
+    <text class="t-s" x="440" y="275" text-anchor="middle">run against the corporate domain, not the row key</text>
+
+    <rect class="bx" x="70"  y="326" width="210" height="46" rx="7"/>
+    <text class="t-h" x="175" y="346" text-anchor="middle">35 domains — clean</text>
+    <text class="t-s" x="175" y="361" text-anchor="middle">enrich directly</text>
+
+    <rect class="bx-warn" x="590" y="326" width="250" height="46" rx="7"/>
+    <text class="t-h" x="715" y="346" text-anchor="middle">12 domains → 14 airport rows</text>
+    <text class="t-s" x="715" y="361" text-anchor="middle">wrong company (4) or no match (8)</text>
+
+    <rect class="bx-key" x="590" y="400" width="250" height="46" rx="7"/>
+    <text class="t-h" x="715" y="420" text-anchor="middle">Pin linkedin_company_url</text>
+    <text class="t-s" x="715" y="435" text-anchor="middle">by hand, before any credits are spent</text>
+
+    <rect class="bx" x="280" y="482" width="320" height="46" rx="7"/>
+    <text class="t-h" x="440" y="502" text-anchor="middle">4 · Marketplace enrichment</text>
+    <text class="t-s" x="440" y="517" text-anchor="middle">dept headcount · tech stack · open roles · job changes</text>
+
+    <rect class="bx" x="280" y="556" width="320" height="46" rx="7"/>
+    <text class="t-h" x="440" y="576" text-anchor="middle">5 · Claygent research — 21 fields</text>
+    <text class="t-s" x="440" y="591" text-anchor="middle">tiers 1–5: official · association · trade press · public record</text>
+
+    <rect class="bx-key" x="280" y="630" width="320" height="46" rx="7"/>
+    <text class="t-h" x="440" y="650" text-anchor="middle">6 · Route to the owning buying center</text>
+    <text class="t-s" x="440" y="665" text-anchor="middle">owning_buying_center must exist in buying_centers.csv</text>
+
+    <path class="ln" marker-end="url(#wfA)" d="M440,64 V88"/>
+    <path class="ln" marker-end="url(#wfA)" d="M440,138 V162"/>
+    <path class="ln" marker-end="url(#wfA)" d="M440,212 V236"/>
+    <polyline class="ln" marker-end="url(#wfA)" points="440,286 440,306 175,306 175,322"/>
+    <polyline class="ln" marker-end="url(#wfA)" points="440,286 440,306 715,306 715,322"/>
+    <path class="ln" marker-end="url(#wfA)" d="M715,372 V396"/>
+    <polyline class="ln" points="175,372 175,458 440,458"/>
+    <polyline class="ln" points="715,446 715,458 440,458"/>
+    <path class="ln" marker-end="url(#wfA)" d="M440,458 V478"/>
+    <path class="ln" marker-end="url(#wfA)" d="M440,528 V552"/>
+    <path class="ln" marker-end="url(#wfA)" d="M440,602 V626"/>
+
+    <polyline class="ln-bad" marker-end="url(#wfB)" points="840,349 862,349 862,504 606,504"/>
+    <text class="lbl-bad" x="853" y="430" text-anchor="middle" transform="rotate(-90,853,430)">skip → wrong company</text>
+
+    <text class="lbl" x="300" y="302" text-anchor="end">clean</text>
+    <text class="lbl" x="580" y="302" text-anchor="start">needs a pin</text>
+  </svg>
+  <figcaption><b>The dashed path is the failure mode, not a shortcut.</b> Enrichment on <code>panynj.gov</code> succeeds and returns two stale stubs of 58 and 17 employees — so JFK, LGA and Newark attach to a dead page with nothing raising an error. <code>austintexas.gov</code> returns the city, the library and the water utility ahead of the airport. Because nothing fails loudly, the pin has to happen before stage 4 rather than being corrected after it.</figcaption>
+  </figure>
+
+  <div class="panel">
+    <h2>Why the airport row is not the unit of outreach</h2>
+    <p>The three New York airports are one account list entry each, and between them they carry twelve buying-center rows — but only nine organizations, because one authority sits behind all three. Sequenced as three accounts, the same CIO gets mailed three times.</p>
+  </div>
+
+  <figure class="fig">
+  <svg class="dgm" viewBox="0 0 880 400" role="img" width="880"
+       aria-label="Three airport rows at JFK, LaGuardia and Newark produce twelve buying-center rows but only nine distinct organizations. The Port Authority of New York and New Jersey is the single airport-wide buyer behind all three, and Delta operates terminals at two of them. Newark Terminal A is operated by Munich Airport NJ LLC.">
+    <defs>
+      <marker id="fanA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+        <polygon class="ah" points="0,1.5 10,5 0,8.5"/></marker>
+    </defs>
+
+    <rect class="bx-key" x="90" y="14" width="700" height="52" rx="8"/>
+    <text class="t-h" x="440" y="36" text-anchor="middle">Port Authority of New York &amp; New Jersey — panynj.gov</text>
+    <text class="t-s" x="440" y="53" text-anchor="middle">ONE buying center: airport-wide network &amp; OT, security, access control, the redevelopment program</text>
+
+    <rect class="bx" x="100" y="118" width="200" height="40" rx="7"/>
+    <text class="t-h" x="200" y="136" text-anchor="middle">JFK — 6 buyers</text>
+    <text class="t-m t-s" x="200" y="150" text-anchor="middle">jfkairport.com</text>
+
+    <rect class="bx" x="340" y="118" width="200" height="40" rx="7"/>
+    <text class="t-h" x="440" y="136" text-anchor="middle">LGA — 3 buyers</text>
+    <text class="t-m t-s" x="440" y="150" text-anchor="middle">laguardiaairport.com</text>
+
+    <rect class="bx" x="580" y="118" width="200" height="40" rx="7"/>
+    <text class="t-h" x="680" y="136" text-anchor="middle">EWR — 3 buyers</text>
+    <text class="t-m t-s" x="680" y="150" text-anchor="middle">newarkairport.com</text>
+
+    <path class="ln" marker-end="url(#fanA)" d="M200,116 V70"/>
+    <path class="ln" marker-end="url(#fanA)" d="M440,116 V70"/>
+    <path class="ln" marker-end="url(#fanA)" d="M680,116 V70"/>
+    <text class="lbl" x="696" y="96" text-anchor="start">same authority ×3 — dedupe here</text>
+
+    <path class="ln" d="M106,158 V355"/>
+    <path class="ln" marker-end="url(#fanA)" d="M106,203 H112"/>
+    <path class="ln" marker-end="url(#fanA)" d="M106,241 H112"/>
+    <path class="ln" marker-end="url(#fanA)" d="M106,279 H112"/>
+    <path class="ln" marker-end="url(#fanA)" d="M106,317 H112"/>
+    <path class="ln" marker-end="url(#fanA)" d="M106,355 H112"/>
+    <rect class="bx" x="116" y="188" width="184" height="30" rx="5"/>
+    <text class="t-h" x="126" y="207">JFKIAT</text><text class="t-s" x="290" y="207" text-anchor="end">T4</text>
+    <rect class="bx" x="116" y="226" width="184" height="30" rx="5"/>
+    <text class="t-h" x="126" y="245">New Terminal One</text><text class="t-s" x="290" y="245" text-anchor="end">T1</text>
+    <rect class="bx" x="116" y="264" width="184" height="30" rx="5"/>
+    <text class="t-h" x="126" y="283">JFK Millennium Partners</text><text class="t-s" x="290" y="283" text-anchor="end">T6</text>
+    <rect class="bx" x="116" y="302" width="184" height="30" rx="5"/>
+    <text class="t-h" x="126" y="321">American Airlines</text><text class="t-s" x="290" y="321" text-anchor="end">T8</text>
+    <rect class="bx" x="116" y="340" width="184" height="30" rx="5"/>
+    <text class="t-h" x="126" y="359">Delta Air Lines</text><text class="t-s" x="290" y="359" text-anchor="end">T2/4 · also LGA</text>
+
+    <path class="ln" d="M346,158 V241"/>
+    <path class="ln" marker-end="url(#fanA)" d="M346,203 H352"/>
+    <path class="ln" marker-end="url(#fanA)" d="M346,241 H352"/>
+    <rect class="bx" x="356" y="188" width="184" height="30" rx="5"/>
+    <text class="t-h" x="366" y="207">LaGuardia Gateway</text><text class="t-s" x="530" y="207" text-anchor="end">T B</text>
+    <rect class="bx" x="356" y="226" width="184" height="30" rx="5"/>
+    <text class="t-h" x="366" y="245">Delta Air Lines</text><text class="t-s" x="530" y="245" text-anchor="end">T C · also JFK</text>
+
+    <path class="ln" d="M586,158 V241"/>
+    <path class="ln" marker-end="url(#fanA)" d="M586,203 H592"/>
+    <path class="ln" marker-end="url(#fanA)" d="M586,241 H592"/>
+    <rect class="bx-warn" x="596" y="188" width="184" height="30" rx="5"/>
+    <text class="t-h" x="606" y="207">Munich Airport NJ</text><text class="t-s" x="770" y="207" text-anchor="end">T A</text>
+    <rect class="bx" x="596" y="226" width="184" height="30" rx="5"/>
+    <text class="t-h" x="606" y="245">United Airlines</text><text class="t-s" x="770" y="245" text-anchor="end">T B/C</text>
+
+    <text class="lbl" x="116" y="386">Arrows down = buys its own terminal IT, baggage and passenger processing. Arrows up = shares the airport-wide authority.</text>
+  </svg>
+  <figcaption><b>Twelve buying-center rows, nine organizations.</b> The Port Authority appears three times and Delta twice, so the airport row over-counts buyers while the account list under-counts them. <b>Newark Terminal A is the one to look at twice:</b> the Port Authority built it, but Munich Airport NJ LLC — a Flughafen München subsidiary — operates it, so that buyer is a German airport operator rather than the authority. An authority-level contract reaches none of the boxes in the lower rows.</figcaption>
+  </figure>
+
+  <div class="panel">
+    <h2>What each stage costs and what it can get wrong</h2>
+    <dl class="stepnote">
+      <dt>Stages 1–2</dt><dd>No credits, no API. Hand-built structure, regenerated by the four seed scripts in <code>build/</code>. Wrong here means a mis-stated ownership model, which the systems-owner note on each row exists to catch.</dd>
+      <dt>Stage 3</dt><dd>One Clay search per unique enrichment domain — 47, not 50, because PANYNJ covers three rows and MWAA two. Already run; results in <code>clay_match_quality.csv</code>.</dd>
+      <dt>Stage 4</dt><dd>Credits scale with rows × data points. Run it only on pinned rows. Never read <code>employee_count</code> as airport size: it is untrustworthy on 31 of the 47 domains.</dd>
+      <dt>Stage 5</dt><dd>The expensive one. Validate on JFK, HND, MAD, AUS and BOG first — six buying centers, Japanese-language sources, a network operator with no airport-level entity, a shared city domain, and a split concessionaire.</dd>
+      <dt>Stage 6</dt><dd>Join on <code>airport_domain</code>, prospect <code>target_titles</code> at <code>buying_center_domain</code>, and dedupe on the organization rather than the airport.</dd>
+    </dl>
   </div>
 </section>
 
@@ -291,9 +476,9 @@ document.getElementById("tiles").innerHTML = [
 const tabs=[...document.querySelectorAll('nav.tabs button')];
 tabs.forEach(b=>b.onclick=()=>{
   tabs.forEach(x=>x.setAttribute("aria-selected", String(x===b)));
-  ["airports","centers","signals","match"].forEach(t=>
+  ["workflow","airports","centers","signals","match"].forEach(t=>
     document.getElementById("tab-"+t).hidden = (t!==b.dataset.tab));
-  try{localStorage.setItem("ait.tab",b.dataset.tab)}catch(e){}
+  try{localStorage.setItem("ait.tab2",b.dataset.tab)}catch(e){}
 });
 
 /* ---- filters ---- */
@@ -452,7 +637,7 @@ el("reset").onclick=()=>{["q","fRegion","fTier","fModel"].forEach(i=>el(i).value
 el("mQ").addEventListener("input",renderMatch);
 
 render(); renderCenters(); renderMatch();
-try{const t=localStorage.getItem("ait.tab");
+try{const t=localStorage.getItem("ait.tab2");
   if(t){const b=tabs.find(x=>x.dataset.tab===t); if(b)b.click();}}catch(e){}
 </script>
 """
