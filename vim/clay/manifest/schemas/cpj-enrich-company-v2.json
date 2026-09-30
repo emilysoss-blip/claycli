@@ -1,0 +1,118 @@
+{
+  "workspace": {
+    "id": "91642",
+    "name": "Clay Demos (GTM)"
+  },
+  "packageId": "e251a70e-46d7-4f3a-b3ef-a211ad3d8bd2",
+  "actionKey": "cpj-enrich-company-v2",
+  "displayName": "Enrich company",
+  "inputOptionsIncluded": false,
+  "outputParameters": [
+    {
+      "outputPath": "clay_company_id",
+      "semanticType": "clay-company-id"
+    },
+    {
+      "outputPath": "url",
+      "semanticType": "company-linkedin-url"
+    },
+    {
+      "outputPath": "name",
+      "semanticType": "company-name"
+    },
+    {
+      "outputPath": "size"
+    },
+    {
+      "outputPath": "slug",
+      "semanticType": "slug"
+    },
+    {
+      "outputPath": "type"
+    },
+    {
+      "outputPath": "domain",
+      "semanticType": "company-domain"
+    },
+    {
+      "outputPath": "org_id",
+      "semanticType": "company-org-id"
+    },
+    {
+      "outputPath": "country"
+    },
+    {
+      "outputPath": "founded"
+    },
+    {
+      "outputPath": "website"
+    },
+    {
+      "outputPath": "industry"
+    },
+    {
+      "outputPath": "locality"
+    },
+    {
+      "outputPath": "logo_url"
+    },
+    {
+      "outputPath": "locations[0].is_primary"
+    },
+    {
+      "outputPath": "locations[0].address"
+    },
+    {
+      "outputPath": "company_id"
+    },
+    {
+      "outputPath": "description"
+    },
+    {
+      "outputPath": "last_refresh"
+    },
+    {
+      "outputPath": "employee_count"
+    },
+    {
+      "outputPath": "follower_count"
+    },
+    {
+      "outputPath": "annual_revenue"
+    }
+  ],
+  "inputParameters": [
+    {
+      "name": "company_identifier_type",
+      "optional": true,
+      "description": "Type of company identifier in the mapped column: clay_company_id, company_linkedin_url, or company_domain. If left empty, the type is inferred from the value: a LinkedIn URL is matched as company_linkedin_url, a whole number as clay_company_id, and anything else as company_domain.",
+      "displayName": "Match companies using",
+      "typeSettings": {
+        "type": "select",
+        "constant": true,
+        "placeholderText": "Select an identifier type"
+      },
+      "schemaVersion": 2,
+      "type": "select",
+      "required": false
+    },
+    {
+      "name": "company_identifier",
+      "optional": false,
+      "description": "Map the column containing the selected company identifier type.",
+      "displayName": "Select column",
+      "typeSettings": {
+        "type": "column-select",
+        "semanticType": "clay-company-identifier"
+      },
+      "schemaVersion": 2,
+      "type": "column-select",
+      "required": true
+    }
+  ],
+  "requiredInputCombinations": [
+    [
+      "company_identifier"
+    ]
+  ]
+}

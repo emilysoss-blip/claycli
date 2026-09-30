@@ -1,0 +1,42 @@
+{
+ "nodeType": "tool",
+ "name": "PredictLeads: company news (M&A, expansion)",
+ "incomingEdges": [
+  {
+   "sourceNode": "wfn_0tm72tmgzyCUdf2xzVc"
+  }
+ ],
+ "inputSchema": {
+  "type": "object",
+  "properties": {
+   "company_domain": {
+    "type": "string",
+    "sourceNodeId": "wfn_0tm72rw6h3dNPFZ9Qib",
+    "sourcePath": "$.company_domain"
+   },
+   "company_linkedin_url": {
+    "type": "string",
+    "sourceNodeId": "wfn_0tm72rw6h3dNPFZ9Qib",
+    "sourcePath": "$.company_linkedin_url"
+   },
+   "clay_company_id": {
+    "type": "string",
+    "sourceNodeId": "wfn_0tm72qvoaRMKcakdPSe",
+    "sourcePath": "$.clay_company_id"
+   }
+  }
+ },
+ "tools": [
+  {
+   "toolType": "clay_action",
+   "actionPackageId": "aa68bb13-b114-404a-a5cf-f920e72fbc90",
+   "actionKey": "predict-leads-get-events-for-company-v3",
+   "inputMappingConfig": {
+    "unparsedDomain": {
+     "type": "reference",
+     "expression": "{{company_domain}}"
+    }
+   }
+  }
+ ]
+}

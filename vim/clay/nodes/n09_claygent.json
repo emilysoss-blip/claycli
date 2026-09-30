@@ -1,0 +1,115 @@
+{
+ "nodeType": "agent",
+ "name": "Claygent: healthcare gap research (fallback only)",
+ "incomingEdges": [
+  {
+   "sourceNode": "wfn_0tm72xaBehyNRiKkhCS",
+   "ruleId": "needs_fallback"
+  }
+ ],
+ "agentName": "Vim | healthcare gap research",
+ "agentModel": "gpt-5.4-nano",
+ "agentPrompt": "Organization: {{company_name}} ({{company_domain}}), headquartered in {{city}}, {{state}}. Known specialty: {{specialty}}.\nStructured sources already returned: EHR status = {{ehr_status}} (candidates: {{ehr_candidates}}); parent = {{parent_name}} ({{parent_status}}).\nMissing fields: {{missing_fields}}.\n\nResearch ONLY the missing fields, using the organization's official website, its patient-portal and careers pages, SEC filings/investor relations, and reputable health-industry press.\n\n- ehr: the EHR/practice-management system the organization runs. Accept only an explicit statement (vendor press release, case study, investor filing, job posting that requires daily use of that EHR at this organization). A patient-portal login brand (e.g. MyChart, FollowMyHealth, healow) is a clue only: report it in portal_vendor_clue, and do not return it as the EHR unless it is independently confirmed.\n- parent: the ultimate owner. Do not infer ownership from a similar name. Require an acquisition announcement, filing or the organization's own statement.\n- location_count: the number of clinic/care locations the organization itself reports, with the date it said so. Do not use LinkedIn headcount.\n- org_type: choose the closest option.\n\nFor every value give the source URL and a short quote. Leave a field empty and say why in uncertainty_notes when the evidence does not establish it. Never overwrite or contradict a structured result without citing why.",
+ "inputSchema": {
+  "type": "object",
+  "properties": {
+   "company_name": {
+    "type": "string",
+    "sourceNodeId": "wfn_0tm72qvoaRMKcakdPSe",
+    "sourcePath": "$.company_name"
+   },
+   "company_domain": {
+    "type": "string",
+    "sourceNodeId": "wfn_0tm72rw6h3dNPFZ9Qib",
+    "sourcePath": "$.company_domain"
+   },
+   "city": {
+    "type": "string",
+    "sourceNodeId": "wfn_0tm72qvoaRMKcakdPSe",
+    "sourcePath": "$.city"
+   },
+   "state": {
+    "type": "string",
+    "sourceNodeId": "wfn_0tm72qvoaRMKcakdPSe",
+    "sourcePath": "$.state"
+   },
+   "specialty": {
+    "type": "string",
+    "sourceNodeId": "wfn_0tm72qvoaRMKcakdPSe",
+    "sourcePath": "$.specialty"
+   },
+   "ehr_status": {
+    "type": "string",
+    "sourceNodeId": "wfn_0tm72vytwgEtK6ew84W",
+    "sourcePath": "$.ehr_status"
+   },
+   "ehr_candidates": {
+    "type": "string",
+    "sourceNodeId": "wfn_0tm72vytwgEtK6ew84W",
+    "sourcePath": "$.ehr_candidates"
+   },
+   "parent_name": {
+    "type": "string",
+    "sourceNodeId": "wfn_0tm72vytwgEtK6ew84W",
+    "sourcePath": "$.parent_name"
+   },
+   "parent_status": {
+    "type": "string",
+    "sourceNodeId": "wfn_0tm72vytwgEtK6ew84W",
+    "sourcePath": "$.parent_status"
+   },
+   "missing_fields": {
+    "type": "string",
+    "sourceNodeId": "wfn_0tm72vytwgEtK6ew84W",
+    "sourcePath": "$.missing_fields"
+   }
+  }
+ },
+ "outputSchema": {
+  "ehr_vendor": {
+   "type": "string",
+   "description": "EHR vendor explicitly confirmed by the evidence; empty if not established"
+  },
+  "ehr_source_url": {
+   "type": "url",
+   "description": "URL supporting the EHR finding"
+  },
+  "ehr_quote": {
+   "type": "string",
+   "description": "Short supporting quote for the EHR finding"
+  },
+  "portal_vendor_clue": {
+   "type": "string",
+   "description": "Patient portal brand observed (clue only)"
+  },
+  "parent_name": {
+   "type": "string",
+   "description": "Ultimate parent organization, empty if not established"
+  },
+  "parent_source_url": {
+   "type": "url",
+   "description": "URL supporting the parent finding"
+  },
+  "location_count": {
+   "type": "number",
+   "description": "Number of care locations the organization reports"
+  },
+  "location_count_as_of": {
+   "type": "string",
+   "description": "Date or period the location count refers to"
+  },
+  "location_source_url": {
+   "type": "url",
+   "description": "URL supporting the location count"
+  },
+  "org_type": {
+   "type": "select",
+   "description": "Organization type",
+   "options": "[{\"text\": \"primary care network\"}, {\"text\": \"multi-site provider group\"}, {\"text\": \"specialty provider network\"}, {\"text\": \"health system / hospital\"}, {\"text\": \"payer\"}, {\"text\": \"other\"}]"
+  },
+  "uncertainty_notes": {
+   "type": "string",
+   "description": "What could not be established and why"
+  }
+ }
+}

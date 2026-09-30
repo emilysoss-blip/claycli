@@ -1,0 +1,109 @@
+{
+  "workspace": {
+    "id": "91642",
+    "name": "Clay Demos (GTM)"
+  },
+  "packageId": "b7f3454a-5095-4cb2-b91b-79cdb54e0dd2",
+  "actionKey": "hg-insights-enrich-company-v2",
+  "displayName": "Enrich company",
+  "inputOptionsIncluded": false,
+  "outputParameters": [
+    {
+      "outputPath": "id"
+    },
+    {
+      "outputPath": "name",
+      "semanticType": "company-name"
+    },
+    {
+      "outputPath": "domain",
+      "semanticType": "company-domain"
+    },
+    {
+      "outputPath": "domain_normalized"
+    },
+    {
+      "outputPath": "country_code"
+    },
+    {
+      "outputPath": "country_name",
+      "semanticType": "country"
+    },
+    {
+      "outputPath": "state_name"
+    },
+    {
+      "outputPath": "city_name",
+      "semanticType": "location"
+    },
+    {
+      "outputPath": "postal_code"
+    },
+    {
+      "outputPath": "continent_name"
+    },
+    {
+      "outputPath": "subcontinent_name"
+    },
+    {
+      "outputPath": "geopolitical_name"
+    },
+    {
+      "outputPath": "industry_id"
+    },
+    {
+      "outputPath": "industry_name"
+    },
+    {
+      "outputPath": "naics_code"
+    },
+    {
+      "outputPath": "naics_name"
+    },
+    {
+      "outputPath": "sic_codes[0]"
+    },
+    {
+      "outputPath": "sic_names[0]"
+    },
+    {
+      "outputPath": "revenue_total"
+    },
+    {
+      "outputPath": "revenue_band"
+    },
+    {
+      "outputPath": "employees_total"
+    },
+    {
+      "outputPath": "employees_band"
+    },
+    {
+      "outputPath": "forbes_2000_rank"
+    },
+    {
+      "outputPath": "fortune_500_rank"
+    }
+  ],
+  "inputParameters": [
+    {
+      "name": "company_identifier",
+      "optional": false,
+      "description": "The domain name, or HG Insights company ID, of the company to enrich.",
+      "displayName": "Company domain or HG company ID",
+      "typeSettings": {
+        "type": "column-select",
+        "semanticType": "company-domain"
+      },
+      "schemaVersion": 2,
+      "refreshDynamicFieldsOnValueChange": false,
+      "type": "column-select",
+      "required": true
+    }
+  ],
+  "requiredInputCombinations": [
+    [
+      "company_identifier"
+    ]
+  ]
+}

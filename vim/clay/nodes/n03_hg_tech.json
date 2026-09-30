@@ -1,0 +1,42 @@
+{
+ "nodeType": "tool",
+ "name": "HG Insights: website tech stack (EHR/portal)",
+ "incomingEdges": [
+  {
+   "sourceNode": "wfn_0tm72tjeoUGVTT4kiaf"
+  }
+ ],
+ "inputSchema": {
+  "type": "object",
+  "properties": {
+   "company_domain": {
+    "type": "string",
+    "sourceNodeId": "wfn_0tm72rw6h3dNPFZ9Qib",
+    "sourcePath": "$.company_domain"
+   },
+   "company_linkedin_url": {
+    "type": "string",
+    "sourceNodeId": "wfn_0tm72rw6h3dNPFZ9Qib",
+    "sourcePath": "$.company_linkedin_url"
+   },
+   "clay_company_id": {
+    "type": "string",
+    "sourceNodeId": "wfn_0tm72qvoaRMKcakdPSe",
+    "sourcePath": "$.clay_company_id"
+   }
+  }
+ },
+ "tools": [
+  {
+   "toolType": "clay_action",
+   "actionPackageId": "b7f3454a-5095-4cb2-b91b-79cdb54e0dd2",
+   "actionKey": "hg-insights-get-company-website-tech-stack",
+   "inputMappingConfig": {
+    "domain": {
+     "type": "reference",
+     "expression": "{{company_domain}}"
+    }
+   }
+  }
+ ]
+}

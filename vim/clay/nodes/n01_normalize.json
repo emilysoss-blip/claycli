@@ -1,0 +1,66 @@
+{
+ "nodeType": "code",
+ "name": "Normalize + identity check",
+ "incomingEdges": [
+  {
+   "sourceNode": "wfn_0tm72qvoaRMKcakdPSe"
+  }
+ ],
+ "inputSchema": {
+  "type": "object",
+  "properties": {
+   "company_domain": {
+    "type": "string",
+    "sourceNodeId": "wfn_0tm72qvoaRMKcakdPSe",
+    "sourcePath": "$.company_domain"
+   },
+   "company_linkedin_url": {
+    "type": "string",
+    "sourceNodeId": "wfn_0tm72qvoaRMKcakdPSe",
+    "sourcePath": "$.company_linkedin_url"
+   },
+   "clay_company_id": {
+    "type": "string",
+    "sourceNodeId": "wfn_0tm72qvoaRMKcakdPSe",
+    "sourcePath": "$.clay_company_id"
+   },
+   "segment": {
+    "type": "string",
+    "sourceNodeId": "wfn_0tm72qvoaRMKcakdPSe",
+    "sourcePath": "$.segment"
+   },
+   "country": {
+    "type": "string",
+    "sourceNodeId": "wfn_0tm72qvoaRMKcakdPSe",
+    "sourcePath": "$.country"
+   }
+  }
+ },
+ "outputSchema": {
+  "account_key": {
+   "type": "string",
+   "description": "Clay company ID, else normalized domain"
+  },
+  "company_domain": {
+   "type": "string",
+   "description": "Normalized domain"
+  },
+  "company_linkedin_url": {
+   "type": "url",
+   "description": "Normalized LinkedIn company URL"
+  },
+  "identity_status": {
+   "type": "string",
+   "description": "matched | ambiguous | unmatched"
+  },
+  "segment": {
+   "type": "string",
+   "description": "payer | provider"
+  },
+  "country": {
+   "type": "string",
+   "description": "ISO country"
+  }
+ },
+ "code": "import re\n\ndef handler(context):\n    g = lambda k: (context.get_input(k) or \"\").strip()\n    dom = g(\"company_domain\").lower()\n    dom = re.sub(r\"^https?://\", \"\", dom)\n    dom = re.sub(r\"^www\\.\", \"\", dom).split(\"/\")[0]\n    li = g(\"company_linkedin_url\").lower().rstrip(\"/\")\n    li = re.sub(r\"^https?://(www\\.)?\", \"https://www.\", li) if li else \"\"\n    clay_id = g(\"clay_company_id\")\n    # Identity: matched only when the row is pinned to one Clay company AND one LinkedIn page.\n    # Shared domains (elevancehealth.com, lifestance.com) make domain-only identity ambiguous.\n    if clay_id and li:\n        status = \"matched\"\n    elif dom:\n        status = \"ambiguous\"\n    else:\n        status = \"unmatched\"\n    return {\n        \"account_key\": clay_id or dom,\n        \"company_domain\": dom,\n        \"company_linkedin_url\": li,\n        \"identity_status\": status,\n        \"segment\": g(\"segment\").lower() or \"unknown\",\n        \"country\": g(\"country\").upper(),\n    }\n"
+}

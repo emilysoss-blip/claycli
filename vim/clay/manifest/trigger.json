@@ -1,0 +1,19 @@
+{
+  "workspace": {
+    "id": "91642",
+    "name": "Clay Demos (GTM)"
+  },
+  "resourceType": "trigger",
+  "resourceId": "62409ead-6f01-4ba0-b459-276dbad485cb",
+  "operation": "created",
+  "appliedUpdates": [
+    {
+      "field": "workflowId",
+      "success": true
+    },
+    {
+      "field": "triggerType",
+      "success": true
+    }
+  ]
+}

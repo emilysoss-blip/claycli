@@ -1,0 +1,54 @@
+{
+ "nodeType": "tool",
+ "name": "Clay: digital/IT/VBC job openings (90d)",
+ "incomingEdges": [
+  {
+   "sourceNode": "wfn_0tm72tovsCSimpmRSxY"
+  }
+ ],
+ "inputSchema": {
+  "type": "object",
+  "properties": {
+   "company_domain": {
+    "type": "string",
+    "sourceNodeId": "wfn_0tm72rw6h3dNPFZ9Qib",
+    "sourcePath": "$.company_domain"
+   },
+   "company_linkedin_url": {
+    "type": "string",
+    "sourceNodeId": "wfn_0tm72rw6h3dNPFZ9Qib",
+    "sourcePath": "$.company_linkedin_url"
+   },
+   "clay_company_id": {
+    "type": "string",
+    "sourceNodeId": "wfn_0tm72qvoaRMKcakdPSe",
+    "sourcePath": "$.clay_company_id"
+   }
+  }
+ },
+ "tools": [
+  {
+   "toolType": "clay_action",
+   "actionPackageId": "e251a70e-46d7-4f3a-b3ef-a211ad3d8bd2",
+   "actionKey": "cpj-find-lists-of-jobs",
+   "inputMappingConfig": {
+    "company_identifier": {
+     "type": "reference",
+     "expression": "{{company_linkedin_url}}"
+    },
+    "job_title_keywords": {
+     "type": "static",
+     "value": "EHR, Epic, athena, interoperability, informatics, value-based care, population health, CIO, CTO, digital"
+    },
+    "max_num_days_since_posted": {
+     "type": "static",
+     "value": 90
+    },
+    "limit": {
+     "type": "static",
+     "value": 25
+    }
+   }
+  }
+ ]
+}

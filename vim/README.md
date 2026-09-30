@@ -6,9 +6,38 @@ Build files for the Vim provider-prospecting workflow described in
 ```
 data/seed_accounts.csv     10 example logos (5 payer, 5 provider ICP models), guide headers
 build/seed_accounts.py     regenerates the CSV; edit this, not the CSV
-build/score.py             deterministic fit scoring + tiering for the code node (self-test: python3 build/score.py)
-build/build_workflow.sh    phase-1 CLI build: inventory, draft workflow, CSV trigger, CSV link (no credits)
+build/score.py             final code node: reconcile + score + why-now (self-test: python3 build/score.py)
+clay/nodes/*.json          exact node specs sent to `clay workflows nodes create`
+clay/nodes/*.py            code-node handlers (normalize, evidence)
+clay/manifest/             workflow / trigger / graph responses and action schemas
 ```
+
+## Live workflow (draft, not published, never run)
+
+**[Vim | Provider Account Intelligence POC](https://app.clay.com/workspaces/91642/terracotta/tc-workflows/wf_0tm72qo2fw4Z5DAGxGn)**:
+workspace Clay Demos (GTM), `wf_0tm72qo2fw4Z5DAGxGn`. The CSV trigger `62409ead-6f01-4ba0-b459-276dbad485cb`
+is linked to `data/seed_accounts.csv`. `clay workflows graph validate` passes.
+
+| # | Node | Type | Source | Credits/row |
+|---|---|---|---|---|
+| 1 | Normalize + identity check | code | rules | 0 |
+| 2 | Clay: enrich company | tool | Clay `cpj-enrich-company-v2` (by Clay company ID) | 0.5 |
+| 3 | HG Insights: website tech stack (EHR/portal) | tool | `hg-insights-get-company-website-tech-stack` | 2 |
+| 4 | HG Insights: corporate structure (parent) | tool | `hg-insights-find-company-corporate-structure-v3` | 4 |
+| 5 | PredictLeads: company news (M&A, expansion) | tool | `predict-leads-get-events-for-company-v3` | 0.5 |
+| 6 | Clay: digital/IT/VBC job openings (90d) | tool | `cpj-find-lists-of-jobs` | 0.5 |
+| 7 | Extract EHR / parent / M&A evidence | code | vendor dictionaries, 365-day M&A window | 0 |
+| 8 | Needs healthcare fallback? | conditional (rules) | matched provider with EHR / parent / location gap | 0 |
+| 9 | Claygent: healthcare gap research | agent (`gpt-5.4-nano`) | fallback branch only, evidence URL required | model cost |
+| 10 | Reconcile + score + why-now | code | `build/score.py` | 0 |
+
+About 7.5 catalog credits per row before Claygent, so roughly 75 for the 10 seeds plus up to
+5 Claygent runs (providers only; payers skip it). These are catalog base prices, not a measured cost.
+
+Not built yet, deliberately: people search and work email (guide §8), Signals (§9), weekly
+discovery (§10), and HubSpot writeback (§11). They come after the 10-row test passes.
+No structured action in this workspace returns clinic/location count, so every matched provider
+goes to the Claygent for footprint. Swap in a structured source if Vim has one.
 
 ## Seed accounts
 

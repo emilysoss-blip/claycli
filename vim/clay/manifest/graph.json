@@ -1,0 +1,133 @@
+{
+  "workspace": {
+    "id": "91642",
+    "name": "Clay Demos (GTM)"
+  },
+  "mode": "summary",
+  "summary": {
+    "workflowId": "wf_0tm72qo2fw4Z5DAGxGn",
+    "workflowName": "Vim | Provider Account Intelligence POC",
+    "workflowUrl": "https://app.clay.com/workspaces/91642/terracotta/tc-workflows/wf_0tm72qo2fw4Z5DAGxGn",
+    "triggers": [
+      {
+        "id": "62409ead-6f01-4ba0-b459-276dbad485cb",
+        "triggerType": "csv_upload"
+      }
+    ],
+    "nodeCount": 11,
+    "nodes": [
+      {
+        "id": "wfn_0tm72qvoaRMKcakdPSe",
+        "name": "CSV upload",
+        "nodeType": "trigger",
+        "contentPreview": "csv_upload (62409ead-6f01-4ba0-b459-276dbad485cb)"
+      },
+      {
+        "id": "wfn_0tm72rw6h3dNPFZ9Qib",
+        "name": "Normalize + identity check",
+        "nodeType": "code",
+        "contentPreview": "import re\n\ndef handler(context):\n    g = lambda k: (context.get_input(k) or \"\").strip()\n    dom = g(\"company_domain\").lower()\n    dom = re.sub(r\"^https?://\", \"\", dom)\n    dom = re.sub(r\"^www\\.\", \"\", d..."
+      },
+      {
+        "id": "wfn_0tm72tjeoUGVTT4kiaf",
+        "name": "Clay: enrich company",
+        "nodeType": "tool",
+        "contentPreview": null
+      },
+      {
+        "id": "wfn_0tm72tlB7JMgtnkanSw",
+        "name": "HG Insights: website tech stack (EHR/portal)",
+        "nodeType": "tool",
+        "contentPreview": null
+      },
+      {
+        "id": "wfn_0tm72tmgzyCUdf2xzVc",
+        "name": "HG Insights: corporate structure (parent)",
+        "nodeType": "tool",
+        "contentPreview": null
+      },
+      {
+        "id": "wfn_0tm72tovsCSimpmRSxY",
+        "name": "PredictLeads: company news (M&A, expansion)",
+        "nodeType": "tool",
+        "contentPreview": null
+      },
+      {
+        "id": "wfn_0tm72tp4HiK7BucAwUF",
+        "name": "Clay: digital/IT/VBC job openings (90d)",
+        "nodeType": "tool",
+        "contentPreview": null
+      },
+      {
+        "id": "wfn_0tm72vytwgEtK6ew84W",
+        "name": "Extract EHR / parent / M&A evidence (rules)",
+        "nodeType": "code",
+        "contentPreview": "import json, re, time\n\n# Deterministic vendor dictionaries. An HG install record is evidence; a portal brand is only a clue.\nEHR = {\"epic\": \"Epic\", \"athenahealth\": \"athenahealth\", \"athenaone\": \"athena..."
+      },
+      {
+        "id": "wfn_0tm72xaBehyNRiKkhCS",
+        "name": "Needs healthcare fallback?",
+        "nodeType": "conditional",
+        "contentPreview": "rules mode: 1 rule(s) + default"
+      },
+      {
+        "id": "wfn_0tm72xtf6XeQNf4HdDz",
+        "name": "Claygent: healthcare gap research (fallback only)",
+        "nodeType": "agent",
+        "contentPreview": "Organization: {{company_name}} ({{company_domain}}), headquartered in {{city}}, {{state}}. Known specialty: {{specialty}}.\nStructured sources already returned: EHR status = {{ehr_status}} (candidates:..."
+      },
+      {
+        "id": "wfn_0tm72zfsTZ8oEHztkDH",
+        "name": "Reconcile + score + why-now (deterministic)",
+        "nodeType": "code",
+        "contentPreview": "# -*- coding: utf-8 -*-\n\"\"\"Deterministic Vim reconciliation + fit scoring. This file IS the workflow's final code node\n(`handler`), and runs locally for the self-test: python3 build/score.py\n\nCriteria..."
+      }
+    ],
+    "edges": [
+      {
+        "sourceNodeId": "wfn_0tm72xaBehyNRiKkhCS",
+        "targetNodeId": "wfn_0tm72zfsTZ8oEHztkDH"
+      },
+      {
+        "sourceNodeId": "wfn_0tm72xtf6XeQNf4HdDz",
+        "targetNodeId": "wfn_0tm72zfsTZ8oEHztkDH"
+      },
+      {
+        "sourceNodeId": "wfn_0tm72xaBehyNRiKkhCS",
+        "targetNodeId": "wfn_0tm72xtf6XeQNf4HdDz"
+      },
+      {
+        "sourceNodeId": "wfn_0tm72vytwgEtK6ew84W",
+        "targetNodeId": "wfn_0tm72xaBehyNRiKkhCS"
+      },
+      {
+        "sourceNodeId": "wfn_0tm72tp4HiK7BucAwUF",
+        "targetNodeId": "wfn_0tm72vytwgEtK6ew84W"
+      },
+      {
+        "sourceNodeId": "wfn_0tm72tovsCSimpmRSxY",
+        "targetNodeId": "wfn_0tm72tp4HiK7BucAwUF"
+      },
+      {
+        "sourceNodeId": "wfn_0tm72tmgzyCUdf2xzVc",
+        "targetNodeId": "wfn_0tm72tovsCSimpmRSxY"
+      },
+      {
+        "sourceNodeId": "wfn_0tm72tlB7JMgtnkanSw",
+        "targetNodeId": "wfn_0tm72tmgzyCUdf2xzVc"
+      },
+      {
+        "sourceNodeId": "wfn_0tm72tjeoUGVTT4kiaf",
+        "targetNodeId": "wfn_0tm72tlB7JMgtnkanSw"
+      },
+      {
+        "sourceNodeId": "wfn_0tm72rw6h3dNPFZ9Qib",
+        "targetNodeId": "wfn_0tm72tjeoUGVTT4kiaf"
+      },
+      {
+        "sourceNodeId": "wfn_0tm72qvoaRMKcakdPSe",
+        "targetNodeId": "wfn_0tm72rw6h3dNPFZ9Qib"
+      }
+    ]
+  }
+}

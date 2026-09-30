@@ -1,0 +1,60 @@
+{
+  "workspace": {
+    "id": "91642",
+    "name": "Clay Demos (GTM)"
+  },
+  "packageId": "b7f3454a-5095-4cb2-b91b-79cdb54e0dd2",
+  "actionKey": "hg-insights-get-company-website-tech-stack",
+  "displayName": "Get website tech stack",
+  "inputOptionsIncluded": false,
+  "outputParameters": [
+    {
+      "outputPath": "name",
+      "semanticType": "company-name"
+    },
+    {
+      "outputPath": "domain",
+      "semanticType": "company-domain"
+    },
+    {
+      "outputPath": "all_product_names"
+    },
+    {
+      "outputPath": "installs_count"
+    },
+    {
+      "outputPath": "installs[0].product_name"
+    },
+    {
+      "outputPath": "installs[0].vendor_name"
+    },
+    {
+      "outputPath": "installs[0].product_category_name"
+    },
+    {
+      "outputPath": "installs[0].product_first_verified_date",
+      "semanticType": "date"
+    }
+  ],
+  "inputParameters": [
+    {
+      "name": "domain",
+      "optional": false,
+      "description": "The domain name of the company whose website technology you want to detect, like walmart.com.",
+      "displayName": "Company domain",
+      "typeSettings": {
+        "type": "column-select",
+        "semanticType": "company-domain"
+      },
+      "schemaVersion": 2,
+      "refreshDynamicFieldsOnValueChange": false,
+      "type": "column-select",
+      "required": true
+    }
+  ],
+  "requiredInputCombinations": [
+    [
+      "domain"
+    ]
+  ]
+}

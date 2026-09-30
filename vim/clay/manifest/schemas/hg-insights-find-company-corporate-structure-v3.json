@@ -1,0 +1,503 @@
+{
+  "workspace": {
+    "id": "91642",
+    "name": "Clay Demos (GTM)"
+  },
+  "packageId": "b7f3454a-5095-4cb2-b91b-79cdb54e0dd2",
+  "actionKey": "hg-insights-find-company-corporate-structure-v3",
+  "displayName": "Find company corporate structure",
+  "inputOptionsIncluded": false,
+  "outputParameters": [
+    {
+      "outputPath": "count"
+    },
+    {
+      "outputPath": "hierarchy.id"
+    },
+    {
+      "outputPath": "hierarchy.name",
+      "semanticType": "company-name"
+    },
+    {
+      "outputPath": "hierarchy.domain",
+      "semanticType": "company-domain"
+    },
+    {
+      "outputPath": "hierarchy.domain_normalized"
+    },
+    {
+      "outputPath": "hierarchy.company_level"
+    },
+    {
+      "outputPath": "hierarchy.parent_id"
+    },
+    {
+      "outputPath": "hierarchy.selected"
+    },
+    {
+      "outputPath": "hierarchy.global_hq_id"
+    },
+    {
+      "outputPath": "hierarchy.global_hq_name"
+    },
+    {
+      "outputPath": "hierarchy.corporate_parent_id"
+    },
+    {
+      "outputPath": "hierarchy.corporate_parent_name"
+    },
+    {
+      "outputPath": "hierarchy.domestic_parent_id"
+    },
+    {
+      "outputPath": "hierarchy.domestic_parent_name"
+    },
+    {
+      "outputPath": "hierarchy.country_code"
+    },
+    {
+      "outputPath": "hierarchy.country_name",
+      "semanticType": "country"
+    },
+    {
+      "outputPath": "hierarchy.city_name",
+      "semanticType": "location"
+    },
+    {
+      "outputPath": "hierarchy.state_name"
+    },
+    {
+      "outputPath": "hierarchy.revenue_total"
+    },
+    {
+      "outputPath": "hierarchy.revenue_band"
+    },
+    {
+      "outputPath": "hierarchy.employees_total"
+    },
+    {
+      "outputPath": "hierarchy.employees_band"
+    },
+    {
+      "outputPath": "hierarchy.industry_name"
+    },
+    {
+      "outputPath": "hierarchy.naics_code"
+    },
+    {
+      "outputPath": "hierarchy.naics_name"
+    },
+    {
+      "outputPath": "hierarchy.sic_codes[0]"
+    },
+    {
+      "outputPath": "hierarchy.sic_names[0]"
+    },
+    {
+      "outputPath": "hierarchy.children[0].id"
+    },
+    {
+      "outputPath": "hierarchy.children[0].name",
+      "semanticType": "company-name"
+    },
+    {
+      "outputPath": "hierarchy.children[0].domain",
+      "semanticType": "company-domain"
+    },
+    {
+      "outputPath": "hierarchy.children[0].domain_normalized"
+    },
+    {
+      "outputPath": "hierarchy.children[0].company_level"
+    },
+    {
+      "outputPath": "hierarchy.children[0].parent_id"
+    },
+    {
+      "outputPath": "hierarchy.children[0].selected"
+    },
+    {
+      "outputPath": "hierarchy.children[0].global_hq_id"
+    },
+    {
+      "outputPath": "hierarchy.children[0].global_hq_name"
+    },
+    {
+      "outputPath": "hierarchy.children[0].corporate_parent_id"
+    },
+    {
+      "outputPath": "hierarchy.children[0].corporate_parent_name"
+    },
+    {
+      "outputPath": "hierarchy.children[0].domestic_parent_id"
+    },
+    {
+      "outputPath": "hierarchy.children[0].domestic_parent_name"
+    },
+    {
+      "outputPath": "hierarchy.children[0].country_code"
+    },
+    {
+      "outputPath": "hierarchy.children[0].country_name",
+      "semanticType": "country"
+    },
+    {
+      "outputPath": "hierarchy.children[0].city_name",
+      "semanticType": "location"
+    },
+    {
+      "outputPath": "hierarchy.children[0].state_name"
+    },
+    {
+      "outputPath": "hierarchy.children[0].revenue_total"
+    },
+    {
+      "outputPath": "hierarchy.children[0].revenue_band"
+    },
+    {
+      "outputPath": "hierarchy.children[0].employees_total"
+    },
+    {
+      "outputPath": "hierarchy.children[0].employees_band"
+    },
+    {
+      "outputPath": "hierarchy.children[0].industry_name"
+    },
+    {
+      "outputPath": "hierarchy.children[0].naics_code"
+    },
+    {
+      "outputPath": "hierarchy.children[0].naics_name"
+    },
+    {
+      "outputPath": "hierarchy.children[0].sic_codes[0]"
+    },
+    {
+      "outputPath": "hierarchy.children[0].sic_names[0]"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].id"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].name",
+      "semanticType": "company-name"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].domain",
+      "semanticType": "company-domain"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].domain_normalized"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].company_level"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].parent_id"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].selected"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].global_hq_id"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].global_hq_name"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].corporate_parent_id"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].corporate_parent_name"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].domestic_parent_id"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].domestic_parent_name"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].country_code"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].country_name",
+      "semanticType": "country"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].city_name",
+      "semanticType": "location"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].state_name"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].revenue_total"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].revenue_band"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].employees_total"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].employees_band"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].industry_name"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].naics_code"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].naics_name"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].sic_codes[0]"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].sic_names[0]"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].children[0].id"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].children[0].name",
+      "semanticType": "company-name"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].children[0].domain",
+      "semanticType": "company-domain"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].children[0].domain_normalized"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].children[0].company_level"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].children[0].parent_id"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].children[0].selected"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].children[0].global_hq_id"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].children[0].global_hq_name"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].children[0].corporate_parent_id"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].children[0].corporate_parent_name"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].children[0].domestic_parent_id"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].children[0].domestic_parent_name"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].children[0].country_code"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].children[0].country_name",
+      "semanticType": "country"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].children[0].city_name",
+      "semanticType": "location"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].children[0].state_name"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].children[0].revenue_total"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].children[0].revenue_band"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].children[0].employees_total"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].children[0].employees_band"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].children[0].industry_name"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].children[0].naics_code"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].children[0].naics_name"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].children[0].sic_codes[0]"
+    },
+    {
+      "outputPath": "hierarchy.children[0].children[0].children[0].sic_names[0]"
+    },
+    {
+      "outputPath": "companies[0].id"
+    },
+    {
+      "outputPath": "companies[0].name",
+      "semanticType": "company-name"
+    },
+    {
+      "outputPath": "companies[0].domain",
+      "semanticType": "company-domain"
+    },
+    {
+      "outputPath": "companies[0].domain_normalized"
+    },
+    {
+      "outputPath": "companies[0].company_level"
+    },
+    {
+      "outputPath": "companies[0].parent_id"
+    },
+    {
+      "outputPath": "companies[0].selected"
+    },
+    {
+      "outputPath": "companies[0].global_hq_id"
+    },
+    {
+      "outputPath": "companies[0].global_hq_name"
+    },
+    {
+      "outputPath": "companies[0].corporate_parent_id"
+    },
+    {
+      "outputPath": "companies[0].corporate_parent_name"
+    },
+    {
+      "outputPath": "companies[0].domestic_parent_id"
+    },
+    {
+      "outputPath": "companies[0].domestic_parent_name"
+    },
+    {
+      "outputPath": "companies[0].country_code"
+    },
+    {
+      "outputPath": "companies[0].country_name",
+      "semanticType": "country"
+    },
+    {
+      "outputPath": "companies[0].city_name",
+      "semanticType": "location"
+    },
+    {
+      "outputPath": "companies[0].state_name"
+    },
+    {
+      "outputPath": "companies[0].revenue_total"
+    },
+    {
+      "outputPath": "companies[0].revenue_band"
+    },
+    {
+      "outputPath": "companies[0].employees_total"
+    },
+    {
+      "outputPath": "companies[0].employees_band"
+    },
+    {
+      "outputPath": "companies[0].industry_name"
+    },
+    {
+      "outputPath": "companies[0].naics_code"
+    },
+    {
+      "outputPath": "companies[0].naics_name"
+    },
+    {
+      "outputPath": "companies[0].sic_codes[0]"
+    },
+    {
+      "outputPath": "companies[0].sic_names[0]"
+    }
+  ],
+  "inputParameters": [
+    {
+      "name": "company_identifier",
+      "optional": false,
+      "description": "The domain name, or HG Insights company ID, of the company to enrich.",
+      "displayName": "Company domain or HG company ID",
+      "typeSettings": {
+        "type": "column-select",
+        "semanticType": "company-domain"
+      },
+      "schemaVersion": 2,
+      "refreshDynamicFieldsOnValueChange": false,
+      "type": "column-select",
+      "required": true
+    },
+    {
+      "name": "mode",
+      "optional": false,
+      "description": "Controls which part of the corporate hierarchy to return.",
+      "displayName": "Mode",
+      "typeSettings": {
+        "type": "select",
+        "defaultValue": "full"
+      },
+      "schemaVersion": 2,
+      "refreshDynamicFieldsOnValueChange": false,
+      "type": "select",
+      "required": true
+    },
+    {
+      "name": "format",
+      "optional": true,
+      "description": "Controls the response shape: tree (nested) or list (flat). Switch to list to filter by country, region, or tier.",
+      "displayName": "Format",
+      "typeSettings": {
+        "type": "select",
+        "defaultValue": "tree"
+      },
+      "displayHeader": {
+        "description": "How the hierarchy is returned. Some filters are only available in list format.",
+        "displayHint": "none",
+        "displayName": "Response shape"
+      },
+      "schemaVersion": 2,
+      "refreshDynamicFieldsOnValueChange": true,
+      "type": "select",
+      "required": false
+    },
+    {
+      "name": "format_specific_filters",
+      "optional": true,
+      "displayName": "Filters",
+      "typeSettings": {
+        "type": "dynamic-fields"
+      },
+      "schemaVersion": 2,
+      "type": "dynamic-fields"
+    },
+    {
+      "name": "selected_fields",
+      "optional": true,
+      "description": "Optionally restrict which fields are returned for each company in the hierarchy. If unset, all available fields are returned.",
+      "displayName": "Selected fields",
+      "typeSettings": {
+        "type": "select",
+        "isMultiSelect": true
+      },
+      "schemaVersion": 2,
+      "refreshDynamicFieldsOnValueChange": false,
+      "type": "select",
+      "required": false
+    }
+  ],
+  "requiredInputCombinations": [
+    [
+      "company_identifier"
+    ]
+  ]
+}

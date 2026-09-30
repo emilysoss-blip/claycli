@@ -1,0 +1,174 @@
+{
+  "workspace": {
+    "id": "91642",
+    "name": "Clay Demos (GTM)"
+  },
+  "packageId": "aa68bb13-b114-404a-a5cf-f920e72fbc90",
+  "actionKey": "predict-leads-get-events-for-company-v3",
+  "displayName": "Find most recent news",
+  "inputOptionsIncluded": false,
+  "outputParameters": [
+    {
+      "outputPath": "events[0].summary"
+    },
+    {
+      "outputPath": "events[0].category"
+    },
+    {
+      "outputPath": "events[0].found_at"
+    },
+    {
+      "outputPath": "events[0].confidence"
+    },
+    {
+      "outputPath": "events[0].article_sentence"
+    },
+    {
+      "outputPath": "events[0].human_approved"
+    },
+    {
+      "outputPath": "events[0].planning"
+    },
+    {
+      "outputPath": "events[0].assets_tags[0]"
+    },
+    {
+      "outputPath": "events[0].effective_date"
+    },
+    {
+      "outputPath": "events[0].event"
+    },
+    {
+      "outputPath": "events[0].financing_type_tags[0]"
+    },
+    {
+      "outputPath": "events[0].job_title_tags[0]"
+    },
+    {
+      "outputPath": "events[0].location"
+    },
+    {
+      "outputPath": "events[0].location_data[0].city"
+    },
+    {
+      "outputPath": "events[0].location_data[0].state"
+    },
+    {
+      "outputPath": "events[0].location_data[0].country"
+    },
+    {
+      "outputPath": "events[0].location_data[0].region"
+    },
+    {
+      "outputPath": "events[0].location_data[0].fuzzy_match"
+    },
+    {
+      "outputPath": "events[0].product"
+    },
+    {
+      "outputPath": "events[0].product_data.full_text"
+    },
+    {
+      "outputPath": "events[0].product_data.name"
+    },
+    {
+      "outputPath": "events[0].product_data.release_type"
+    },
+    {
+      "outputPath": "events[0].product_data.fuzzy_match"
+    },
+    {
+      "outputPath": "events[0].product_tags[0]"
+    },
+    {
+      "outputPath": "events[0].news_article_attributes.author"
+    },
+    {
+      "outputPath": "events[0].news_article_attributes.body"
+    },
+    {
+      "outputPath": "events[0].news_article_attributes.image_url"
+    },
+    {
+      "outputPath": "events[0].news_article_attributes.url"
+    },
+    {
+      "outputPath": "events[0].news_article_attributes.published_at"
+    },
+    {
+      "outputPath": "events[0].news_article_attributes.title"
+    },
+    {
+      "outputPath": "total_event_count"
+    },
+    {
+      "outputPath": "domain",
+      "semanticType": "company-domain"
+    }
+  ],
+  "inputParameters": [
+    {
+      "name": "unparsedDomain",
+      "optional": false,
+      "description": "The domain of the company you want to find news for.",
+      "displayName": "Domain",
+      "typeSettings": {
+        "type": "column-select",
+        "semanticType": "company-domain"
+      },
+      "schemaVersion": 2,
+      "type": "column-select",
+      "required": true
+    },
+    {
+      "name": "categories",
+      "optional": true,
+      "description": "Optionally, select the categories you want to find news for.",
+      "displayName": "News Categories",
+      "typeSettings": {
+        "type": "select",
+        "isMultiSelect": true
+      },
+      "schemaVersion": 2,
+      "type": "select",
+      "required": false
+    },
+    {
+      "name": "found_at_from",
+      "optional": true,
+      "description": "Optionally, filter events that were found since a specific date or a relative date. Entering \"2022-11-22\" would give you news found more recent than 2022-11-22. Entering \"20 days ago\" would give you news found since 20 days ago on a relative basis.",
+      "displayName": "News Found From Date",
+      "typeSettings": {
+        "type": "date"
+      },
+      "schemaVersion": 2,
+      "type": "date",
+      "required": false
+    },
+    {
+      "name": "found_at_until",
+      "optional": true,
+      "description": "Optionally, filter events that were found until a specific date or a relative date. Entering \"2022-11-22\" would give you news found before 2022-11-22. Entering \"20 days ago\" would give you news found before 20 days ago on a relative basis. Dates are converted to the UTC timezone.",
+      "displayName": "News Found Until Date",
+      "typeSettings": {
+        "type": "date"
+      },
+      "schemaVersion": 2,
+      "type": "date",
+      "required": false
+    },
+    {
+      "name": "should_include_body",
+      "optional": true,
+      "description": "Optionally, include the entire body of the news in the response. Defaults to false.",
+      "displayName": "Include Body",
+      "typeSettings": {
+        "type": "boolean",
+        "defaultValue": false
+      },
+      "schemaVersion": 2,
+      "type": "boolean",
+      "required": false
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "workspace": {
+    "id": "91642",
+    "name": "Clay Demos (GTM)"
+  },
+  "packageId": "0a9cacbc-efd8-406d-a5f8-11b2f22b44a5",
+  "actionKey": "lookup-technology-stack-new",
+  "displayName": "Find technology stack",
+  "inputOptionsIncluded": false,
+  "outputParameters": [
+    {
+      "outputPath": "matchesFound[0].Name",
+      "semanticType": "company-name"
+    },
+    {
+      "outputPath": "matchesFound[0].Description"
+    },
+    {
+      "outputPath": "matchesFound[0].Link"
+    },
+    {
+      "outputPath": "matchesFound[0].Tag"
+    },
+    {
+      "outputPath": "matchesFound[0].FirstDetected"
+    },
+    {
+      "outputPath": "matchesFound[0].LastDetected"
+    },
+    {
+      "outputPath": "matchesFound[0].IsPremium"
+    },
+    {
+      "outputPath": "matchesFound[0].Categories"
+    },
+    {
+      "outputPath": "matchesFound[0].Parent"
+    },
+    {
+      "outputPath": "numberOfTotalTechnologies"
+    },
+    {
+      "outputPath": "technologiesFound"
+    }
+  ],
+  "inputParameters": [
+    {
+      "name": "companyDomain",
+      "optional": false,
+      "description": "URL of Company Website",
+      "displayName": "Company Domain",
+      "typeSettings": {
+        "type": "column-select",
+        "semanticType": "company-domain"
+      },
+      "schemaVersion": 2,
+      "type": "column-select",
+      "required": true
+    },
+    {
+      "name": "filter",
+      "optional": true,
+      "description": "Optionally, filter for specific technologies or categories. You can enter a list of desired technologies or categories separated by commas. If you put a word in quotes (i.e. \"Java\"), it will do an exact match and will not return things like \"Javascript\".",
+      "displayName": "Keyword or Category Filter",
+      "typeSettings": {
+        "type": "tags"
+      },
+      "schemaVersion": 2,
+      "type": "tags",
+      "required": false
+    },
+    {
+      "name": "dateFilter",
+      "optional": true,
+      "description": "Optionally, filter by the date a technology was last detected. You can use relative dates like \"5 days ago\", or a date like \"2022-07-31\" (yyyy-MM-dd).",
+      "displayName": "Last Detected Date Filter",
+      "typeSettings": {
+        "type": "date",
+        "constant": true
+      },
+      "schemaVersion": 2,
+      "type": "date",
+      "required": false
+    },
+    {
+      "name": "exactTechnologyMatch",
+      "optional": true,
+      "description": "If switched on, we will only return technologies that have a name that exactly matches one of your keywords",
+      "displayName": "Only Return Exact Technology Names?",
+      "typeSettings": {
+        "type": "boolean"
+      },
+      "schemaVersion": 2,
+      "type": "boolean",
+      "required": false
+    },
+    {
+      "name": "includeDescriptionInKeywordMatch",
+      "optional": true,
+      "description": "If switched on, when Filtering by Keyword or Category, we will check the description of the technnology for any matches.",
+      "displayName": "Use Description in Keyword or Category Match?",
+      "typeSettings": {
+        "type": "boolean",
+        "defaultValue": true
+      },
+      "schemaVersion": 2,
+      "type": "boolean",
+      "required": false
+    },
+    {
+      "name": "showAdditionalFields",
+      "optional": true,
+      "description": "If switched on, we will return additional fields like the first + last detected date, tags, and whether the technology is premium.",
+      "displayName": "Show additional fields",
+      "typeSettings": {
+        "type": "boolean",
+        "defaultValue": true
+      },
+      "schemaVersion": 2,
+      "type": "boolean",
+      "required": false
+    },
+    {
+      "name": "fieldPathFilters",
+      "optional": true,
+      "displayName": "Extract data by field paths",
+      "typeSettings": {
+        "type": "field-path-filters",
+        "suggestedFieldPathFilters": [
+          {
+            "method": "extract",
+            "jsonPaths": [
+              "numberOfTotalTechnologies",
+              "technologiesFound"
+            ],
+            "description": "Extract the list of technologies in a single field separated by commas",
+            "displayName": "List of technologies"
+          }
+        ]
+      },
+      "schemaVersion": 2,
+      "type": "field-path-filters",
+      "required": false
+    }
+  ]
+}

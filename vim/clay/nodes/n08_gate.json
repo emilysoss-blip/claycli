@@ -1,0 +1,5 @@
+{"nodeType":"conditional","name":"Needs healthcare fallback?","incomingEdges":[{"sourceNode":"wfn_0tm72vytwgEtK6ew84W"}],
+ "inputSchema":{"type":"object","properties":{"needs_fallback":{"type":"boolean","sourceNodeId":"wfn_0tm72vytwgEtK6ew84W","sourcePath":"$.needs_fallback"}}},
+ "conditionalMode":"rules",
+ "rulesConditionalConfig":{"rules":[{"id":"needs_fallback","name":"Matched provider with unresolved EHR / parent / footprint",
+   "condition":{"type":"GroupOp","combinationMode":"And","items":[{"type":"BinOp","dataPath":["needs_fallback"],"operator":"True"}]}}]}}

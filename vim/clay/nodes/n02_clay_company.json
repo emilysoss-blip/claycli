@@ -1,0 +1,46 @@
+{
+ "nodeType": "tool",
+ "name": "Clay: enrich company",
+ "incomingEdges": [
+  {
+   "sourceNode": "wfn_0tm72rw6h3dNPFZ9Qib"
+  }
+ ],
+ "inputSchema": {
+  "type": "object",
+  "properties": {
+   "company_domain": {
+    "type": "string",
+    "sourceNodeId": "wfn_0tm72rw6h3dNPFZ9Qib",
+    "sourcePath": "$.company_domain"
+   },
+   "company_linkedin_url": {
+    "type": "string",
+    "sourceNodeId": "wfn_0tm72rw6h3dNPFZ9Qib",
+    "sourcePath": "$.company_linkedin_url"
+   },
+   "clay_company_id": {
+    "type": "string",
+    "sourceNodeId": "wfn_0tm72qvoaRMKcakdPSe",
+    "sourcePath": "$.clay_company_id"
+   }
+  }
+ },
+ "tools": [
+  {
+   "toolType": "clay_action",
+   "actionPackageId": "e251a70e-46d7-4f3a-b3ef-a211ad3d8bd2",
+   "actionKey": "cpj-enrich-company-v2",
+   "inputMappingConfig": {
+    "company_identifier": {
+     "type": "reference",
+     "expression": "{{clay_company_id}}"
+    },
+    "company_identifier_type": {
+     "type": "static",
+     "value": "clay_company_id"
+    }
+   }
+  }
+ ]
+}

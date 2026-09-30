@@ -1,0 +1,185 @@
+{
+  "workspace": {
+    "id": "91642",
+    "name": "Clay Demos (GTM)"
+  },
+  "packageId": "e251a70e-46d7-4f3a-b3ef-a211ad3d8bd2",
+  "actionKey": "cpj-find-lists-of-jobs",
+  "displayName": "Find active job openings",
+  "inputOptionsIncluded": false,
+  "outputParameters": [
+    {
+      "outputPath": "jobs[0].company_name"
+    },
+    {
+      "outputPath": "jobs[0].title"
+    },
+    {
+      "outputPath": "jobs[0].normalized_title"
+    },
+    {
+      "outputPath": "jobs[0].description"
+    },
+    {
+      "outputPath": "jobs[0].location"
+    },
+    {
+      "outputPath": "jobs[0].salary_min"
+    },
+    {
+      "outputPath": "jobs[0].salary_max"
+    },
+    {
+      "outputPath": "jobs[0].salary_currency"
+    },
+    {
+      "outputPath": "jobs[0].seniority"
+    },
+    {
+      "outputPath": "jobs[0].functions[0]"
+    },
+    {
+      "outputPath": "jobs[0].employment_type"
+    },
+    {
+      "outputPath": "jobs[0].url"
+    },
+    {
+      "outputPath": "jobs[0].posted_at"
+    },
+    {
+      "outputPath": "jobs[0].job_id"
+    },
+    {
+      "outputPath": "jobCount"
+    }
+  ],
+  "inputParameters": [
+    {
+      "name": "company_identifier",
+      "type": "text",
+      "optional": false,
+      "displayAs": "single_token_select",
+      "description": "Company LinkedIn URL, Company Domain, Sales Navigator URL, or Sales Navigator Company ID. Use Company LinkedIn URL for highest accuracy. E.g. 'https://www.linkedin.com/company/clay-run' or clay.com",
+      "displayName": "Company Identifier",
+      "subTypes": [],
+      "required": true
+    },
+    {
+      "name": "job_title_keywords",
+      "type": "text",
+      "optional": true,
+      "displayAs": "tags",
+      "description": "Search for one or more comma-separated keywords in the person's job title. E.g 'Founder, Vice President'",
+      "displayName": "Job Title Keywords",
+      "subTypes": [],
+      "required": false
+    },
+    {
+      "name": "job_title_exclude_keywords",
+      "type": "text",
+      "optional": true,
+      "displayAs": "tags",
+      "description": "Search for one or more comma-separated keywords that shouldn't be in the person's job title. E.g 'Vice, Junior'",
+      "displayName": "Job Title Exclude Keywords",
+      "subTypes": [],
+      "required": false
+    },
+    {
+      "name": "locations",
+      "type": "text",
+      "optional": true,
+      "displayAs": "tags",
+      "description": "Search for one or more comma-separated locations. A location can be a city or a country. E.g. ‘Berlin’, 'United States'",
+      "displayName": "Locations",
+      "subTypes": [],
+      "required": false
+    },
+    {
+      "name": "locations_exclude",
+      "type": "text",
+      "optional": true,
+      "displayAs": "tags",
+      "description": "Exclude one or more comma-separated locations. A location can be a city or a country. E.g. ‘Berlin’, 'United States'",
+      "displayName": "Exclude Locations",
+      "subTypes": [],
+      "required": false
+    },
+    {
+      "name": "job_description_keywords",
+      "type": "text",
+      "optional": true,
+      "displayAs": "tags",
+      "description": "Search for one or more comma-separated keywords in the job description. E.g 'success, management'",
+      "displayName": "Job Description Keywords",
+      "subTypes": [],
+      "required": false
+    },
+    {
+      "name": "has_recruiter",
+      "type": "boolean",
+      "optional": true,
+      "description": "Only return jobs for which a recruiter is listed",
+      "displayName": "Has Recruiter",
+      "subTypes": [],
+      "required": false
+    },
+    {
+      "name": "employment_type",
+      "type": "select",
+      "optional": true,
+      "description": "Search for specific employment types",
+      "displayName": "Employment type",
+      "allowMultiSelect": true,
+      "subTypes": [],
+      "required": false
+    },
+    {
+      "name": "seniority",
+      "type": "select",
+      "optional": true,
+      "description": "Filter by job seniority level",
+      "displayName": "Seniority",
+      "allowMultiSelect": true,
+      "subTypes": [],
+      "required": false
+    },
+    {
+      "name": "max_num_days_since_posted",
+      "type": "number",
+      "optional": true,
+      "description": "Return jobs posted within the specified number of days",
+      "displayName": "Maximum Days since Posted",
+      "subTypes": [],
+      "required": false
+    },
+    {
+      "name": "min_num_days_since_posted",
+      "type": "number",
+      "optional": true,
+      "description": "Return jobs posted before the specified number of days",
+      "displayName": "Minimum Days since Posted",
+      "subTypes": [],
+      "required": false
+    },
+    {
+      "name": "limit",
+      "type": "number",
+      "optional": true,
+      "description": "Limit number of results returned. Defaults to 10. Maximum 10",
+      "displayName": "Limit",
+      "subTypes": [],
+      "required": false
+    },
+    {
+      "name": "identifiers_only",
+      "type": "boolean",
+      "optional": true,
+      "description": "Only return minimal data (job title and job URL). Allows up to 500 results instead of 10.",
+      "displayName": "Reduce Data for More Results",
+      "defaultValue": false,
+      "subTypes": [],
+      "required": false
+    }
+  ]
+}

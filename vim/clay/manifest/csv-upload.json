@@ -1,0 +1,36 @@
+{
+  "workspace": {
+    "id": "91642",
+    "name": "Clay Demos (GTM)"
+  },
+  "trigger": {
+    "id": "62409ead-6f01-4ba0-b459-276dbad485cb"
+  },
+  "csvFile": {
+    "filename": "seed_accounts.csv",
+    "fileSize": 2457,
+    "headers": [
+      "source_row_id",
+      "segment",
+      "icp_model_account",
+      "clay_company_id",
+      "company_name",
+      "company_domain",
+      "company_linkedin_url",
+      "parent_name_hint",
+      "parent_hint_source",
+      "organization_npi",
+      "address",
+      "city",
+      "state",
+      "country",
+      "specialty",
+      "employee_count_linkedin",
+      "identity_note",
+      "hubspot_company_id",
+      "owner_id",
+      "lifecycle_stage",
+      "do_not_contact"
+    ]
+  }
+}

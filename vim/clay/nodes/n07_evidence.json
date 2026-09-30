@@ -1,0 +1,120 @@
+{
+ "nodeType": "code",
+ "name": "Extract EHR / parent / M&A evidence (rules)",
+ "incomingEdges": [
+  {
+   "sourceNode": "wfn_0tm72tp4HiK7BucAwUF"
+  }
+ ],
+ "inputSchema": {
+  "type": "object",
+  "properties": {
+   "company_name": {
+    "type": "string",
+    "sourceNodeId": "wfn_0tm72qvoaRMKcakdPSe",
+    "sourcePath": "$.company_name"
+   },
+   "hg_installs": {
+    "type": "array",
+    "sourceNodeId": "wfn_0tm72tlB7JMgtnkanSw",
+    "sourcePath": "$.result.installs"
+   },
+   "hg_companies": {
+    "type": "array",
+    "sourceNodeId": "wfn_0tm72tmgzyCUdf2xzVc",
+    "sourcePath": "$.result.companies"
+   },
+   "pl_events": {
+    "type": "array",
+    "sourceNodeId": "wfn_0tm72tovsCSimpmRSxY",
+    "sourcePath": "$.result.events"
+   },
+   "jobs": {
+    "type": "array",
+    "sourceNodeId": "wfn_0tm72tp4HiK7BucAwUF",
+    "sourcePath": "$.result.jobs"
+   },
+   "segment": {
+    "type": "string",
+    "sourceNodeId": "wfn_0tm72rw6h3dNPFZ9Qib",
+    "sourcePath": "$.segment"
+   },
+   "identity_status": {
+    "type": "string",
+    "sourceNodeId": "wfn_0tm72rw6h3dNPFZ9Qib",
+    "sourcePath": "$.identity_status"
+   }
+  }
+ },
+ "outputSchema": {
+  "ehr_vendor": {
+   "type": "string",
+   "description": "EHR vendor, only when one vendor is confirmed by an HG install record"
+  },
+  "ehr_candidates": {
+   "type": "string",
+   "description": "All EHR vendors seen in HG installs"
+  },
+  "ehr_status": {
+   "type": "string",
+   "description": "confirmed_structured | conflict | unknown"
+  },
+  "ehr_evidence": {
+   "type": "string",
+   "description": "JSON list of matching HG install records"
+  },
+  "portal_vendor_clue": {
+   "type": "string",
+   "description": "Patient-portal vendor brands (clue, not proof)"
+  },
+  "parent_name": {
+   "type": "string",
+   "description": "Global HQ / corporate parent from HG"
+  },
+  "parent_status": {
+   "type": "string",
+   "description": "structured | self | unknown"
+  },
+  "latest_event_type": {
+   "type": "string",
+   "description": "Most recent M&A/expansion event category (365d)"
+  },
+  "latest_event_date": {
+   "type": "string",
+   "description": "Event date YYYY-MM-DD"
+  },
+  "latest_event_summary": {
+   "type": "string",
+   "description": "Event sentence or headline"
+  },
+  "latest_event_url": {
+   "type": "string",
+   "description": "Source article URL"
+  },
+  "missing_fields": {
+   "type": "string",
+   "description": "Decision-critical fields still unresolved"
+  },
+  "field_source": {
+   "type": "string",
+   "description": "Structured sources used"
+  },
+  "observed_at": {
+   "type": "string",
+   "description": "UTC timestamp"
+  },
+  "ma_event_count": {
+   "type": "number",
+   "description": "M&A/expansion events in last 365 days"
+  },
+  "relevant_job_count": {
+   "type": "number",
+   "description": "Digital/IT/VBC openings in last 90 days"
+  },
+  "needs_fallback": {
+   "type": "boolean",
+   "description": "True when a matched provider still has a decision-critical gap"
+  }
+ },
+ "code": "import json, re, time\n\n# Deterministic vendor dictionaries. An HG install record is evidence; a portal brand is only a clue.\nEHR = {\"epic\": \"Epic\", \"athenahealth\": \"athenahealth\", \"athenaone\": \"athenahealth\", \"athenaclinicals\": \"athenahealth\",\n       \"eclinicalworks\": \"eClinicalWorks\", \"nextgen\": \"NextGen\", \"cerner\": \"Oracle Health (Cerner)\",\n       \"oracle health\": \"Oracle Health (Cerner)\", \"allscripts\": \"Veradigm (Allscripts)\", \"veradigm\": \"Veradigm (Allscripts)\",\n       \"greenway\": \"Greenway\", \"modernizing medicine\": \"ModMed\", \"modmed\": \"ModMed\", \"advancedmd\": \"AdvancedMD\",\n       \"elation\": \"Elation\", \"meditech\": \"MEDITECH\", \"practice fusion\": \"Practice Fusion\", \"drchrono\": \"DrChrono\",\n       \"tebra\": \"Tebra (Kareo)\", \"kareo\": \"Tebra (Kareo)\", \"netsmart\": \"Netsmart\", \"qualifacts\": \"Qualifacts\",\n       \"valant\": \"Valant\", \"simplepractice\": \"SimplePractice\", \"canvas medical\": \"Canvas Medical\"}\nPORTAL = {\"mychart\": \"MyChart (Epic)\", \"followmyhealth\": \"FollowMyHealth\", \"healow\": \"healow (eCW)\",\n          \"athenapatient\": \"athenaPatient\", \"phreesia\": \"Phreesia\", \"luma health\": \"Luma Health\", \"klara\": \"Klara\",\n          \"solutionreach\": \"Solutionreach\", \"relatient\": \"Relatient\", \"kyruus\": \"Kyruus\"}\nMA_CATEGORIES = {\"acquires\", \"merges_with\", \"is_acquired_by\", \"sells_assets_to\", \"invests_into\", \"partners_with\",\n                 \"expands_facilities\", \"opens_new_location\", \"expands_to_new_market\"}\n\n\ndef _load(v):\n    if isinstance(v, str):\n        try:\n            return json.loads(v)\n        except Exception:\n            return v\n    return v\n\n\ndef _match(text, table):\n    t = (text or \"\").lower()\n    return sorted({label for k, label in table.items() if re.search(r\"\\b\" + re.escape(k) + r\"\\b\", t)})\n\n\ndef handler(context):\n    g = lambda k: _load(context.get_input(k))\n    installs = g(\"hg_installs\") or []\n    installs = installs if isinstance(installs, list) else []\n    ehr_hits, portal_hits = [], []\n    for i in installs:\n        blob = \" \".join(str(i.get(k, \"\")) for k in (\"product_name\", \"vendor_name\", \"product_category_name\"))\n        for v in _match(blob, EHR):\n            ehr_hits.append({\"vendor\": v, \"product\": i.get(\"product_name\"), \"first_verified\": i.get(\"product_first_verified_date\")})\n        portal_hits += _match(blob, PORTAL)\n    ehr_vendors = sorted({h[\"vendor\"] for h in ehr_hits})\n    if len(ehr_vendors) == 1:\n        ehr_status = \"confirmed_structured\"\n    elif len(ehr_vendors) > 1:\n        ehr_status = \"conflict\"\n    else:\n        ehr_status = \"unknown\"\n\n    companies = g(\"hg_companies\") or []\n    companies = companies if isinstance(companies, list) else []\n    sel = next((c for c in companies if c.get(\"selected\")), companies[0] if companies else {})\n    parent = sel.get(\"global_hq_name\") or sel.get(\"corporate_parent_name\") or \"\"\n    own = (context.get_input(\"company_name\") or \"\").strip()\n    parent_status = \"self\" if parent and parent.lower() == own.lower() else (\"structured\" if parent else \"unknown\")\n\n    cutoff = time.strftime(\"%Y-%m-%d\", time.gmtime(time.time() - 365 * 86400))  # ISO dates compare as strings\n    events = g(\"pl_events\") or []\n    events = events if isinstance(events, list) else []\n    ma = []\n    for e in events:\n        if e.get(\"category\") not in MA_CATEGORIES:\n            continue\n        d = e.get(\"found_at\") or e.get(\"effective_date\") or \"\"\n        if d and d[:10] < cutoff:\n            continue\n        art = e.get(\"news_article_attributes\") or {}\n        ma.append({\"category\": e.get(\"category\"), \"date\": d[:10], \"summary\": e.get(\"article_sentence\") or art.get(\"title\"),\n                   \"url\": art.get(\"url\"), \"confidence\": e.get(\"confidence\")})\n    ma.sort(key=lambda x: x[\"date\"] or \"\", reverse=True)\n\n    jobs = g(\"jobs\") or []\n    jobs = jobs if isinstance(jobs, list) else []\n\n    # No structured action in this workspace returns clinic/location count, so it stays missing\n    # until a structured source is added; that is what sends providers to the fallback.\n    locs = context.get_input(\"location_count\")\n    missing = [k for k, v in ((\"ehr\", ehr_status in (\"unknown\", \"conflict\")), (\"parent\", parent_status == \"unknown\"),\n                              (\"location_count\", not locs)) if v]\n    latest = ma[0] if ma else {}\n    # Fallback research only for identity-matched providers with a decision-critical gap.\n    needs_fallback = (context.get_input(\"segment\") == \"provider\"\n                      and context.get_input(\"identity_status\") == \"matched\" and bool(missing))\n    return {\n        \"ehr_vendor\": ehr_vendors[0] if ehr_status == \"confirmed_structured\" else \"\",\n        \"ehr_candidates\": \", \".join(ehr_vendors),\n        \"ehr_status\": ehr_status,\n        \"ehr_evidence\": json.dumps(ehr_hits[:5]),\n        \"portal_vendor_clue\": \", \".join(sorted(set(portal_hits))),\n        \"parent_name\": parent,\n        \"parent_status\": parent_status,\n        \"ma_event_count\": len(ma),\n        \"latest_event_type\": latest.get(\"category\") or \"\",\n        \"latest_event_date\": latest.get(\"date\") or \"\",\n        \"latest_event_summary\": latest.get(\"summary\") or \"\",\n        \"latest_event_url\": latest.get(\"url\") or \"\",\n        \"relevant_job_count\": len(jobs),\n        \"missing_fields\": \", \".join(missing),\n        \"needs_fallback\": needs_fallback,\n        \"field_source\": \"hg_insights+predictleads+clay_jobs\",\n        \"observed_at\": time.strftime(\"%Y-%m-%dT%H:%M:%SZ\", time.gmtime()),\n    }\n"
+}
