@@ -1,0 +1,255 @@
+<title>DaVita Account Dossier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: one 1080px reading column; stat bands and card grids break it; tables scroll in their own frames.
+   Series system carried over from the Fetch POC pages, re-keyed to a clinical blue for Vim. */
+:root{
+  --ground:#F2F4F8; --panel:#FFFFFF; --panel-2:#E8ECF3; --ink:#141B2B; --muted:#546079; --faint:#7C879C;
+  --line:#D7DDE8; --line-2:#C0C9D8;
+  --accent:#2447A0; --accent-soft:#E0E7F7;
+  --signal:#A8650A; --signal-soft:#F8EBD6;
+  --go:#1F7A45; --go-soft:#DFF1E6;
+  --review:#6A4FA3; --review-soft:#ECE6F7;
+  --stop:#A63A2C; --stop-soft:#F8E4E0;
+  --paper:#FFFFFF; --perf:#C0C9D8;
+  --shadow:0 12px 32px rgba(20,27,43,.08);
+  --display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --sans:"IBM Plex Sans",-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ color-scheme:dark;
+  --ground:#0C101A; --panel:#141A27; --panel-2:#1A2233; --ink:#E3E8F2; --muted:#9AA5BC; --faint:#6E7A92;
+  --line:#262F42; --line-2:#344056;
+  --accent:#8AA8F0; --accent-soft:#1A2644;
+  --signal:#E6A94E; --signal-soft:#3A2B14;
+  --go:#6BCB93; --go-soft:#15332A;
+  --review:#B9A0F0; --review-soft:#29223F;
+  --stop:#EE8E82; --stop-soft:#3B1C18;
+  --paper:#171E2C; --perf:#344056;
+  --shadow:0 12px 32px rgba(0,0,0,.45); } }
+:root[data-theme="dark"]{ color-scheme:dark;
+  --ground:#0C101A; --panel:#141A27; --panel-2:#1A2233; --ink:#E3E8F2; --muted:#9AA5BC; --faint:#6E7A92;
+  --line:#262F42; --line-2:#344056;
+  --accent:#8AA8F0; --accent-soft:#1A2644;
+  --signal:#E6A94E; --signal-soft:#3A2B14;
+  --go:#6BCB93; --go-soft:#15332A;
+  --review:#B9A0F0; --review-soft:#29223F;
+  --stop:#EE8E82; --stop-soft:#3B1C18;
+  --paper:#171E2C; --perf:#344056;
+  --shadow:0 12px 32px rgba(0,0,0,.45); }
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font:16px/1.58 var(--sans);margin:0;padding-inline:20px;padding-block:0;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding-block:28px 72px}
+h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing:-.01em}
+h1{font-size:clamp(32px,5.4vw,56px);font-weight:850;font-stretch:108%;line-height:1.03}
+h2{font-size:clamp(24px,3.2vw,34px);font-weight:800;font-stretch:104%;line-height:1.1}
+h3{font-size:17px;font-weight:700;line-height:1.3}
+p{margin:0}
+a{color:var(--accent);text-underline-offset:2px;text-decoration-thickness:1px;overflow-wrap:anywhere}
+strong,b{font-weight:600}
+.eyebrow{font:600 11.5px/1.2 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.eyebrow.acc{color:var(--accent)}
+.lede{font-size:clamp(17px,1.7vw,19px);color:var(--muted);max-width:64ch}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+section{padding-top:52px}
+.sec-head{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.sec-head p{color:var(--muted);max-width:68ch}
+.series{display:flex;flex-wrap:wrap;align-items:center;gap:6px 4px;padding:10px 0 18px;border-bottom:1px solid var(--line);margin-bottom:34px}
+.series .brand{font:600 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-right:12px}
+.series a,.series span.cur{font:500 13.5px var(--sans);padding:6px 11px;border-radius:6px;text-decoration:none;color:var(--muted)}
+.series a:hover{background:var(--panel-2);color:var(--ink)}
+.series span.cur{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.pill{display:inline-flex;align-items:center;gap:6px;font:600 11.5px/1 var(--mono);letter-spacing:.04em;padding:5px 9px;border-radius:99px;white-space:nowrap}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.p-go{color:var(--go);background:var(--go-soft)} .p-signal{color:var(--signal);background:var(--signal-soft)}
+.p-review{color:var(--review);background:var(--review-soft)} .p-stop{color:var(--stop);background:var(--stop-soft)}
+.p-acc{color:var(--accent);background:var(--accent-soft)}
+.tag{display:inline-block;font:500 11.5px/1.2 var(--mono);padding:5px 8px;border-radius:5px;background:var(--panel-2);color:var(--muted)}
+.tag.ai{background:var(--review-soft);color:var(--review)}
+.tag.det{background:var(--accent-soft);color:var(--accent)}
+.tag.warn{background:var(--signal-soft);color:var(--signal)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.stat{background:var(--panel);padding:20px 20px 18px;display:flex;flex-direction:column;gap:6px}
+.stat .n{font:800 clamp(34px,4.4vw,46px)/1 var(--display);font-stretch:112%;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.stat .l{font-size:14.5px;color:var(--muted);line-height:1.4}
+.stat .n small{font-size:.45em;color:var(--faint);font-weight:700;margin-left:4px}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;min-width:560px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;font-size:14.5px}
+th{font:600 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--faint);background:var(--panel-2)}
+td.num,th.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+tbody tr:last-child td{border-bottom:none}
+tfoot td{font-weight:600;border-top:2px solid var(--line-2);border-bottom:none}
+.callout{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--signal);border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:6px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.grid2>*{min-width:0}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:flex;flex-direction:column;gap:10px}
+.fact{display:grid;grid-template-columns:130px minmax(0,1fr);gap:10px;padding:9px 0;border-top:1px solid var(--line);font-size:14.5px}
+.fact:first-of-type{border-top:none}
+.fact .k{font:600 11.5px/1.5 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+.fact .v{display:flex;flex-direction:column;gap:4px;min-width:0}
+.brief{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px}
+footer{margin-top:64px;padding-top:18px;border-top:1px solid var(--line);font:12px/1.7 var(--mono);color:var(--faint)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:520px){.fact{grid-template-columns:1fr;gap:2px}}
+
+
+.hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.9fr);gap:28px;align-items:start}
+@media (max-width:860px){.hero{grid-template-columns:1fr}}
+.hero .lede{margin-top:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chart{background:var(--paper);border:1px solid var(--line);border-radius:6px;box-shadow:var(--shadow);font-family:var(--mono);font-size:13.5px;overflow:hidden}
+.chart .band{background:var(--accent);color:var(--paper);padding:10px 18px;font:700 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;display:flex;justify-content:space-between;gap:10px}
+.chart .inner{padding:16px 18px 18px;display:flex;flex-direction:column}
+.chart .row{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px dotted var(--perf)}
+.chart .row span:last-child{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.chart .big{font:800 44px/1 var(--display);font-stretch:112%;color:var(--accent)}
+.chart .total{display:flex;justify-content:space-between;align-items:end;padding-top:12px}
+.chart .motion{margin-top:14px;padding:10px 12px;background:var(--review-soft);color:var(--review);font:600 13px/1.4 var(--sans);border-radius:6px}
+pre.json{margin:0;padding:16px;overflow-x:auto;font:12.5px/1.55 var(--mono);background:var(--panel-2);border-radius:10px;border:1px solid var(--line);max-height:420px}
+.copy{align-self:flex-start;font:600 13px var(--sans);padding:8px 12px;border-radius:7px;border:1px solid var(--line-2);background:var(--panel);color:var(--ink);cursor:pointer}
+.copy:hover{border-color:var(--accent);color:var(--accent)}
+
+</style>
+<div class="wrap"><nav class="series" aria-label="POC pages"><span class="brand">Clay × Vim</span><a href="https://claude.ai/artifact/9TMEja4tRjBpq435PF6xKM">POC Hub</a><a href="https://claude.ai/artifact/4z19D6Ln3xgivEGVjqkpMt">Executive Brief</a><a href="https://claude.ai/artifact/XcTyt6TSQGF8BTyGqk5xtc">The Engine</a><span class="cur" aria-current="page">DaVita Dossier</span><a href="https://claude.ai/artifact/8xvbhD7AFYbNVET8KGZeHw">Account Reference</a></nav>
+
+<header class="hero">
+  <div>
+    <p class="eyebrow acc">Account dossier · one provider record</p>
+    <h1>DaVita Kidney Care</h1>
+    <p class="lede">The largest footprint in the test: 3,166 dialysis centers at the end of 2024. In the last six weeks it signed a value-based-care partnership with Humana and opened an Epic analyst role. This is everything the engine produced for it, including where a person should step in.</p>
+    <div class="chips">
+      <span class="pill p-review">Fit 70 · Review</span>
+      <span class="pill p-signal">EHR: Epic, needs confirming</span>
+      <span class="pill p-go">Humana VBC partnership · Aug 25</span>
+      <span class="pill p-acc">HubSpot not connected</span>
+    </div>
+  </div>
+  <aside class="chart" aria-label="Account summary">
+    <div class="band"><span>Account chart</span><span>davita.com</span></div>
+    <div class="inner">
+      <div class="row"><span>Segment</span><span>Provider · nephrology</span></div>
+      <div class="row"><span>Type</span><span>Specialty provider network</span></div>
+      <div class="row"><span>Centers</span><span>3,166 · Dec 31 2024</span></div>
+      <div class="row"><span>EHR</span><span>Epic (review)</span></div>
+      <div class="row"><span>Parent</span><span>DaVita Inc.</span></div>
+      <div class="total"><span>FIT SCORE</span><span class="big">70</span></div>
+      <div class="row"><span>Missing</span><span>supported_ehr</span></div>
+      <div class="row"><span>Run</span><span>1 m 28 s · 7.5 cr</span></div>
+      <div class="motion">Review: tiers as soon as Vim confirms Epic support</div>
+    </div>
+  </aside>
+</header>
+
+<section>
+  <div class="sec-head"><p class="eyebrow">What a seller does with it</p><h2>Lead with the Humana partnership</h2></div>
+  <div class="grid2">
+    <div class="box"><span class="eyebrow">Suggested next action · once tiered</span><p>Open with DaVita's August 25 value-based partnership with Humana. More payer-provider programs mean more point-of-care workflow inside Epic, which is where Vim sits. Confirm the Epic footprint on the first call. The "Epic Analyst II" and three value-based-care roles are the people building it.</p><p class="muted" style="font-size:13.5px">Written by hand from the record for this page. The engine's own why-now template picked the charity grant, which is the ranking fix listed on The Engine page.</p></div>
+    <div class="box"><span class="eyebrow">Why it's not tiered yet</span><p>Four of five criteria pass for 70 points. The 30-point EHR criterion is unknown because Vim hasn't published its supported list. If Epic is on it, DaVita moves to Tier 1 at 100.</p><span class="eyebrow" style="margin-top:6px">Cross-account note</span><p>Humana is one of the ten seed accounts. A partnership between two accounts in Vim's book is worth a coordinated play across the payer and provider sellers.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><p class="eyebrow">Fit · deterministic, 0–100</p><h2>Why it scores 70</h2>
+  <p>Code sets the score from the criterion flags. The research step supplied organization type and footprint, each with a source, and can't change the weights.</p></div>
+  <div class="tablewrap"><table><thead><tr><th>Criterion</th><th class="num">Weight</th><th class="num">Scored</th><th>Evidence</th></tr></thead><tbody>
+  <tr><td>Supported EHR confirmed</td><td class="num">30</td><td class="num"><b>0</b></td><td class="muted">Epic found, but the supported list is empty, so it stays unknown</td></tr>
+  <tr><td>Approved organization type</td><td class="num">25</td><td class="num"><b>+25</b></td><td class="muted">Specialty provider network (research)</td></tr>
+  <tr><td>Target specialty</td><td class="num">20</td><td class="num"><b>+20</b></td><td class="muted">Nephrology; dialysis</td></tr>
+  <tr><td>Target footprint (50+ locations)</td><td class="num">15</td><td class="num"><b>+15</b></td><td class="muted">3,166 centers, <a href="https://investors.davita.com/2025-02-13-davita-inc-4th-quarter-2024-results/">Q4 2024 results</a></td></tr>
+  <tr><td>Target geography</td><td class="num">10</td><td class="num"><b>+10</b></td><td class="muted">Denver, CO</td></tr>
+  </tbody><tfoot><tr><td>fit_score</td><td class="num">100</td><td class="num">70</td><td class="muted">Tier held at Review while a required field is unknown</td></tr></tfoot></table></div>
+</section>
+
+<section>
+  <div class="sec-head"><p class="eyebrow">Timing · reviewed by hand</p><h2>What changed in the last year</h2>
+  <p>PredictLeads returned ten M&amp;A and partnership events for the last 365 days. Here are the four that matter, including the one the engine picked and shouldn't have.</p></div>
+  <div class="tablewrap"><table><thead><tr><th>Found</th><th>Type</th><th>What happened</th><th class="num">Conf.</th><th>Source</th><th>Review</th></tr></thead>
+  <tbody><tr><td class="mono">2026-08-25</td><td><span class="pill p-go">VBC partnership</span></td><td>DaVita announces a value-based partnership with Humana to expand care for chronic kidney disease</td><td class="num">0.98</td><td><a href="https://newsroom.davita.com/2026-08-25-davita-announces-new-value-based-partnership-with-humana-to-expand-care-for-patients-with-chronic-kidney-disease">newsroom.davita.com</a></td><td class="muted">Strongest trigger</td></tr><tr><td class="mono">2026-02-02</td><td><span class="pill p-go">Strategic investment</span></td><td>Elara Caring secures new strategic investment from Ares and DaVita</td><td class="num">0.92</td><td><a href="https://newsroom.davita.com/2026-02-02-elara-caring-secures-new-strategic-investment-from-ares-and-davita">newsroom.davita.com</a></td><td class="muted">Relevant: home care expansion</td></tr><tr><td class="mono">2026-01-27</td><td><span class="pill p-signal">Partnership</span></td><td>Puget Sound Kidney Centers and DaVita worked with Comagine Health and Phreesia on patient activation</td><td class="num">0.91</td><td><a href="https://comagine.org/article/harnessing-patient-activation-dialysis-care">comagine.org</a></td><td class="muted">Relevant: patient engagement tooling</td></tr><tr><td class="mono">2026-09-09</td><td><span class="pill p-stop">Investment (charity)</span></td><td>DaVita Giving Foundation&#x27;s $1M, four-year commitment to KaBoom!</td><td class="num">0.64</td><td><a href="https://www.csr-company.com/blog/commitment-helping-communities-thrive-davita-community-care-report-2025">www.csr-company.com</a></td><td class="muted">Engine&#x27;s pick · not a trigger</td></tr></tbody></table></div>
+  <div class="tablewrap" style="margin-top:14px"><table><thead><tr><th>Open role · last 90 days</th><th>Location</th><th>Posted</th><th>Link</th></tr></thead><tbody><tr><td>Epic Analyst II</td><td>Denver, CO</td><td class="mono">2026-09-26</td><td><a href="https://www.linkedin.com/jobs/view/epic-analyst-ii-at-davita-kidney-care-4436768999">LinkedIn</a></td></tr><tr><td>Value Based Care, Sr Analyst</td><td>Denver, CO</td><td class="mono">2026-09-27</td><td><a href="https://www.linkedin.com/jobs/view/value-based-care-sr-analyst-at-davita-kidney-care-4436773849">LinkedIn</a></td></tr><tr><td>Manager, Value-Based Care, Strategic Payor Account Management</td><td>Denver, CO</td><td class="mono">2026-09-21</td><td><a href="https://www.linkedin.com/jobs/view/manager-value-based-care-strategic-payor-account-management-at-davita-kidney-care-4469947187">LinkedIn</a></td></tr><tr><td>Market Director of Operations (Value Based Care, OH / PA)</td><td>Cincinnati, OH</td><td class="mono">2026-09-09</td><td><a href="https://www.linkedin.com/jobs/view/market-director-of-operations-value-based-care-oh-pa-at-davita-kidney-care-4465348912">LinkedIn</a></td></tr></tbody></table></div>
+</section>
+
+<section>
+  <div class="sec-head"><p class="eyebrow">Record · structured first, research for gaps</p><h2>What the engine knows, and from where</h2></div>
+  <div class="grid2">
+    <div class="box">
+      <div class="fact"><span class="k">Identity</span><span class="v"><span>DaVita Kidney Care · Clay 14405981</span><span><span class="tag det">pinned</span> <a href="https://www.linkedin.com/company/davita">LinkedIn</a></span></span></div>
+      <div class="fact"><span class="k">EHR</span><span class="v"><span>Epic</span><span><span class="tag ai">research</span> <a href="https://davitaphysiciansolutions.com/ckd-ehr/">davitaphysiciansolutions.com</a></span><span class="muted" style="font-size:13.5px">"CKD EHR by Epic", "Built in partnership with Epic"</span></span></div>
+      <div class="fact"><span class="k">Portal</span><span class="v"><span class="muted">Not established</span></span></div>
+      <div class="fact"><span class="k">Parent</span><span class="v"><span>DaVita Inc.</span><span><span class="tag det">HG Insights</span> <span class="tag ai">research agrees</span> <a href="https://www.sec.gov/Archives/edgar/data/927066/000092706618000030/dva-123117x10k.htm">SEC 10-K</a></span></span></div>
+      <div class="fact"><span class="k">Centers</span><span class="v"><span>3,166 · as of Dec 31 2024</span><span><span class="tag ai">research</span> <a href="https://investors.davita.com/2025-02-13-davita-inc-4th-quarter-2024-results/">investors.davita.com</a></span></span></div>
+      <div class="fact"><span class="k">Employees</span><span class="v"><span>40,410 on LinkedIn</span><span><span class="tag det">Clay</span> <span class="muted">Headcount isn't used for footprint</span></span></span></div>
+    </div>
+    <div class="box">
+      <span class="eyebrow">Flag for the seller</span>
+      <p>The Epic source is DaVita Physician Solutions' CKD EHR, a product DaVita offers nephrology practices. It doesn't name the system its dialysis centers run. The open "Epic Analyst II" role in Denver is independent support. Confirm before counting it.</p>
+      <span class="eyebrow" style="margin-top:8px">Buyers</span>
+      <p>Not sourced yet; contact sourcing is the next build step. The guide's persona hypotheses for a large provider are IT / CIO, clinical or digital transformation, population health / value-based care, and operations. The four open roles above point at the value-based-care and informatics teams.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><p class="eyebrow">Destination · writes disabled</p><h2>The record, ready for HubSpot</h2>
+  <p>Nothing was written to HubSpot. This is the object the workflow holds for DaVita, plus the review notes from this page.</p></div>
+  <div class="box"><pre class="json" id="obj">{
+ &quot;account&quot;: {
+  &quot;name&quot;: &quot;DaVita Kidney Care&quot;,
+  &quot;domain&quot;: &quot;davita.com&quot;,
+  &quot;clay_company_id&quot;: &quot;14405981&quot;,
+  &quot;linkedin&quot;: &quot;https://www.linkedin.com/company/davita&quot;,
+  &quot;identity_status&quot;: &quot;matched&quot;
+ },
+ &quot;segment&quot;: &quot;provider&quot;,
+ &quot;fit&quot;: {
+  &quot;score&quot;: 70,
+  &quot;tier&quot;: &quot;Review&quot;,
+  &quot;missing_required&quot;: &quot;supported_ehr&quot;,
+  &quot;reasons&quot;: &quot;org_type:yes; supported_ehr:unknown; specialty:yes; footprint:yes; geography:yes&quot;,
+  &quot;score_version&quot;: &quot;provider-v0-placeholder&quot;
+ },
+ &quot;footprint&quot;: {
+  &quot;location_count&quot;: 3166,
+  &quot;as_of&quot;: &quot;As of December 31, 2024&quot;,
+  &quot;source&quot;: &quot;https://investors.davita.com/2025-02-13-davita-inc-4th-quarter-2024-results/&quot;
+ },
+ &quot;ehr&quot;: {
+  &quot;vendor&quot;: &quot;Epic&quot;,
+  &quot;source&quot;: &quot;research_with_evidence&quot;,
+  &quot;evidence_url&quot;: &quot;https://davitaphysiciansolutions.com/ckd-ehr/&quot;,
+  &quot;quote&quot;: &quot;\u201cCKD EHR by Epic\u201d and \u201cBuilt in partnership with Epic\u201d (DaVita Physician Solutions CKD EHR).&quot;,
+  &quot;corroboration&quot;: &quot;Open role &#x27;Epic Analyst II&#x27;, Denver CO, posted 2026-09-26&quot;,
+  &quot;review_flag&quot;: &quot;Evidence names DaVita Physician Solutions&#x27; CKD EHR, not the dialysis operations EHR&quot;
+ },
+ &quot;parent&quot;: {
+  &quot;name&quot;: &quot;Davita Inc.&quot;,
+  &quot;source&quot;: &quot;HG Insights corporate tree&quot;,
+  &quot;research_check&quot;: &quot;https://www.sec.gov/Archives/edgar/data/927066/000092706618000030/dva-123117x10k.htm&quot;
+ },
+ &quot;signals&quot;: {
+  &quot;engine_pick&quot;: {
+   &quot;type&quot;: &quot;invests_into&quot;,
+   &quot;date&quot;: &quot;2026-09-09&quot;,
+   &quot;review&quot;: &quot;not a buying trigger&quot;
+  },
+  &quot;strongest_on_review&quot;: {
+   &quot;type&quot;: &quot;partners_with&quot;,
+   &quot;date&quot;: &quot;2026-08-25&quot;,
+   &quot;confidence&quot;: 0.9772,
+   &quot;summary&quot;: &quot;Value-based partnership with Humana for chronic kidney disease&quot;,
+   &quot;url&quot;: &quot;https://newsroom.davita.com/2026-08-25-davita-announces-new-value-based-partnership-with-humana-to-expand-care-for-patients-with-chronic-kidney-disease&quot;
+  },
+  &quot;it_vbc_jobs_90d&quot;: 4
+ },
+ &quot;workflow_run_id&quot;: &quot;wfr_90230db64e6132c0205439b096c7a1be&quot;
+}</pre><button class="copy" id="copybtn" type="button">Copy JSON</button></div>
+</section>
+
+<footer>Prepared by Clay for Vim · Sep 30 2026 · Ten accounts run through workflow wf_0tm72qo2fw4Z5DAGxGn in the Clay Demos (GTM) workspace · Measured figures come from the run log; anything marked &#x27;example&#x27; is an editable assumption, not a Vim number · Clinical and ICP criteria are placeholders until Vim confirms them</footer></div>
+<script>
+(function(){var b=document.getElementById('copybtn');if(!b)return;b.addEventListener('click',function(){var t=document.getElementById('obj').textContent;
+function sel(){var r=document.createRange();r.selectNodeContents(document.getElementById('obj'));var s=window.getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Selected, press Ctrl/Cmd+C';}
+try{navigator.clipboard.writeText(t).then(function(){b.textContent='Copied';},sel);}catch(e){sel();}});})();
+</script>

@@ -1,0 +1,200 @@
+<title>Vim Account Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: one 1080px reading column; stat bands and card grids break it; tables scroll in their own frames.
+   Series system carried over from the Fetch POC pages, re-keyed to a clinical blue for Vim. */
+:root{
+  --ground:#F2F4F8; --panel:#FFFFFF; --panel-2:#E8ECF3; --ink:#141B2B; --muted:#546079; --faint:#7C879C;
+  --line:#D7DDE8; --line-2:#C0C9D8;
+  --accent:#2447A0; --accent-soft:#E0E7F7;
+  --signal:#A8650A; --signal-soft:#F8EBD6;
+  --go:#1F7A45; --go-soft:#DFF1E6;
+  --review:#6A4FA3; --review-soft:#ECE6F7;
+  --stop:#A63A2C; --stop-soft:#F8E4E0;
+  --paper:#FFFFFF; --perf:#C0C9D8;
+  --shadow:0 12px 32px rgba(20,27,43,.08);
+  --display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --sans:"IBM Plex Sans",-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ color-scheme:dark;
+  --ground:#0C101A; --panel:#141A27; --panel-2:#1A2233; --ink:#E3E8F2; --muted:#9AA5BC; --faint:#6E7A92;
+  --line:#262F42; --line-2:#344056;
+  --accent:#8AA8F0; --accent-soft:#1A2644;
+  --signal:#E6A94E; --signal-soft:#3A2B14;
+  --go:#6BCB93; --go-soft:#15332A;
+  --review:#B9A0F0; --review-soft:#29223F;
+  --stop:#EE8E82; --stop-soft:#3B1C18;
+  --paper:#171E2C; --perf:#344056;
+  --shadow:0 12px 32px rgba(0,0,0,.45); } }
+:root[data-theme="dark"]{ color-scheme:dark;
+  --ground:#0C101A; --panel:#141A27; --panel-2:#1A2233; --ink:#E3E8F2; --muted:#9AA5BC; --faint:#6E7A92;
+  --line:#262F42; --line-2:#344056;
+  --accent:#8AA8F0; --accent-soft:#1A2644;
+  --signal:#E6A94E; --signal-soft:#3A2B14;
+  --go:#6BCB93; --go-soft:#15332A;
+  --review:#B9A0F0; --review-soft:#29223F;
+  --stop:#EE8E82; --stop-soft:#3B1C18;
+  --paper:#171E2C; --perf:#344056;
+  --shadow:0 12px 32px rgba(0,0,0,.45); }
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font:16px/1.58 var(--sans);margin:0;padding-inline:20px;padding-block:0;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding-block:28px 72px}
+h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing:-.01em}
+h1{font-size:clamp(32px,5.4vw,56px);font-weight:850;font-stretch:108%;line-height:1.03}
+h2{font-size:clamp(24px,3.2vw,34px);font-weight:800;font-stretch:104%;line-height:1.1}
+h3{font-size:17px;font-weight:700;line-height:1.3}
+p{margin:0}
+a{color:var(--accent);text-underline-offset:2px;text-decoration-thickness:1px;overflow-wrap:anywhere}
+strong,b{font-weight:600}
+.eyebrow{font:600 11.5px/1.2 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.eyebrow.acc{color:var(--accent)}
+.lede{font-size:clamp(17px,1.7vw,19px);color:var(--muted);max-width:64ch}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+section{padding-top:52px}
+.sec-head{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.sec-head p{color:var(--muted);max-width:68ch}
+.series{display:flex;flex-wrap:wrap;align-items:center;gap:6px 4px;padding:10px 0 18px;border-bottom:1px solid var(--line);margin-bottom:34px}
+.series .brand{font:600 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-right:12px}
+.series a,.series span.cur{font:500 13.5px var(--sans);padding:6px 11px;border-radius:6px;text-decoration:none;color:var(--muted)}
+.series a:hover{background:var(--panel-2);color:var(--ink)}
+.series span.cur{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.pill{display:inline-flex;align-items:center;gap:6px;font:600 11.5px/1 var(--mono);letter-spacing:.04em;padding:5px 9px;border-radius:99px;white-space:nowrap}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.p-go{color:var(--go);background:var(--go-soft)} .p-signal{color:var(--signal);background:var(--signal-soft)}
+.p-review{color:var(--review);background:var(--review-soft)} .p-stop{color:var(--stop);background:var(--stop-soft)}
+.p-acc{color:var(--accent);background:var(--accent-soft)}
+.tag{display:inline-block;font:500 11.5px/1.2 var(--mono);padding:5px 8px;border-radius:5px;background:var(--panel-2);color:var(--muted)}
+.tag.ai{background:var(--review-soft);color:var(--review)}
+.tag.det{background:var(--accent-soft);color:var(--accent)}
+.tag.warn{background:var(--signal-soft);color:var(--signal)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.stat{background:var(--panel);padding:20px 20px 18px;display:flex;flex-direction:column;gap:6px}
+.stat .n{font:800 clamp(34px,4.4vw,46px)/1 var(--display);font-stretch:112%;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.stat .l{font-size:14.5px;color:var(--muted);line-height:1.4}
+.stat .n small{font-size:.45em;color:var(--faint);font-weight:700;margin-left:4px}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;min-width:560px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;font-size:14.5px}
+th{font:600 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--faint);background:var(--panel-2)}
+td.num,th.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+tbody tr:last-child td{border-bottom:none}
+tfoot td{font-weight:600;border-top:2px solid var(--line-2);border-bottom:none}
+.callout{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--signal);border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:6px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.grid2>*{min-width:0}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:flex;flex-direction:column;gap:10px}
+.fact{display:grid;grid-template-columns:130px minmax(0,1fr);gap:10px;padding:9px 0;border-top:1px solid var(--line);font-size:14.5px}
+.fact:first-of-type{border-top:none}
+.fact .k{font:600 11.5px/1.5 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+.fact .v{display:flex;flex-direction:column;gap:4px;min-width:0}
+.brief{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px}
+footer{margin-top:64px;padding-top:18px;border-top:1px solid var(--line);font:12px/1.7 var(--mono);color:var(--faint)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:520px){.fact{grid-template-columns:1fr;gap:2px}}
+
+
+.seg{display:inline-flex;border:1px solid var(--line-2);border-radius:8px;overflow:hidden;margin-bottom:14px}
+.seg button{font:600 13px var(--sans);padding:8px 14px;border:0;background:var(--panel);color:var(--muted);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent)}
+.seg button+button{border-left:1px solid var(--line-2)}
+.layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:900px){.layout{grid-template-columns:1fr}}
+.layout>*{min-width:0}
+tbody tr.row{cursor:pointer}
+tbody tr.row:hover td{background:var(--panel-2)}
+tbody tr.row[aria-selected="true"] td{background:var(--accent-soft)}
+tbody tr.row td:first-child{font-weight:600}
+.sub{display:block;font:12px var(--mono);color:var(--faint);font-weight:400}
+#detail{position:sticky;top:calc(env(safe-area-inset-top, 0px) + 12px)}
+#detail h3{font-size:22px;font-weight:800;font-stretch:106%}
+.kv{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.kv div{background:var(--panel);padding:10px 12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.kv b{font:800 20px/1.1 var(--display);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.kv span{font:600 10.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.note{font-size:13.5px;color:var(--muted);background:var(--panel-2);border-radius:8px;padding:10px 12px}
+.prod td:first-child{color:var(--muted)}
+.arrow{color:var(--faint);font-family:var(--mono)}
+
+</style>
+<div class="wrap"><nav class="series" aria-label="POC pages"><span class="brand">Clay × Vim</span><a href="https://claude.ai/artifact/9TMEja4tRjBpq435PF6xKM">POC Hub</a><a href="https://claude.ai/artifact/4z19D6Ln3xgivEGVjqkpMt">Executive Brief</a><a href="https://claude.ai/artifact/XcTyt6TSQGF8BTyGqk5xtc">The Engine</a><a href="https://claude.ai/artifact/7Mo9xtpGjzDeLQ3E4c2qpU">DaVita Dossier</a><span class="cur" aria-current="page">Account Reference</span></nav>
+
+<header>
+  <p class="eyebrow acc">Account reference · all ten</p>
+  <h1>Ten accounts, every value with its source</h1>
+  <p class="lede" style="margin-top:14px">Five payers and the five provider groups Vim's ICP is modeled on, exactly as the workflow left them. Where a source said nothing, the field stays empty with a note, and nothing is averaged or guessed. Select an account to see what's behind it.</p>
+</header>
+
+<section>
+  <div class="seg" role="group" aria-label="Filter by segment">
+    <button type="button" id="f_all" data-f="all" aria-pressed="true">All 10</button>
+    <button type="button" id="f_provider" data-f="provider" aria-pressed="false">Providers (5)</button>
+    <button type="button" id="f_payer" data-f="payer" aria-pressed="false">Payers (5)</button>
+  </div>
+  <div class="layout">
+    <div class="tablewrap"><table><thead><tr><th>Account</th><th class="num">Fit</th><th>EHR</th><th class="num">Locations</th><th>Parent</th></tr></thead><tbody id="rows"></tbody></table></div>
+    <aside class="box" id="detail" aria-live="polite"></aside>
+  </div>
+</section>
+
+<section>
+  <div class="grid2">
+    <div class="box"><h3>Every value carries its source</h3><p class="muted">Each research value is stored with its URL, a short quote and its date. A research value without a URL is dropped. Where structured data and research disagree, both are kept and the account goes to Review.</p></div>
+    <div class="box"><h3>The same input always gives the same answer</h3><p class="muted">Identity, the research gate, evidence extraction, reconciliation and scoring are rules, not judgment calls. Two people reviewing the same account see the same score, and any tier can be explained after the fact.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><p class="eyebrow">What production looks like</p><h2>What changes when this runs on Vim's book</h2>
+  <p>Each hand step in this run has a production equivalent, and swapping one in doesn't mean rebuilding the workflow.</p></div>
+  <div class="tablewrap prod"><table><thead><tr><th>In this POC</th><th></th><th>In Vim's hands</th></tr></thead><tbody>
+  <tr><td>Ten example logos in a CSV</td><td class="arrow">→</td><td>The 1,000-record provider cohort, then weekly net-new discovery capped at 50</td></tr>
+  <tr><td>Placeholder scorecard, empty EHR list</td><td class="arrow">→</td><td>Vim's approved criteria, versioned, with separate payer and provider scorecards</td></tr>
+  <tr><td>Footprint from research, some counts from 2020</td><td class="arrow">→</td><td>A structured footprint source with a 12-month freshness rule</td></tr>
+  <tr><td>Newest news item wins the why-now</td><td class="arrow">→</td><td>Ranked by category and confidence; deduped; one seller task per account per week</td></tr>
+  <tr><td>Results exported to CSV</td><td class="arrow">→</td><td>HubSpot updates by company ID, net-new created only after duplicate checks</td></tr>
+  <tr><td>No contacts</td><td class="arrow">→</td><td>Buying committee for Tier 1 accounts, verified emails only</td></tr>
+  </tbody></table></div>
+</section>
+
+<footer>Prepared by Clay for Vim · Sep 30 2026 · Ten accounts run through workflow wf_0tm72qo2fw4Z5DAGxGn in the Clay Demos (GTM) workspace · Measured figures come from the run log; anything marked &#x27;example&#x27; is an editable assumption, not a Vim number · Clinical and ICP criteria are placeholders until Vim confirms them</footer></div>
+<script>
+var DATA=[{"name": "UnitedHealthcare", "segment": "payer", "domain": "uhc.com", "linkedin": "https://www.linkedin.com/company/unitedhealthcare", "employees": 16974, "industry": "Hospitals and Health Care", "tier": "Review", "fit": 10, "reasons": "org_type:unknown; supported_ehr:unknown; specialty:unknown; footprint:unknown; geography:yes; payer scorecard not defined yet", "missing": "org_type, supported_ehr, specialty", "orgType": "", "ehr": "", "ehrSource": "unknown", "ehrUrl": "", "ehrQuote": "", "portal": "", "parent": "Unitedhealth Group Incorporated", "parentSource": "structured", "parentUrl": "", "locs": "", "locsAsOf": "", "locsUrl": "", "evType": "partners_with", "evDate": "2026-09-26", "evSummary": "UnitedHealthcare, Cigna, and Centene launch shared credentialing program.", "evUrl": "https://pakarkista.com/unitedhealthcare-cigna-centene-launch-credentialing.html", "evCount": 24, "jobs": 3, "research": "structured_only", "notes": "", "run": "wfr_655fe388406b337db92a44c22f581396", "dur": "7\u20138 s", "review": null}, {"name": "Aetna, a CVS Health Company", "segment": "payer", "domain": "aetna.com", "linkedin": "https://www.linkedin.com/company/aetna", "employees": 41157, "industry": "Wellness and Fitness Services", "tier": "Review", "fit": 10, "reasons": "org_type:unknown; supported_ehr:unknown; specialty:unknown; footprint:unknown; geography:yes; payer scorecard not defined yet", "missing": "org_type, supported_ehr, specialty", "orgType": "", "ehr": "", "ehrSource": "unknown", "ehrUrl": "", "ehrQuote": "", "portal": "", "parent": "CVS Health Corporation", "parentSource": "structured", "parentUrl": "", "locs": "", "locsAsOf": "", "locsUrl": "", "evType": "acquires", "evDate": "2026-09-18", "evSummary": "* Ascension is selling its ownership stake in Mercy Care, a Medicaid insurer in Arizona, to CVS Health-owned Aetna as the nonprofit hospital giant continues trimming its portfolio.", "evUrl": "https://www.healthcaredive.com/news/ascension-sells-ownership-in-arizona-medicaid-plan-to-aetna/830827", "evCount": 16, "jobs": 0, "research": "structured_only", "notes": "", "run": "wfr_487dd38dff378ba5dfa348828a60856a", "dur": "7\u20138 s", "review": null}, {"name": "Cigna Healthcare", "segment": "payer", "domain": "cigna.com", "linkedin": "https://www.linkedin.com/company/cignahealthcare", "employees": 29395, "industry": "Hospitals and Health Care", "tier": "Review", "fit": 10, "reasons": "org_type:unknown; supported_ehr:unknown; specialty:unknown; footprint:unknown; geography:yes; payer scorecard not defined yet", "missing": "org_type, supported_ehr, specialty", "orgType": "", "ehr": "", "ehrSource": "unknown", "ehrUrl": "", "ehrQuote": "", "portal": "", "parent": "The Cigna Group", "parentSource": "structured", "parentUrl": "", "locs": "", "locsAsOf": "", "locsUrl": "", "evType": "partners_with", "evDate": "2026-09-24", "evSummary": "Baptist Health back in network with Cigna (video).", "evUrl": "https://spotonflorida.com/northeast-florida/6280650/baptist-health-back-in-network.html", "evCount": 21, "jobs": 0, "research": "structured_only", "notes": "", "run": "wfr_b6bc3cb0f55ed734951d8061d8fea610", "dur": "7\u20138 s", "review": null}, {"name": "Humana", "segment": "payer", "domain": "humana.com", "linkedin": "https://www.linkedin.com/company/humana", "employees": 49196, "industry": "Insurance", "tier": "Review", "fit": 10, "reasons": "org_type:unknown; supported_ehr:unknown; specialty:unknown; footprint:unknown; geography:yes; payer scorecard not defined yet", "missing": "org_type, supported_ehr, specialty", "orgType": "", "ehr": "", "ehrSource": "unknown", "ehrUrl": "", "ehrQuote": "", "portal": "", "parent": "Humana Inc.", "parentSource": "structured", "parentUrl": "", "locs": "", "locsAsOf": "", "locsUrl": "", "evType": "partners_with", "evDate": "2026-08-25", "evSummary": "DaVita announces new value-based partnership with Humana to expand Care for Patients with chronic kidney disease.", "evUrl": "https://newsroom.davita.com/2026-08-25-davita-announces-new-value-based-partnership-with-humana-to-expand-care-for-patients-with-chronic-kidney-disease", "evCount": 35, "jobs": 1, "research": "structured_only", "notes": "", "run": "wfr_8e8e6149f55173b2a6d59b371c2d89ab", "dur": "7\u20138 s", "review": null}, {"name": "Elevance Health", "segment": "payer", "domain": "elevancehealth.com", "linkedin": "https://www.linkedin.com/company/elevance-health", "employees": 44190, "industry": "Hospitals and Health Care", "tier": "Review", "fit": 10, "reasons": "org_type:unknown; supported_ehr:unknown; specialty:unknown; footprint:unknown; geography:yes; payer scorecard not defined yet", "missing": "org_type, supported_ehr, specialty", "orgType": "", "ehr": "", "ehrSource": "unknown", "ehrUrl": "", "ehrQuote": "", "portal": "", "parent": "Elevance Health, Inc.", "parentSource": "structured", "parentUrl": "", "locs": "", "locsAsOf": "", "locsUrl": "", "evType": "partners_with", "evDate": "2026-08-13", "evSummary": "Through this work, USAging and Elevance Health are seeking to increase awareness of the important role that nutrition, physical activity, social engagement, community support, health screening and vaccinations play in the overall health and well-being of older adults living in rural areas.", "evUrl": "https://heartatworkonline.org/why-belonging-matters", "evCount": 6, "jobs": 1, "research": "structured_only", "notes": "", "run": "wfr_c546858f04d583ba36fe0a11f8688fd9", "dur": "7\u20138 s", "review": null}, {"name": "VillageMD", "segment": "provider", "domain": "villagemd.com", "linkedin": "https://www.linkedin.com/company/villagemd", "employees": 1644, "industry": "Hospitals and Health Care", "tier": "Review", "fit": 70, "reasons": "org_type:yes; supported_ehr:unknown; specialty:yes; footprint:yes; geography:yes", "missing": "supported_ehr", "orgType": "primary care network", "ehr": "", "ehrSource": "unknown", "ehrUrl": "", "ehrQuote": "", "portal": "athenahealth (patient portal login domain shown in search results; not independently quoted from VillageMD official portal text in the tool output)", "parent": "Walgreens Boots Alliance, Inc.", "parentSource": "structured", "parentUrl": "", "locs": 680, "locsAsOf": "Jan 5, 2023", "locsUrl": "https://www.villagemd.com/news/walgreens-has-200-villagemd-clinics-attached-to-stores-as-doctor-network-takes-off", "evType": "merges_with", "evDate": "2026-04-06", "evSummary": "In 2022, CityMD merged with Village Practice Management Company, LLC (VillageMD).", "evUrl": "https://www.jdsupra.com/legalnews/lessons-in-llc-governance-delaware-s-1954386", "evCount": 1, "jobs": 0, "research": "ai_fallback_used", "notes": "EHR vendor/system: Not explicitly established from available VillageMD official pages reviewed (careers, patient-portal page content, docs2docs video) or the provided official privacy policy PDF. A patient-portal login appears to use athenahealth (portal clue only), but this was not captured in an evidence snippet from the official VillageMD patient-portal/policy pages in the tool output, and it was not verified as the organization\u2019s underlying EHR/practice-management system via an explicit statement.\nParent source: Although your structured data indicates VillageMD\u2019s ultimate parent is Walgreens Boots Alliance, Inc., I did not retrieve a specific ownership/acquisition/filing URL in the remaining evidence collected for this run, so I cannot provide an accompanying supporting quote+URL here.\nLocation count: VillageMD publicly states \u201cmore than 680 locations across the U.S.\u201d in a Jan 5, 2023 news article; I used this as the organization-reported count (no separate \u201cexact\u201d number or \u201cas-of\u201d coverage period beyond the publication date was found in the extracted quote).", "run": "wfr_4064bae6935ab3674b066082057f003c", "dur": "2m 38s", "review": {"cls": "stop", "label": "Not a trigger", "text": "A 2026 legal article about the 2022 CityMD merger. PredictLeads dates it by when the article was found."}}, {"name": "Oak Street Health", "segment": "provider", "domain": "oakstreethealth.com", "linkedin": "https://www.linkedin.com/company/oak-street-health", "employees": 5278, "industry": "Hospitals and Health Care", "tier": "Review", "fit": 70, "reasons": "org_type:yes; supported_ehr:unknown; specialty:yes; footprint:yes; geography:yes", "missing": "supported_ehr", "orgType": "primary care network", "ehr": "Canopy", "ehrSource": "research_with_evidence", "ehrUrl": "https://www.oakstreethealth.com/news/oak-street-health-wins-ehr-innovation-award-in-2021-medtech-breakthrough-awards", "ehrQuote": "\u201cOak Street Health is recognized with the EHR Innovation Award for its proprietary technology platform, Canopy, which helps drive success of the Company\u2019s value-based care model.\u201d", "portal": "", "parent": "Oak Street Health, Inc.", "parentSource": "structured", "parentUrl": "", "locs": 67, "locsAsOf": "As of September 30, 2020", "locsUrl": "https://www.sec.gov/Archives/edgar/data/1564406/000119312521032347/R8.htm", "evType": "", "evDate": "", "evSummary": "", "evUrl": "", "evCount": 0, "jobs": 5, "research": "ai_fallback_used", "notes": "Parent/ultimate owner not re-researched because a structured parent value was already provided in the workflow input; no additional sourcing was performed for ultimate ownership in this run.", "run": "wfr_7153278a63db0a831fd88d97752ebec8", "dur": "59s", "review": {"cls": "review", "label": "None found", "text": "No M&A or expansion events in the last 365 days."}}, {"name": "One Medical", "segment": "provider", "domain": "onemedical.com", "linkedin": "https://www.linkedin.com/company/one-medical-group", "employees": 3353, "industry": "Hospitals and Health Care", "tier": "Review", "fit": 70, "reasons": "org_type:yes; supported_ehr:unknown; specialty:yes; footprint:yes; geography:yes", "missing": "supported_ehr", "orgType": "primary care network", "ehr": "1Life (EHR and charting system)", "ehrSource": "research_with_evidence", "ehrUrl": "https://www.onemedical.com/blog/your-primary-care-experience/technology-one-medical/", "ehrQuote": "\u201c1Life\u2019s heart is an EHR and charting system designed and built alongside clinicians\u2026\u201d", "portal": "", "parent": "Amazon.com, Inc.", "parentSource": "structured", "parentUrl": "https://press.aboutamazon.com/2022/7/amazon-and-one-medical-sign-an-agreement-for-amazon-to-acquire-one-medical", "locs": 107, "locsAsOf": "December 31, 2020", "locsUrl": "https://www.sec.gov/Archives/edgar/data/1404123/000156459021013897/onem-10k_20201231.htm", "evType": "partners_with", "evDate": "2026-06-29", "evSummary": "The momentum of this partnership builds off last year's announcement that Amazon One Medical selected Montefiore as their integrated partner in Manhattan, the Bronx and the Hudson Valley.", "evUrl": "https://westfaironline.com/latest-news/montefiore-einstein-advanced-care-in-westchester-to-include-one-medical-office", "evCount": 4, "jobs": 0, "research": "ai_fallback_used", "notes": "Location count reflects the count One Medical reported in its SEC filing (107 medical offices as of Dec 31, 2020). No more recent official clinic/location total (as of a later date) was found on One Medical\u2019s own locations pages during this research.", "run": "wfr_fa9abc83449c216f3857b10965d1ff6a", "dur": "1m 51s", "review": {"cls": "go", "label": "Relevant", "text": "Montefiore partnership expanding into Westchester (Jun 2026)."}}, {"name": "DaVita Kidney Care", "segment": "provider", "domain": "davita.com", "linkedin": "https://www.linkedin.com/company/davita", "employees": 40424, "industry": "Hospitals and Health Care", "tier": "Review", "fit": 70, "reasons": "org_type:yes; supported_ehr:unknown; specialty:yes; footprint:yes; geography:yes", "missing": "supported_ehr", "orgType": "specialty provider network", "ehr": "Epic", "ehrSource": "research_with_evidence", "ehrUrl": "https://davitaphysiciansolutions.com/ckd-ehr/", "ehrQuote": "\u201cCKD EHR by Epic\u201d and \u201cBuilt in partnership with Epic\u201d (DaVita Physician Solutions CKD EHR).", "portal": "", "parent": "Davita Inc.", "parentSource": "structured", "parentUrl": "https://www.sec.gov/Archives/edgar/data/927066/000092706618000030/dva-123117x10k.htm", "locs": 3166, "locsAsOf": "As of December 31, 2024", "locsUrl": "https://investors.davita.com/2025-02-13-davita-inc-4th-quarter-2024-results/", "evType": "invests_into", "evDate": "2026-09-09", "evSummary": "* New in 2025, the DaVita Giving Foundation made a four-year commitment of $1M to KaBoom!, the national nonprofit that works to create equal access to playspaces.", "evUrl": "https://www.csr-company.com/blog/commitment-helping-communities-thrive-davita-community-care-report-2025", "evCount": 10, "jobs": 4, "research": "ai_fallback_used", "notes": "Portal vendor clue not established from provided evidence. Org type selected as closest match given DaVita Kidney Care runs dialysis (specialty provider network); if this should be modeled differently in your taxonomy, adjust accordingly. EHR evidence is for DaVita Physician Solutions\u2019 \u201cCKD EHR by Epic,\u201d which is part of the DaVita ecosystem; the evidence does not separately name the core dialysis EHR used across all DaVita Kidney Care operations.", "run": "wfr_90230db64e6132c0205439b096c7a1be", "dur": "1m 28s", "review": {"cls": "stop", "label": "Wrong pick", "text": "Picked a $1M charity grant. A value-based-care partnership with Humana (Aug 25 2026, confidence 0.98) was in the same feed."}}, {"name": "LifeStance Health", "segment": "provider", "domain": "lifestance.com", "linkedin": "https://www.linkedin.com/company/lifestance-health", "employees": 5652, "industry": "Hospitals and Health Care", "tier": "Review", "fit": 70, "reasons": "org_type:yes; supported_ehr:unknown; specialty:yes; footprint:yes; geography:yes", "missing": "supported_ehr", "orgType": "specialty provider network", "ehr": "", "ehrSource": "unknown", "ehrUrl": "", "ehrQuote": "", "portal": "AdvancedMD (patientportal.advancedmd.com)", "parent": "LifeStance Health Group, Inc.", "parentSource": "structured", "parentUrl": "https://lifestance.com/", "locs": 550, "locsAsOf": "Not stated (site states \u201cover 550\u201d without a date).", "locsUrl": "https://lifestance.com/location/", "evType": "partners_with", "evDate": "2025-11-14", "evSummary": "Recent research from LifeStance Health in partnership with Researchscape International, conducted in 2025, reveals striking differences that help explain why so many families are struggling to connect across generational lines.", "evUrl": "https://kyma.com/stacker-lifestyle/2025/11/15/how-gen-z-and-gen-x-differences-in-social-media-behavior-contribute-to-parent-child-generational-divide", "evCount": 2, "jobs": 0, "research": "ai_fallback_used", "notes": "EHR/practice-management system: While LifeStance\u2019s patient portal login URLs point to AdvancedMD (patientportal.advancedmd.com), the available official sources found so far only explicitly document the portal brand\u2014not that LifeStance clinicians/practice operations run AdvancedMD as their EHR/practice-management system. No reputable job/investor/press source was found that explicitly names the EHR/practice-management vendor LifeStance runs, so ehr is left unset. (Portal clue only: AdvancedMD.) Location count: LifeStance\u2019s official locations page states \u201cWe have over 550 mental health clinics across 34 states\u2026\u201d but does not provide a precise integer nor an \u201cas of\u201d date; I used 550 as the closest numeric value consistent with \u201cover 550.\u201d", "run": "wfr_a7eb1848f4017e579c5fb7ae016d741b", "dur": "1m 23s", "review": {"cls": "stop", "label": "Not a trigger", "text": "A consumer research survey, labeled as a partnership."}}];
+
+(function(){
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function link(u,t){if(!u)return '';var h=u.split('/')[2]||u;return '<a href="'+esc(u)+'">'+esc(t||h)+'</a>';}
+  var rows=document.getElementById('rows'),det=document.getElementById('detail'),filter='all',sel=DATA.findIndex(function(d){return d.name==='DaVita Kidney Care';});
+  function tag(src){return src==='structured'?'<span class="tag det">structured</span>':src==='research_with_evidence'?'<span class="tag ai">research</span>':src==='conflict'?'<span class="tag warn">conflict</span>':'';}
+  function renderRows(){
+    rows.innerHTML=DATA.map(function(d,i){
+      if(filter!=='all'&&d.segment!==filter)return '';
+      return '<tr class="row" tabindex="0" data-i="'+i+'" aria-selected="'+(i===sel)+'"><td>'+esc(d.name)+'<span class="sub">'+esc(d.segment)+' · '+esc(d.domain)+'</span></td><td class="num">'+d.fit+'</td><td>'+(esc(d.ehr)||'<span class="muted">unknown</span>')+'</td><td class="num">'+(d.locs?Number(d.locs).toLocaleString():'<span class="muted">—</span>')+'</td><td>'+esc(d.parent)+'</td></tr>';
+    }).join('');
+  }
+  function renderDetail(){
+    var d=DATA[sel];if(!d){det.innerHTML='';return;}
+    var h='<span class="eyebrow">'+esc(d.segment)+' · '+esc(d.domain)+'</span><h3>'+esc(d.name)+'</h3>';
+    h+='<div style="display:flex;flex-wrap:wrap;gap:6px"><span class="pill p-review">'+esc(d.tier)+'</span>'+(d.missing?'<span class="pill p-signal">Missing: '+esc(d.missing)+'</span>':'')+'<span class="pill p-acc">'+esc(d.research.replace(/_/g,' '))+'</span></div>';
+    h+='<div class="kv"><div><span>Fit</span><b>'+d.fit+'</b></div><div><span>Locations</span><b>'+(d.locs?Number(d.locs).toLocaleString():'—')+'</b></div><div><span>Run</span><b>'+esc(d.dur)+'</b></div></div>';
+    h+='<div class="fact"><span class="k">EHR</span><span class="v"><span>'+(esc(d.ehr)||'<span class="muted">Not established</span>')+'</span><span>'+tag(d.ehrSource)+' '+link(d.ehrUrl)+'</span>'+(d.ehrQuote?'<span class="muted" style="font-size:13.5px">'+esc(d.ehrQuote)+'</span>':'')+'</span></div>';
+    if(d.portal)h+='<div class="fact"><span class="k">Portal clue</span><span class="v"><span>'+esc(d.portal)+'</span><span class="muted" style="font-size:13px">A clue only, never counted as the EHR</span></span></div>';
+    h+='<div class="fact"><span class="k">Parent</span><span class="v"><span>'+esc(d.parent)+'</span><span>'+tag(d.parentSource)+' '+link(d.parentUrl)+'</span></span></div>';
+    h+='<div class="fact"><span class="k">Locations</span><span class="v"><span>'+(d.locs?Number(d.locs).toLocaleString()+' · '+esc(d.locsAsOf):'<span class="muted">Not researched (payer)</span>')+'</span><span>'+link(d.locsUrl)+'</span></span></div>';
+    h+='<div class="fact"><span class="k">Latest event</span><span class="v">'+(d.evType?'<span><span class="mono">'+esc(d.evDate)+'</span> · '+esc(d.evType.replace(/_/g,' '))+'</span><span class="muted" style="font-size:13.5px">'+esc(d.evSummary)+'</span><span>'+link(d.evUrl)+'</span>':'<span class="muted">None in the last 365 days</span>')+(d.review?'<span><span class="pill '+(d.review.cls==='go'?'p-go':d.review.cls==='stop'?'p-stop':'p-review')+'">'+esc(d.review.label)+'</span> <span class="muted" style="font-size:13.5px">'+esc(d.review.text)+'</span></span>':'')+'</span></div>';
+    h+='<div class="fact"><span class="k">Hiring</span><span class="v"><span>'+d.jobs+' IT / informatics / VBC openings, last 90 days</span></span></div>';
+    h+='<div class="fact"><span class="k">Score</span><span class="v"><span class="mono" style="font-size:12.5px">'+esc(d.reasons)+'</span></span></div>';
+    if(d.notes)h+='<p class="note"><b>Research notes · </b>'+esc(d.notes)+'</p>';
+    h+='<p class="muted mono" style="font-size:11.5px">'+esc(d.run)+'</p>';
+    det.innerHTML=h;
+  }
+  function pick(i){sel=i;renderRows();renderDetail();}
+  rows.addEventListener('click',function(ev){var tr=ev.target.closest('tr.row');if(tr&&!ev.target.closest('a'))pick(+tr.dataset.i);});
+  rows.addEventListener('keydown',function(ev){if(ev.key==='Enter'||ev.key===' '){var tr=ev.target.closest('tr.row');if(tr){ev.preventDefault();pick(+tr.dataset.i);}}});
+  document.querySelectorAll('.seg button').forEach(function(b){b.addEventListener('click',function(){filter=b.dataset.f;document.querySelectorAll('.seg button').forEach(function(x){x.setAttribute('aria-pressed',String(x===b));});
+    if(filter!=='all'&&DATA[sel].segment!==filter){sel=DATA.findIndex(function(d){return d.segment===filter;});}renderRows();renderDetail();});});
+  renderRows();renderDetail();
+})();
+</script>

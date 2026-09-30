@@ -1,0 +1,160 @@
+<title>Vim POC Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: one 1080px reading column; stat bands and card grids break it; tables scroll in their own frames.
+   Series system carried over from the Fetch POC pages, re-keyed to a clinical blue for Vim. */
+:root{
+  --ground:#F2F4F8; --panel:#FFFFFF; --panel-2:#E8ECF3; --ink:#141B2B; --muted:#546079; --faint:#7C879C;
+  --line:#D7DDE8; --line-2:#C0C9D8;
+  --accent:#2447A0; --accent-soft:#E0E7F7;
+  --signal:#A8650A; --signal-soft:#F8EBD6;
+  --go:#1F7A45; --go-soft:#DFF1E6;
+  --review:#6A4FA3; --review-soft:#ECE6F7;
+  --stop:#A63A2C; --stop-soft:#F8E4E0;
+  --paper:#FFFFFF; --perf:#C0C9D8;
+  --shadow:0 12px 32px rgba(20,27,43,.08);
+  --display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --sans:"IBM Plex Sans",-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ color-scheme:dark;
+  --ground:#0C101A; --panel:#141A27; --panel-2:#1A2233; --ink:#E3E8F2; --muted:#9AA5BC; --faint:#6E7A92;
+  --line:#262F42; --line-2:#344056;
+  --accent:#8AA8F0; --accent-soft:#1A2644;
+  --signal:#E6A94E; --signal-soft:#3A2B14;
+  --go:#6BCB93; --go-soft:#15332A;
+  --review:#B9A0F0; --review-soft:#29223F;
+  --stop:#EE8E82; --stop-soft:#3B1C18;
+  --paper:#171E2C; --perf:#344056;
+  --shadow:0 12px 32px rgba(0,0,0,.45); } }
+:root[data-theme="dark"]{ color-scheme:dark;
+  --ground:#0C101A; --panel:#141A27; --panel-2:#1A2233; --ink:#E3E8F2; --muted:#9AA5BC; --faint:#6E7A92;
+  --line:#262F42; --line-2:#344056;
+  --accent:#8AA8F0; --accent-soft:#1A2644;
+  --signal:#E6A94E; --signal-soft:#3A2B14;
+  --go:#6BCB93; --go-soft:#15332A;
+  --review:#B9A0F0; --review-soft:#29223F;
+  --stop:#EE8E82; --stop-soft:#3B1C18;
+  --paper:#171E2C; --perf:#344056;
+  --shadow:0 12px 32px rgba(0,0,0,.45); }
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font:16px/1.58 var(--sans);margin:0;padding-inline:20px;padding-block:0;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding-block:28px 72px}
+h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing:-.01em}
+h1{font-size:clamp(32px,5.4vw,56px);font-weight:850;font-stretch:108%;line-height:1.03}
+h2{font-size:clamp(24px,3.2vw,34px);font-weight:800;font-stretch:104%;line-height:1.1}
+h3{font-size:17px;font-weight:700;line-height:1.3}
+p{margin:0}
+a{color:var(--accent);text-underline-offset:2px;text-decoration-thickness:1px;overflow-wrap:anywhere}
+strong,b{font-weight:600}
+.eyebrow{font:600 11.5px/1.2 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.eyebrow.acc{color:var(--accent)}
+.lede{font-size:clamp(17px,1.7vw,19px);color:var(--muted);max-width:64ch}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+section{padding-top:52px}
+.sec-head{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.sec-head p{color:var(--muted);max-width:68ch}
+.series{display:flex;flex-wrap:wrap;align-items:center;gap:6px 4px;padding:10px 0 18px;border-bottom:1px solid var(--line);margin-bottom:34px}
+.series .brand{font:600 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-right:12px}
+.series a,.series span.cur{font:500 13.5px var(--sans);padding:6px 11px;border-radius:6px;text-decoration:none;color:var(--muted)}
+.series a:hover{background:var(--panel-2);color:var(--ink)}
+.series span.cur{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.pill{display:inline-flex;align-items:center;gap:6px;font:600 11.5px/1 var(--mono);letter-spacing:.04em;padding:5px 9px;border-radius:99px;white-space:nowrap}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.p-go{color:var(--go);background:var(--go-soft)} .p-signal{color:var(--signal);background:var(--signal-soft)}
+.p-review{color:var(--review);background:var(--review-soft)} .p-stop{color:var(--stop);background:var(--stop-soft)}
+.p-acc{color:var(--accent);background:var(--accent-soft)}
+.tag{display:inline-block;font:500 11.5px/1.2 var(--mono);padding:5px 8px;border-radius:5px;background:var(--panel-2);color:var(--muted)}
+.tag.ai{background:var(--review-soft);color:var(--review)}
+.tag.det{background:var(--accent-soft);color:var(--accent)}
+.tag.warn{background:var(--signal-soft);color:var(--signal)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.stat{background:var(--panel);padding:20px 20px 18px;display:flex;flex-direction:column;gap:6px}
+.stat .n{font:800 clamp(34px,4.4vw,46px)/1 var(--display);font-stretch:112%;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.stat .l{font-size:14.5px;color:var(--muted);line-height:1.4}
+.stat .n small{font-size:.45em;color:var(--faint);font-weight:700;margin-left:4px}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;min-width:560px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;font-size:14.5px}
+th{font:600 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--faint);background:var(--panel-2)}
+td.num,th.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+tbody tr:last-child td{border-bottom:none}
+tfoot td{font-weight:600;border-top:2px solid var(--line-2);border-bottom:none}
+.callout{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--signal);border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:6px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.grid2>*{min-width:0}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:flex;flex-direction:column;gap:10px}
+.fact{display:grid;grid-template-columns:130px minmax(0,1fr);gap:10px;padding:9px 0;border-top:1px solid var(--line);font-size:14.5px}
+.fact:first-of-type{border-top:none}
+.fact .k{font:600 11.5px/1.5 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+.fact .v{display:flex;flex-direction:column;gap:4px;min-width:0}
+.brief{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px}
+footer{margin-top:64px;padding-top:18px;border-top:1px solid var(--line);font:12px/1.7 var(--mono);color:var(--faint)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:520px){.fact{grid-template-columns:1fr;gap:2px}}
+
+
+.hero{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(260px,.8fr);gap:28px;align-items:end}
+@media (max-width:820px){.hero{grid-template-columns:1fr}}
+.hero .lede{margin-top:14px}
+.flow{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:flex;flex-direction:column;gap:10px}
+.flow .step{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:baseline;font-size:14.5px}
+.flow .step span{font:700 12px var(--mono);color:var(--accent)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px 20px 18px;display:flex;flex-direction:column;gap:10px;text-decoration:none;color:var(--ink);transition:border-color .15s,transform .15s}
+a.card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.card .k{font:600 11.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.card h3{font-size:21px;font-weight:800;font-stretch:106%}
+.card p{font-size:15px;color:var(--muted)}
+.card .for{font:12.5px var(--mono);color:var(--faint);margin-top:auto;padding-top:6px}
+.card .go{font:600 14px var(--sans);color:var(--accent)}
+.three{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px}
+.three div{display:flex;flex-direction:column;gap:8px}
+.three p{font-size:15px;color:var(--muted)}
+
+</style>
+<div class="wrap"><nav class="series" aria-label="POC pages"><span class="brand">Clay × Vim</span><span class="cur" aria-current="page">POC Hub</span><a href="https://claude.ai/artifact/4z19D6Ln3xgivEGVjqkpMt">Executive Brief</a><a href="https://claude.ai/artifact/XcTyt6TSQGF8BTyGqk5xtc">The Engine</a><a href="https://claude.ai/artifact/7Mo9xtpGjzDeLQ3E4c2qpU">DaVita Dossier</a><a href="https://claude.ai/artifact/8xvbhD7AFYbNVET8KGZeHw">Account Reference</a></nav>
+
+<header class="hero">
+  <div>
+    <p class="eyebrow acc">Clay × Vim · proof of concept</p>
+    <h1>Find the provider groups Vim can serve, and know what changed</h1>
+    <p class="lede">We built Vim's provider account engine in Clay and ran ten real organizations through it: five payers and the five provider groups Vim's ICP is modeled on. Every value it kept has a source. This page links everything it produced.</p>
+  </div>
+  <aside class="flow" aria-label="What the engine does">
+    <p class="eyebrow">The engine, in order</p>
+    <div class="step"><span>A</span><p>Pin each account to one company, even on shared domains</p></div>
+    <div class="step"><span>B</span><p>Pull company, tech stack, parent, news and hiring from Clay's catalog</p></div>
+    <div class="step"><span>C</span><p>Extract EHR, parent and M&amp;A evidence with plain rules</p></div>
+    <div class="step"><span>D</span><p>Send only providers with a gap to research</p></div>
+    <div class="step"><span>E</span><p>Research only the missing fields, with a source for each</p></div>
+    <div class="step"><span>F</span><p>Reconcile, score and tier by rules, then write the why-now</p></div>
+  </aside>
+</header>
+
+<section>
+  <div class="stats">
+    <div class="stat"><span class="n">10<small>/ 10</small></span><span class="l">accounts processed end to end, each pinned to the right company</span></div>
+    <div class="stat"><span class="n">3<small>/ 5</small></span><span class="l">providers with an EHR backed by a source. Web tech data found none; research found all three</span></div>
+    <div class="stat"><span class="n">7.5<small>credits</small></span><span class="l">data credits per provider account, plus 5–6 actions; payers cost 6.5</span></div>
+    <div class="stat"><span class="n">0<small>/ 10</small></span><span class="l">accounts tiered. All wait on Vim's supported-EHR list and a payer scorecard</span></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><p class="eyebrow">Four pages</p><h2>Start with the one that fits who's reading</h2></div>
+  <div class="cards"><a class="card" href="https://claude.ai/artifact/4z19D6Ln3xgivEGVjqkpMt"><span class="k">Executive Brief</span><h3>What it proved, and what's still open</h3><p>Five claims marked proven, partly proven or not yet, an editable cost model, the pilot metrics to hold it to, and four decisions for Vim.</p><span class="for">For Raveed, Daryl and Vim leadership · 5 minutes</span><span class="go">Open →</span></a><a class="card" href="https://claude.ai/artifact/XcTyt6TSQGF8BTyGqk5xtc"><span class="k">The Engine</span><h3>How the workflow works</h3><p>Six stages and ten steps, what each one saw on the ten accounts, the bugs the test caught, the scoring rules, and what's left to connect.</p><span class="for">For RevOps and whoever runs it</span><span class="go">Open →</span></a><a class="card" href="https://claude.ai/artifact/7Mo9xtpGjzDeLQ3E4c2qpU"><span class="k">DaVita Dossier</span><h3>One provider record, end to end</h3><p>Footprint, EHR evidence, parent, dated signals and hiring, the flags a rep should see, and the record as structured data.</p><span class="for">For the provider sellers</span><span class="go">Open →</span></a><a class="card" href="https://claude.ai/artifact/8xvbhD7AFYbNVET8KGZeHw"><span class="k">Account Reference</span><h3>All ten accounts, side by side</h3><p>Filter payers and providers, open any account to see every value with its source, and see what production changes.</p><span class="for">For anyone checking the data</span><span class="go">Open →</span></a></div>
+</section>
+
+<section>
+  <div class="sec-head"><p class="eyebrow">What we learned</p><h2>Three things worth knowing</h2></div>
+  <div class="three">
+    <div><h3>EHR isn't in web tech data</h3><p>HG Insights returned 146 website technologies for UnitedHealthcare alone, and no clinical system for any of the ten. The EHR answers came from each organization's own pages, SEC filings and job posts, found by a research step that only ran where the gap existed.</p></div>
+    <div><h3>A count is only as good as its date</h3><p>Oak Street's 67 locations and One Medical's 107 come from 2020 SEC filings. The engine kept the date beside each count, which is how we caught it. Production needs a freshness rule and a structured footprint source.</p></div>
+    <div><h3>Signals need a stricter filter</h3><p>DaVita's news feed held a value-based-care partnership with Humana, one of the other nine accounts. The engine surfaced a charity grant instead, because it picked the newest item. Ranking by category and confidence fixes that.</p></div>
+  </div>
+</section>
+
+<footer>Prepared by Clay for Vim · Sep 30 2026 · Ten accounts run through workflow wf_0tm72qo2fw4Z5DAGxGn in the Clay Demos (GTM) workspace · Measured figures come from the run log; anything marked &#x27;example&#x27; is an editable assumption, not a Vim number · Clinical and ICP criteria are placeholders until Vim confirms them</footer></div>
