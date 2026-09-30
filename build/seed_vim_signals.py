@@ -1,0 +1,210 @@
+# -*- coding: utf-8 -*-
+"""Seed the healthcare enterprise signal dictionary (POC Build 2, second half).
+
+This is a dictionary, not a detection log - it says what to watch, where it shows
+up, how Clay picks it up, which seat owns it, and the false positive that makes it
+worthless if you fire on it blind. The false-positive column is the load-bearing
+one: every signal here has a way of looking real when it is not.
+
+Field order in ROWS:
+ 0  signal
+ 1  category      Hiring | Technology | Partnership | M&A | Regulatory | Program | Engagement | Risk
+ 2  priority      Critical | High | Medium | Low
+ 3  where_it_appears
+ 4  detection_method     the Clay-side mechanism
+ 5  owning_function      the committee seat this routes to
+ 6  refresh              how often it is worth re-checking
+ 7  why_it_matters
+ 8  false_positive_warning
+"""
+import csv, json, os
+from collections import Counter
+
+BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+OUT = os.path.join(BASE, "data")
+
+ROWS = [
+    ("New CIO or CDIO appointed", "Hiring", "Critical",
+     "Press release, LinkedIn job change, system newsroom",
+     "Job-change tracking on committee contacts + monthly re-enrichment of the CIO seat",
+     "CIO / IT", "Weekly",
+     "A new CIO re-opens every vendor decision in the first two quarters and is measured on "
+     "doing something visible. It is the only signal that reliably resets a lost deal.",
+     "Interim appointments and title inflation. An 'interim CIO' promoted from inside changes "
+     "nothing; check tenure and whether the predecessor's projects are still funded."),
+
+    ("New VP or Chief of Population Health / VBC", "Hiring", "Critical",
+     "LinkedIn, newsroom, VBC trade press",
+     "Job-change tracking + Clay contact search on the VBC and population-health functions",
+     "Value-based care", "Weekly",
+     "This hire is how a system announces it is taking on risk. The seat arrives with a mandate "
+     "and usually with budget, and referral leakage is the first number they are handed.",
+     "Backfills. A replacement for a departing VP inherits a roadmap rather than writing one - "
+     "compare against the predecessor's exit date."),
+
+    ("EHR migration announced (Cerner or MEDITECH to Epic)", "Technology", "Critical",
+     "Board minutes, local business press, Epic community news, RFP portals",
+     "Claygent on the newsroom and board-minutes pages + tech-stack enrichment diffed month over month",
+     "Clinical transformation", "Monthly",
+     "The migration window is the only period when integration budget is uncontested and every "
+     "interface is being rebuilt anyway. Arriving after go-live means waiting three years.",
+     "Evaluation is not selection, and selection is not a signed contract. 'Exploring options' "
+     "language means no budget yet. Confirm a named go-live date before treating it as Critical."),
+
+    ("Epic Community Connect expansion to affiliates", "Technology", "High",
+     "System newsroom, affiliate practice announcements",
+     "Claygent on the newsroom + tech-stack enrichment on affiliated practice domains",
+     "CIO / IT", "Monthly",
+     "Extends one EHR instance across organizations that do not share an owner, which is exactly "
+     "the boundary where referral data breaks.",
+     "Often announced once and rolled out over years. Check how many affiliates actually went live."),
+
+    ("New value-based or full-risk contract with a payer", "Partnership", "Critical",
+     "Joint press release, payer newsroom, investor call transcript",
+     "Claygent on both sides' newsrooms, cross-checked against the counterparties column",
+     "Value-based care", "Weekly",
+     "Downside risk changes what leakage costs from a reporting line to a loss. This is the "
+     "single clearest 'why now' in the healthcare motion.",
+     "Renewals dressed as new deals. If the same two parties announced a contract two years ago, "
+     "this may be a rate change with a press release."),
+
+    ("Payer-provider partnership or joint venture announced", "Partnership", "High",
+     "Joint press release, state DOI filings, trade press",
+     "Claygent on the newsroom + relationship graph across the account universe",
+     "Partnerships", "Weekly",
+     "Two accounts in the universe becoming one buying conversation. Also the fastest way to find "
+     "a warm path into the second one.",
+     "Letters of intent and pilot announcements collapse frequently. Look for a named entity or "
+     "a regulatory filing, not an MOU."),
+
+    ("Health system acquires a provider group or hospital", "M&A", "Critical",
+     "FTC/HSR filings, state AG review, local press, acquirer newsroom",
+     "Claygent on filings and newsroom + hierarchy re-resolution on the acquired domain",
+     "Clinical transformation", "Weekly",
+     "Creates a funded integration mandate and, usually, a second EHR. It is also the only reliable "
+     "way to learn that a CRM record's parent changed - HubSpot will never tell you.",
+     "Announced deals fail state review, and closing can be 12-18 months out. Reparent the CRM "
+     "record on close, not on announcement."),
+
+    ("Payer enters a new state or files new MA counties", "M&A", "High",
+     "CMS plan filings, state DOI filings, plan newsroom",
+     "Claygent on CMS and DOI filing pages, re-run before each plan year",
+     "Network & contracting", "Quarterly",
+     "A new county needs an adequate network built from nothing, on a regulatory deadline. Network "
+     "adequacy is the buying trigger and the date is not negotiable.",
+     "Filings get withdrawn, and service-area expansions can be paper-thin. Check the filing status, "
+     "not just its existence."),
+
+    ("ACO REACH / MSSP participation change", "Regulatory", "High",
+     "CMS public participant lists, ACO newsroom",
+     "Structured pull from the CMS participant list, diffed each performance year",
+     "Value-based care", "Quarterly",
+     "Entering or moving up a risk track is a declared change in economics. Exiting is a churn "
+     "signal you want to see before renewal, not after.",
+     "Track changes within a model are easy to misread as entries. Compare participant IDs across "
+     "years rather than names."),
+
+    ("Prior-authorization automation initiative (CMS-0057)", "Regulatory", "High",
+     "Payer newsroom, conference talks, integration engineer job posts",
+     "Claygent on the newsroom + job-posting keyword search on FHIR and prior-auth terms",
+     "CIO / IT", "Monthly",
+     "A compliance deadline with a named owner and an allocated budget. The API work overlaps "
+     "directly with provider-data accuracy.",
+     "Nearly every payer will claim a programme. Look for named staffing or a vendor selection "
+     "before treating it as real."),
+
+    ("TEFCA / QHIN participation or HIE expansion", "Regulatory", "Medium",
+     "ONC and QHIN participant directories, system newsroom",
+     "Structured pull from the participant directory, diffed quarterly",
+     "CIO / IT", "Quarterly",
+     "Shows an organization has decided interoperability is strategic rather than a compliance chore, "
+     "and that someone owns it.",
+     "Participation is often nominal. Membership alone says nothing about data actually flowing."),
+
+    ("Referral leakage or network integrity programme launched", "Program", "Critical",
+     "Job postings, internal programme names in conference abstracts, RFPs",
+     "Job-posting keyword search ('referral leakage', 'network integrity', 'keepage') + Claygent on RFP portals",
+     "Population health", "Weekly",
+     "The prospect has named the problem in public and staffed it. There is nothing left to convince "
+     "them of except the approach.",
+     "The phrase appears in stale job descriptions that get reposted for years. Check the posting date "
+     "and whether the role was filled."),
+
+    ("Hiring interoperability or integration engineers", "Hiring", "High",
+     "Careers page, LinkedIn Jobs, Indeed",
+     "Job-posting enrichment with a keyword filter on HL7, FHIR, Redox, interface and integration",
+     "CIO / IT", "Weekly",
+     "Build-vs-buy is being decided right now. Two or more open integration roles means the "
+     "in-house option is live and the conversation is time-boxed.",
+     "Staffing agencies repost the same requisition across boards, inflating the count. Dedupe on "
+     "the requisition, and ignore anything over 90 days old."),
+
+    ("Provider directory accuracy or No Surprises Act exposure", "Risk", "High",
+     "CMS audit findings, state penalties, class actions, local press",
+     "Claygent on enforcement and penalty pages, keyed to the payer's legal name",
+     "Network & contracting", "Quarterly",
+     "A published finding converts directory accuracy from a hygiene project into a remediation "
+     "project with a deadline and an executive sponsor.",
+     "Industry-wide findings name dozens of plans at once and mean nothing about this one. Confirm "
+     "the entity, not the sector."),
+
+    ("Digital front door / patient access programme", "Program", "Medium",
+     "Newsroom, conference sessions, vendor case studies",
+     "Claygent on the newsroom + job-posting search on the digital-access function",
+     "Digital health", "Monthly",
+     "Access programmes surface referral and scheduling breakage to executives, which is where the "
+     "budget conversation starts.",
+     "Frequently a marketing initiative with no systems budget behind it. Look for a named product "
+     "owner and an IT co-sponsor."),
+
+    ("Champion departure", "Risk", "Critical",
+     "LinkedIn job change on a committee contact",
+     "Job-change monitoring on every contact with role_in_deal = Champion",
+     "Partnerships", "Weekly",
+     "A champion leaving is the highest-value negative signal there is, and it is also an opening: "
+     "they are now a warm contact at a new account.",
+     "LinkedIn title edits and internal moves read as departures. Confirm the company changed, not "
+     "just the title."),
+
+    ("Account engagement spike", "Engagement", "High",
+     "HubSpot: email opens and clicks, pricing and docs page visits, form fills",
+     "HubSpot activity synced into the Audience and scored against the committee, not the company",
+     "Product", "Daily",
+     "The only signal that is already inside the CRM. Its value is as a multiplier: an external "
+     "signal plus engagement from the right seat is a different priority to either alone.",
+     "Attributed to whoever happens to be on the record. Engagement from a resident or a recruiter "
+     "at a 5,000-provider system is noise - weight by role_in_deal."),
+
+    ("Stalled after engagement", "Engagement", "Medium",
+     "HubSpot: last activity date against deal stage",
+     "Derived in the Audience - engagement 30+ days old with no meeting booked",
+     "Product", "Weekly",
+     "Distinguishes 'never interested' from 'interested and dropped'. The second group is the "
+     "cheapest audience to re-reach and the easiest to mis-file as dead.",
+     "Deal-stage hygiene is the weak link. A stage that has not moved in 30 days often means nobody "
+     "updated it, not that the buyer went quiet."),
+]
+
+COLS = ["signal", "category", "priority", "where_it_appears", "detection_method",
+        "owning_function", "refresh", "why_it_matters", "false_positive_warning"]
+
+records = [dict(zip(COLS, r)) for r in ROWS]
+
+FUNCTIONS = {"CIO / IT", "Value-based care", "Population health", "Digital health",
+             "Clinical transformation", "Partnerships", "Product", "Network & contracting"}
+for r in records:
+    assert r["owning_function"] in FUNCTIONS, f"unknown owning_function: {r['owning_function']}"
+    assert r["false_positive_warning"], f"{r['signal']} has no false-positive warning"
+assert len({r["signal"] for r in records}) == len(records), "duplicate signal name"
+
+os.makedirs(OUT, exist_ok=True)
+with open(os.path.join(OUT, "vim_signals.csv"), "w", newline="", encoding="utf-8") as f:
+    w = csv.DictWriter(f, fieldnames=COLS)
+    w.writeheader()
+    w.writerows(records)
+json.dump(records, open(os.path.join(OUT, "vim_signals.json"), "w", encoding="utf-8"),
+          ensure_ascii=False, indent=1)
+
+print(f"vim_signals: {len(records)} signals")
+print("  by priority: " + ", ".join(f"{k} {v}" for k, v in Counter(r["priority"] for r in records).items()))
+print("  by category: " + ", ".join(f"{k} {v}" for k, v in Counter(r["category"] for r in records).most_common()))

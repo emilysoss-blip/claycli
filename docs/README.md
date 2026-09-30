@@ -114,3 +114,12 @@ made the table look more finished and been worse — Claygent resolves them at r
   specified; running 50 rows costs credits and should follow the 5-row validation.
 - **No contacts sourced.** `buying_centers.csv` carries target titles per role, which is the
   input to contact search, not its output.
+
+---
+
+## Also in this repo
+
+[`docs/vim-poc.md`](vim-poc.md) — the **Vim Enterprise GTM Engine** POC: three connected
+builds (account universe and CRM cleanup, buying committees and signals, dynamic ad
+audiences), with a sample-data account universe, a stage-by-stage Clay spec in
+`clay/vim/`, and a browsable view at `vim-enterprise-gtm-engine.html`.
