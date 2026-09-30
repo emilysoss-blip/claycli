@@ -101,7 +101,7 @@ def handler(context):
         why += f" {jobs} digital/IT/VBC openings in the last 90 days."
 
     out.update({"ehr_vendor_final": ehr, "ehr_source": ehr_src, "parent_final": parent, "parent_source": parent_src,
-                "location_count_final": _num(locs) if locs is not None else None, "org_type_final": org_type,
+                "location_count_final": str(_num(locs)) if _num(locs) is not None else "", "org_type_final": org_type,
                 "research_status": "needs_review" if "conflict" in (ehr_src, parent_src) else
                                    ("ai_fallback_used" if g("cg_uncertainty_notes") is not None else "structured_only"),
                 "why_now": why})
@@ -136,7 +136,7 @@ def _self_test():
                           "specialty": "primary care", "company_name": "Oak Street Health", "ehr_vendor": "Epic",
                           "cg_ehr_vendor": "athenahealth", "cg_ehr_source_url": "https://x", "cg_org_type": "primary care network",
                           "cg_location_count": 230, "cg_location_source_url": "https://y", "cg_uncertainty_notes": ""}))
-        assert h["fit_tier"] == "Review" and h["research_status"] == "needs_review" and h["location_count_final"] == 230
+        assert h["fit_tier"] == "Review" and h["research_status"] == "needs_review" and h["location_count_final"] == "230"
     finally:
         SUPPORTED_EHRS = saved
     assert score({**base, "ehr_vendor": "epic"})["fit_tier"] == "Review"

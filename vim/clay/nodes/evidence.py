@@ -50,7 +50,10 @@ def handler(context):
     companies = g("hg_companies") or []
     companies = companies if isinstance(companies, list) else []
     sel = next((c for c in companies if c.get("selected")), companies[0] if companies else {})
-    parent = sel.get("global_hq_name") or sel.get("corporate_parent_name") or ""
+    tree = g("hg_hierarchy") or {}
+    tree = tree if isinstance(tree, dict) else {}
+    # HG returns the full tree; its root is the ultimate parent.
+    parent = sel.get("global_hq_name") or sel.get("corporate_parent_name") or tree.get("name") or ""
     own = (context.get_input("company_name") or "").strip()
     parent_status = "self" if parent and parent.lower() == own.lower() else ("structured" if parent else "unknown")
 

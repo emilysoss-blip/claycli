@@ -46,7 +46,7 @@
     },
     "limit": {
      "type": "static",
-     "value": 25
+     "value": 10
     }
    }
   }
