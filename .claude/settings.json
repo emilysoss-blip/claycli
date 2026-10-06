@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bash */agent-plugins/clay/scripts/check-cli.sh:*)",
+      "Bash(bash */agent-plugins/clay/scripts/install-cli.sh:*)",
+      "Bash(clay:*)",
+      "Bash(~/.local/bin/clay:*)",
+      "Bash(/root/.local/bin/clay:*)"
+    ]
+  }
+}
