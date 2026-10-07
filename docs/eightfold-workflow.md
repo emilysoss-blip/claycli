@@ -86,3 +86,29 @@ charges per install record returned).
   Lockton and Nike). Re-testing it needs a run approval.
 - **Customer status is unknown for every seed row.** Without Eightfold's Salesforce export, the
   exclusion gate cannot remove existing customers.
+
+## Signal and rep alert (added)
+
+- **Segment:** `Eightfold | Top ICP accounts (POC)` (`audseg_0tmigtsRvA2YjNUizP5`). It matches
+  the 25 seed domains on normalized domain. It holds 87 company records because other demos in this
+  shared workspace loaded the same companies more than once.
+- **Signal:** `Eightfold | New talent leader at top ICP accounts` (`td_0tmigu3Zp9PA9ckuijp`,
+  watch `sig_0tmigu3a2g4vXG2v3uC`). NewHire, weekly, 3-month historical lookback, title keywords for HR,
+  people, TA, talent intelligence, people analytics and HR technology at director level and above,
+  US only. Config: `clay/eightfold/new-talent-leader-signal.json`.
+  **Created Paused.** NewHire is charged per record checked on every run (87 records × weekly).
+- **Workflow:** [Eightfold | New talent leader → rep alert](https://app.clay.com/workspaces/91642/terracotta/tc-workflows/wf_0tmigupEDJ4uhZxupRX)
+  (`wf_0tmigupEDJ4uhZxupRX`), triggered by that signal (`audience_signal`). Draft, not published.
+
+```mermaid
+flowchart TD
+    n0(["Signal: new talent leader"]) --> n1[["Read new-hire event"]] --> n2{"Senior talent leader?"}
+    n2 -->|yes| n3("Work Email Waterfall (Clay)") --> n4("Open roles, last 30 days (Clay)")
+    n4 --> n5("HR tech stack (HG Insights)") --> n6[["Build rep alert and email draft"]]
+    n6 -.-> n7["Send to rep (Slack), channel not chosen yet"]
+```
+
+The persona check stops non-HR hires and initial-baseline events before any paid step runs.
+Code: `clay/eightfold/signal_event.py` and `clay/eightfold/rep_alert.py`.
+
+Emails for the five leaders found in the test batch: `docs/eightfold-signal-emails.md`.

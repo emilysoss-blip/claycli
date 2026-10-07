@@ -1,0 +1,16 @@
+{
+  "entityType": "ACCOUNT",
+  "segmentIds": ["audseg_0tmigtsRvA2YjNUizP5"],
+  "lookBackTimeWindowInMonths": 3,
+  "filters": {
+    "start_from_method": "query",
+    "job_title_keywords": ["Chief Human Resources Officer", "Chief People Officer", "CHRO", "Chief Talent Officer",
+                           "Human Resources", "People", "Talent Acquisition", "Talent Intelligence", "People Analytics",
+                           "Recruiting", "HR Technology"],
+    "job_title_mode": "smart",
+    "job_title_seniority_levels_v2": ["c-suite", "vp", "head", "director"],
+    "job_title_seniority_match_mode": "exact",
+    "locations": ["United States"],
+    "limit_per_company": 10
+  }
+}
