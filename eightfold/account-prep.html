@@ -1,0 +1,388 @@
+<title>Eightfold Account Prep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column; a summary strip, a caveat list, then one section per account, then the shared agent. */
+:root {
+  --bg: #f4f6f9;
+  --surface: #ffffff;
+  --ink: #17202b;
+  --muted: #5a6676;
+  --line: #dde2ea;
+  --accent: #2752c9;
+  --accent-soft: #e7edfb;
+  --ok: #1d7448;
+  --ok-soft: #e3f2e9;
+  --warn: #8f5500;
+  --warn-soft: #fbefd9;
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Public Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f141b; --surface: #161d27; --ink: #e5eaf1; --muted: #9ba7b7; --line: #283244;
+    --accent: #84a6ff; --accent-soft: #1b2744; --ok: #63c895; --ok-soft: #13301f;
+    --warn: #e8b55e; --warn-soft: #33270f; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f141b; --surface: #161d27; --ink: #e5eaf1; --muted: #9ba7b7; --line: #283244;
+  --accent: #84a6ff; --accent-soft: #1b2744; --ok: #63c895; --ok-soft: #13301f;
+  --warn: #e8b55e; --warn-soft: #33270f; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 15px; line-height: 1.55;
+}
+.wrap { max-width: 920px; margin: 0 auto; padding-inline: 20px; padding-block: 32px 64px; display: grid; gap: 40px; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.15; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(1.8rem, 4.5vw, 2.5rem); font-weight: 700; letter-spacing: -0.01em; }
+h2 { font-size: 1.45rem; font-weight: 700; }
+h3 { font-size: 0.78rem; font-family: var(--font-body); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+p { margin: 0; max-width: 68ch; }
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+code, .mono { font-family: var(--font-mono); font-size: 0.86em; }
+
+header { display: grid; gap: 10px; }
+.eyebrow { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); }
+.sub { color: var(--muted); }
+
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+.stat { padding: 14px 16px; display: grid; gap: 2px; min-width: 0; }
+.stat + .stat { border-left: 1px solid var(--line); }
+.stat b { font-family: var(--font-display); font-size: 1.7rem; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.stat span { color: var(--muted); font-size: 0.85rem; }
+@media (max-width: 640px) {
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat:nth-child(3) { border-left: 0; }
+  .stat:nth-child(n+3) { border-top: 1px solid var(--line); }
+}
+
+.caveats { display: grid; gap: 12px; }
+.caveat { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: start; }
+.caveat .tag { margin-top: 2px; }
+.caveat p { min-width: 0; }
+
+.tag { display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+.tag.ok { background: var(--ok-soft); color: var(--ok); }
+.tag.warn { background: var(--warn-soft); color: var(--warn); }
+.tag.info { background: var(--accent-soft); color: var(--accent); }
+
+nav.jump { display: flex; flex-wrap: wrap; gap: 8px; }
+nav.jump a { text-decoration: none; font-weight: 600; font-size: 0.9rem; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink); }
+nav.jump a:hover { border-color: var(--accent); color: var(--accent); }
+
+.account { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 24px; display: grid; gap: 20px; scroll-margin-top: 16px; }
+.account-head { display: grid; gap: 6px; }
+.facts { color: var(--muted); font-size: 0.88rem; }
+
+.leaders { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.9rem; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 700; }
+td.when { font-variant-numeric: tabular-nums; white-space: nowrap; }
+td .tag + .tag { margin-left: 4px; }
+
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 28px; }
+@media (max-width: 680px) { .grid2 { grid-template-columns: minmax(0, 1fr); } }
+.block { display: grid; gap: 6px; min-width: 0; }
+.block.wide { grid-column: 1 / -1; }
+
+.quote { display: grid; gap: 10px; border-left: 3px solid var(--accent); padding: 4px 0 4px 14px; }
+.quote p { font-style: italic; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+button.copy {
+  font: 600 0.8rem var(--font-body); color: var(--accent); background: var(--accent-soft);
+  border: 0; border-radius: 6px; padding: 5px 10px; cursor: pointer;
+}
+button.copy:hover { filter: brightness(0.97); }
+.risk { background: var(--warn-soft); border-radius: 8px; padding: 12px 14px; display: grid; gap: 4px; }
+.risk h3 { color: var(--warn); }
+
+.agent { display: grid; gap: 20px; }
+pre { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; overflow-x: auto; font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.6; white-space: pre; }
+.steps { margin: 0; padding-left: 20px; display: grid; gap: 6px; max-width: 72ch; }
+.tasks td:first-child { font-family: var(--font-mono); font-size: 0.82rem; white-space: nowrap; }
+.foot { color: var(--muted); font-size: 0.85rem; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">New HR Leader Signal · Oct 7 call</div>
+    <h1>Eightfold account prep</h1>
+    <p class="sub">Four accounts behind the six qualified rows, for the call with Emi Witt, Yash Garg and Sue Ostaszewski. Everything here came back from Clay this morning. Source links are the ones Clay's research cited, so check a figure before you quote it.</p>
+  </header>
+
+  <section class="stats" aria-label="Summary">
+    <div class="stat"><b>4</b><span>accounts</span></div>
+    <div class="stat"><b>6</b><span>new HR and TA leaders, all confirmed in Clay</span></div>
+    <div class="stat"><b>3 of 6</b><span>hold an exact step-3 title</span></div>
+    <div class="stat"><b>0</b><span>accounts with public evidence of Eightfold</span></div>
+  </section>
+
+  <section class="caveats" aria-labelledby="before">
+    <h2 id="before">Before you present</h2>
+    <div class="caveat"><span class="tag warn">Title gate</span><p>The signal is defined on CHRO, Chief People Officer, Head of Talent Intelligence and Head of Talent Acquisition. Raynee Meyer, Amy Richman and Jonathan Collett match. Julie Moura, Amy Lee Sewell and Ashley Phillips don't. Present those three as an expanded title set, or tighten the gate first. Someone may ask why a Director passed.</p></div>
+    <div class="caveat"><span class="tag warn">Soft date</span><p>Amy Richman's start date comes back as 2026 with no month, and her Audiences record still has an @starbucks.com email. Volunteer both.</p></div>
+    <div class="caveat"><span class="tag warn">Req count</span><p>Clay's Open Jobs returns a 10-posting sample per account, not a total, so it can't be the step-6 volume number. The samples below still show each account's hiring mix.</p></div>
+    <div class="caveat"><span class="tag info">Suppression</span><p>Eightfold's Salesforce isn't connected, so step 2 couldn't be checked. Public research found no Eightfold relationship at any of the four accounts. That doesn't confirm they aren't customers.</p></div>
+  </section>
+
+  <nav class="jump" aria-label="Accounts" id="jump"></nav>
+
+  <div id="accounts" style="display:grid;gap:24px"></div>
+
+  <section class="agent" id="agent" aria-labelledby="agent-h">
+    <div style="display:grid;gap:8px">
+      <h2 id="agent-h">The account agent</h2>
+      <p>One Clay account agent writes the prep above for every account that passes the step-4 gate. It replaces the step-5 Claygent. It reads the account's audience record, contacts and signals, then searches the web, and fills twelve fields in one run.</p>
+    </div>
+    <div class="block">
+      <h3>Build it in the workflow</h3>
+      <ol class="steps">
+        <li>Create a bare agent node after the step-4 gate.</li>
+        <li>Run <code>clay workflows nodes create-account-agent &lt;workflowId&gt; &lt;nodeId&gt; --name "Eightfold - New HR Leader Account Prep"</code>.</li>
+        <li>Set the prompt below on the node, then set the task list in a separate update.</li>
+        <li>Check that <code>accountId</code> wired itself from the accounts trigger.</li>
+        <li>Add a write-to-Audiences node after it with <code>entityType: ACCOUNT</code>.</li>
+      </ol>
+    </div>
+    <div class="block">
+      <div class="row"><h3>Prompt</h3><button class="copy" data-copy="prompt" type="button">Copy prompt</button></div>
+      <pre id="prompt"></pre>
+    </div>
+    <div class="block">
+      <div class="row"><h3>Tasks</h3><button class="copy" data-copy="tasks-json" type="button">Copy task JSON</button></div>
+      <div class="leaders"><table class="tasks"><thead><tr><th>Field</th><th>Type</th><th>Returns</th></tr></thead><tbody id="tasks"></tbody></table></div>
+      <pre id="tasks-json" hidden></pre>
+    </div>
+  </section>
+
+  <p class="foot">Data: Clay Demos (GTM) workspace, Oct 7, 2026. Contact lookups for six leaders, plus Open Jobs, Recent News, HR and Talent Tech Stack, and Workforce and Talent Initiatives on four companies. Also in the repo under <code>eightfold/</code>.</p>
+</div>
+
+<script>
+const ACCOUNTS = [
+  {
+    id: "uhg", name: "UnitedHealth Group", domain: "unitedhealthgroup.com",
+    facts: "Healthcare · Eden Prairie, MN · 92,856 on LinkedIn (company says 340,000 colleagues)",
+    pin: "linkedin.com/company/unitedhealth-group",
+    leaders: [
+      { name: "Raynee Meyer", title: "SVP, Human Resources (Chief People Officer), UnitedHealthcare Operations", start: "Sep 2025", exact: true, aud: "No" }
+    ],
+    why: "Raynee is 13 months into leading HR for about 50,000 operational employees, with AI-enabled reskilling and succession in scope. UnitedHealthcare is cutting prior authorization requirements by 30% this year, which changes the work her population does. That link is our inference.",
+    whyLinks: [["Prior authorization cuts, May 5 2026", "https://www.unitedhealthgroup.com/newsroom/2026/2026-05-05-uhc-cuts-prior-authorization-requirements-by-30-percent.html"]],
+    context: "Q2 2026 beat with full-year guidance raised on Jul 16. Open-role sample: hospice RNs, primary care physicians, enterprise security and cyber, contact center, internal audit, M&A.",
+    contextLinks: [["Q2 2026 results", "https://www.unitedhealthgroup.com/newsroom/2026/2026-07-16-uhg-reports-second-quarter-2026-results.html"]],
+    stack: "Nothing publicly sourced. No public Eightfold evidence.",
+    entry: "Talent Management and Mobility, then Workforce Planning",
+    openerTo: "Raynee",
+    opener: "Raynee, you took on HR for UnitedHealthcare Operations last September, with reskilling and succession for about 50,000 people in scope. With prior authorizations down 30% this year and more coming, which roles do you expect to redeploy first, and how are you mapping the skills to move them?",
+    risks: "She is a business-unit CPO, not the enterprise CHRO, so a platform decision may sit above her. A BU pilot is the realistic first deal. No ATS or HRIS is publicly visible.",
+    focus: "Confirm whether UHC Operations runs its own HR technology budget or buys through UHG enterprise HR. Find any public reskilling or redeployment program tied to the prior authorization changes.",
+    mcp: "What do we know about UnitedHealth Group's HR leadership, and does anyone in Raynee Meyer's org already appear in our Salesforce or Audiences?"
+  },
+  {
+    id: "cvs", name: "CVS Health", domain: "cvshealth.com",
+    facts: "Healthcare and retail · Woonsocket, RI · 142,370 on LinkedIn (company says 300,000+ colleagues)",
+    pin: "linkedin.com/company/cvshealth",
+    leaders: [
+      { name: "Amy Richman", title: "VP, Head of Talent Acquisition", start: "2026", soft: true, exact: true, aud: "Yes, stale email" },
+      { name: "Julie Moura", title: "AVP, HR Business Partner to the CHRO & Programs Lead", start: "Jul 2026", exact: false, aud: "No" }
+    ],
+    why: "A new head of TA at a company whose open roles are mostly high-volume hourly hiring. Julie, three months in as the CHRO's HR business partner, is the route to the CHRO.",
+    whyLinks: [],
+    context: "Investor Day on Dec 9, 2025 reset strategy and 2026 guidance. All 10 postings in the sample are store associates, pharmacy technicians, shift supervisors, a pharmacy intern and one analyst. No public workforce initiatives found.",
+    contextLinks: [["Investor Day", "https://www.cvshealth.com/news/company-news/cvs-health-updates-to-uniquely-reimagine-health-care-at-investor-day-event.html"], ["FY2025 results", "https://investors.cvshealth.com/news/news-details/2026/CVS-HEALTH-CORPORATION-REPORTS-FOURTH-QUARTER-AND-FULL-YEAR-2025-RESULTS/default.aspx"]],
+    stack: "Paradox appears in one third-party roundup, which is weak evidence. No HRIS or ATS publicly sourced. No public Eightfold evidence.",
+    stackLinks: [["Roundup listing", "https://www.selectsoftwarereviews.com/buyer-guide/ai-recruiting"]],
+    entry: "Talent Acquisition through Amy, with Julie as the path to the CHRO",
+    openerTo: "Amy Richman",
+    opener: "Amy, CVS hires pharmacy technicians, store associates and shift supervisors in volume every week across the country. As you set TA strategy this year, how are you deciding which of those roles get filled from inside before they're posted?",
+    risks: "Amy's start date is unconfirmed and her Audiences email is at her previous employer. If Paradox is in place, lead on skills and mobility rather than conversational screening. Julie's title is outside the step-3 list.",
+    focus: "Confirm Amy Richman's start month from a CVS or press source. Confirm or rule out Paradox. Identify the CHRO and whether Julie's programs remit includes internal mobility.",
+    mcp: "Show me CVS Health's contacts in Audiences with HR or talent titles, and flag any with an email domain that isn't cvshealth.com."
+  },
+  {
+    id: "lockton", name: "Lockton", domain: "lockton.com",
+    facts: "Insurance brokerage, private · Kansas City, MO · 15,209 on LinkedIn",
+    pin: "linkedin.com/company/lockton-companies",
+    leaders: [
+      { name: "Jonathan Collett", title: "Head of Talent Intelligence", start: "Jan 2026", exact: true, aud: "No" },
+      { name: "Amy Lee Sewell", title: "SVP, Senior Talent Acquisition Manager", start: "Jun 2026", exact: false, aud: "Yes, no email" }
+    ],
+    why: "Lockton created a Head of Talent Intelligence role this year, which is the name of Eightfold's own category. Amy Lee owns large-scale hiring plus early-career programs, and 4 of the 10 sampled postings are 2027 internships or rotational programs.",
+    whyLinks: [],
+    context: "FY2026 revenue of about $4.5 billion, the sixth straight year of double-digit organic growth. New global headquarters announced. No public workforce initiatives found.",
+    contextLinks: [["FY2026 revenue", "https://asiainsurancereview.com/News/ViewNewsLetterArticle/id/95884/Type/AIRPlus/Global-Lockton-FY2026-revenue-jumps-to-US-4-5bn-marking-6-consecutive-years-of-double-digit-organic-growth"], ["New HQ", "https://leadership.lockton.com/our-next-chapter/lockton-announcement-v2/"]],
+    stack: "Nothing publicly sourced; as a private firm Lockton discloses less. No public Eightfold evidence.",
+    entry: "Workforce Planning through Jonathan; Talent Acquisition for early careers through Amy Lee",
+    openerTo: "Jonathan",
+    opener: "Jonathan, Lockton has grown double digits organically six years running, and you're nine months into building talent intelligence as a function. What are you using today to see skills supply against where that growth is coming from?",
+    risks: "A new talent intelligence lead may already have chosen tools or be building in-house. Two leaders at one account means one account sequence, not two.",
+    focus: "Find what Jonathan Collett has said publicly about the talent intelligence function (posts, talks, job postings for his team). Check Lockton job postings for named HR systems.",
+    mcp: "Who are our contacts at Lockton with talent titles, and which one should open a talent intelligence conversation?"
+  },
+  {
+    id: "flex", name: "Flex", domain: "flex.com",
+    facts: "Manufacturing · Austin, TX · 56,696 on LinkedIn",
+    pin: "linkedin.com/company/flexintl",
+    leaders: [
+      { name: "Ashley Phillips", title: "Director of Talent Acquisition, Executive & Commercial", start: "Jan 2026", exact: false, aud: "No" }
+    ],
+    why: "Flex is splitting in two. It will spin off Cloud & Power Infrastructure as a separate public company, named leadership teams for both in July, and set out the CFO and board for \"Flex and Axiom\" in September. Two companies need executive and commercial leaders at once, which is Ashley's mandate.",
+    whyLinks: [["Spin-off, May 5 2026", "https://investors.flex.com/news/news-details/2026/Flex-Announces-Intention-to-Spin-Off-its-Cloud-and-Power-Infrastructure-Segment-into-a-New-Independent-Publicly-Traded-Company/default.aspx"], ["Leadership teams, Jul 2026", "https://investors.flex.com/news/news-details/2026/Flex-Announces-Leadership-Teams-for-Flex-and-Planned-Cloud-and-Power-Infrastructure-Spin-Off-SpinCo/default.aspx"], ["CFO and board, Sep 2026", "https://investors.flex.com/news/news-details/2026/Flex-Announces-Expected-Flex-CFO-and-Board-Composition-for-Flex-and-Axiom-Following-Separation/default.aspx"]],
+    context: "Clay also returned a Reuters report of a roughly $4.4 billion deal to acquire EPC Power. Open-role sample: manufacturing operations across Mexico, Malaysia, China, India and the US, plus an HR Global Mobility Specialist.",
+    contextLinks: [["Reuters, EPC Power", "https://www.reuters.com/business/flex-acquire-epc-power-44-bln-2026-09-15/"]],
+    stack: "Greenhouse ATS, from Flex's public job board. Nothing else publicly sourced. No public Eightfold evidence.",
+    stackLinks: [["Greenhouse job board", "https://job-boards.greenhouse.io/flex"]],
+    entry: "Talent Acquisition for executive and commercial hiring, then Workforce Planning for the separation",
+    openerTo: "Ashley",
+    opener: "Ashley, with Flex separating Cloud & Power into its own public company, both businesses need executive and commercial leaders at once. How are you building those slates without the two companies competing for the same people?",
+    risks: "Ashley is Director level, below the step-3 titles; the platform buyer is more likely a CHRO. A separation can freeze vendor decisions as easily as it creates them. Verify the EPC Power deal on Flex investor relations before mentioning it.",
+    focus: "Identify the CHRO of each company after separation and the separation date. Confirm the EPC Power deal on Flex's investor relations site.",
+    mcp: "What changed at Flex in the last six months, and who leads HR for the company being spun off?"
+  }
+];
+
+const PROMPT = `You are preparing an Eightfold AI account executive for first outreach to an enterprise
+account where a senior HR or talent acquisition leader was appointed in the last 18 months.
+Eightfold sells talent intelligence: skills-based hiring, talent CRM and sourcing, internal
+mobility and talent marketplace, and workforce planning with skills analytics.
+
+Work from this account's audience record, its contacts and its signals first, then search
+the web. The contact who triggered the New HR Leader signal is the subject of the first
+three tasks.
+
+Rules:
+1. Every claim must be supported by a source you opened. Give the URL.
+2. If a field cannot be supported, return exactly NOT_FOUND. Never estimate a start date,
+   headcount or deal value.
+3. Prefer sources from the last 12 months. If the best source is older, use it and keep its
+   real date.
+4. Treat the account's own newsroom, investor relations pages and filings as the strongest
+   sources, then trade press, then LinkedIn. Use LinkedIn only to confirm a person's title and
+   start date.
+5. Report only what is publicly disclosed. Do not include personal contact details.
+
+Account-specific focus, if provided: {{account_focus}}`;
+
+const TASKS = {
+  appointment_status: { type: "select", description: "Whether a public source confirms the triggering leader's current title and start date. Verified = title and start month both sourced. Year only = title sourced, start year only. Not verified = no public source.", options: "[{\"text\":\"Verified\"},{\"text\":\"Year only\"},{\"text\":\"Not verified\"}]" },
+  appointment_start: { type: "string", description: "Start date of the triggering leader in the current role, as YYYY-MM or YYYY. NOT_FOUND if no source states it. Never infer from profile edit dates." },
+  appointment_source_url: { type: "string", description: "URL of the source that states the leader's current title and start date. NOT_FOUND if none." },
+  signal_rationale: { type: "string", description: "Two to three plain sentences on why this appointment is a buying signal for Eightfold, tied to the leader's stated scope (headcount covered, mandate, programs owned)." },
+  work_history_summary: { type: "string", description: "The leader's last two roles before this one, with employer and dates, showing the current role is new. One line each." },
+  workforce_context: { type: "string", description: "Workforce events at the account in the last 12 months: hiring volume and mix, reorganizations, M&A, spin-offs, layoffs, reskilling or internal mobility programs. One line each with date and source URL." },
+  hr_tech_stack: { type: "string", description: "Publicly evidenced HRIS, ATS, recruiting CRM and talent intelligence vendors, each with a source URL. Name any Eightfold competitor in place (Phenom, Beamery, Gloat, SeekOut, HiredScore, Paradox). NOT_FOUND per category when unsourced." },
+  eightfold_relationship: { type: "select", description: "Whether public evidence shows the account already works with Eightfold AI (case study, press release, job posting naming Eightfold).", options: "[{\"text\":\"Public evidence found\"},{\"text\":\"No public evidence\"}]" },
+  entry_point: { type: "select", description: "The Eightfold product area most likely to land first at this account, given the leader's scope and the workforce context.", options: "[{\"text\":\"Talent Acquisition\"},{\"text\":\"Talent Management and Mobility\"},{\"text\":\"Workforce Planning\"}]" },
+  first_contact: { type: "string", description: "Name and title of the contact to approach first, chosen from the account's audience contacts, with a one-line reason." },
+  opener: { type: "string", description: "A two-sentence opening message to the first contact. Reference the appointment and one sourced account fact. No flattery and no claim without a source." },
+  open_risks: { type: "string", description: "What could not be verified, stale contact data (for example an email at a previous employer), and any reason the account may fail the ICP or seniority gate." }
+};
+
+const el = (tag, attrs = {}, ...kids) => {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === "class") n.className = v; else if (k === "text") n.textContent = v; else n.setAttribute(k, v);
+  }
+  for (const k of kids) if (k != null) n.append(k);
+  return n;
+};
+const tag = (cls, text) => el("span", { class: "tag " + cls, text });
+const links = (list) => {
+  if (!list || !list.length) return null;
+  const p = el("p", { class: "facts" });
+  list.forEach(([label, href], i) => {
+    if (i) p.append(" · ");
+    p.append(el("a", { href, target: "_blank", rel: "noopener", text: label }));
+  });
+  return p;
+};
+const block = (title, text, linkList, wide) => {
+  const b = el("div", { class: "block" + (wide ? " wide" : "") }, el("h3", { text: title }), el("p", { text }));
+  const l = links(linkList); if (l) b.append(l);
+  return b;
+};
+
+async function copyText(text, btn) {
+  const label = btn.textContent;
+  try { await navigator.clipboard.writeText(text); btn.textContent = "Copied"; }
+  catch (e) {
+    const target = btn.closest(".block, .quote")?.querySelector("pre, p");
+    if (target) { const r = document.createRange(); r.selectNodeContents(target); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+    btn.textContent = "Selected, press Ctrl+C";
+  }
+  setTimeout(() => (btn.textContent = label), 1800);
+}
+
+const jump = document.getElementById("jump");
+const host = document.getElementById("accounts");
+for (const a of ACCOUNTS) {
+  jump.append(el("a", { href: "#" + a.id, text: a.name }));
+  const tbody = el("tbody");
+  for (const p of a.leaders) {
+    const gate = el("td", {}, p.exact ? tag("ok", "Exact title") : tag("warn", "Outside title list"));
+    tbody.append(el("tr", {},
+      el("td", {}, el("strong", { text: p.name })),
+      el("td", { text: p.title }),
+      el("td", { class: "when" }, p.start, p.soft ? el("span", {}, " ", tag("warn", "Year only")) : null),
+      gate,
+      el("td", { text: p.aud })
+    ));
+  }
+  const leaders = el("div", { class: "leaders" }, el("table", {},
+    el("thead", {}, el("tr", {}, ...["Leader", "Title", "Started", "Signal", "In Audiences"].map(h => el("th", { text: h })))),
+    tbody));
+
+  const openerBtn = el("button", { class: "copy", type: "button", text: "Copy opener" });
+  openerBtn.addEventListener("click", () => copyText(a.opener, openerBtn));
+  const mcpBtn = el("button", { class: "copy", type: "button", text: "Copy question" });
+  mcpBtn.addEventListener("click", () => copyText(a.mcp, mcpBtn));
+
+  const sec = el("section", { class: "account", id: a.id, "aria-labelledby": a.id + "-h" },
+    el("div", { class: "account-head" },
+      el("h2", { id: a.id + "-h", text: a.name }),
+      el("p", { class: "facts" }, el("span", { class: "mono", text: a.domain }), " · " + a.facts + " · Pin ", el("span", { class: "mono", text: a.pin }))
+    ),
+    leaders,
+    el("div", { class: "grid2" },
+      block("Why now", a.why, a.whyLinks, true),
+      block("Account context", a.context, a.contextLinks),
+      block("HR tech stack", a.stack, a.stackLinks),
+      block("Entry point", a.entry),
+      block("Agent focus for this account", a.focus)
+    ),
+    el("div", { class: "quote" },
+      el("h3", { text: "Opener draft, to " + a.openerTo }),
+      el("p", { text: a.opener }),
+      el("div", { class: "row" }, openerBtn)
+    ),
+    el("div", { class: "risk" }, el("h3", { text: "Risks" }), el("p", { text: a.risks })),
+    el("div", { class: "block" },
+      el("h3", { text: "Live MCP question (step 4 of the call)" }),
+      el("p", { text: a.mcp }),
+      el("div", { class: "row" }, mcpBtn)
+    )
+  );
+  host.append(sec);
+}
+jump.append(el("a", { href: "#agent", text: "Account agent" }));
+
+document.getElementById("prompt").textContent = PROMPT;
+document.getElementById("tasks-json").textContent = JSON.stringify(TASKS, null, 2);
+const tbody = document.getElementById("tasks");
+for (const [id, t] of Object.entries(TASKS)) {
+  const opts = t.options ? " (" + JSON.parse(t.options).map(o => o.text).join(" / ") + ")" : "";
+  tbody.append(el("tr", {}, el("td", { text: id }), el("td", { text: t.type }), el("td", { text: t.description + opts })));
+}
+document.querySelectorAll("button[data-copy]").forEach(btn => {
+  btn.addEventListener("click", () => copyText(document.getElementById(btn.dataset.copy).textContent, btn));
+});
+</script>
