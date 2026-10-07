@@ -1,0 +1,26 @@
+source_row_id,account_name,account_domain,vertical,country,icp_source,is_customer,do_not_contact
+EF-001,UnitedHealth Group,unitedhealthgroup.com,Healthcare,US,build guide appendix,unknown,false
+EF-002,State Farm,statefarm.com,Insurance,US,build guide appendix,unknown,false
+EF-003,KLA,kla.com,Semiconductors,US,build guide appendix,unknown,false
+EF-004,Walmart,walmart.com,Retail,US,Clay company search,unknown,false
+EF-005,Lockton,lockton.com,Insurance,US,build guide appendix,unknown,false
+EF-006,CVS Health,cvshealth.com,Healthcare,US,build guide appendix,unknown,false
+EF-007,Flex,flex.com,Manufacturing,US,build guide appendix,unknown,false
+EF-008,JPMorganChase,jpmorganchase.com,Financial Services,US,Clay company search,unknown,false
+EF-009,Johns Hopkins Medicine,hopkinsmedicine.org,Healthcare,US,build guide appendix,unknown,false
+EF-010,Nike,nike.com,Retail,US,Clay company search,unknown,false
+EF-011,Lam Research,lamresearch.com,Semiconductors,US,build guide appendix,unknown,false
+EF-012,Abbott,abbott.com,Healthcare,US,Clay company search,unknown,false
+EF-013,Johnson & Johnson,jnj.com,Healthcare,US,Clay company search,unknown,false
+EF-014,HCA Healthcare,hcahealthcare.com,Healthcare,US,vertical fit,unknown,false
+EF-015,Kaiser Permanente,kaiserpermanente.org,Healthcare,US,vertical fit,unknown,false
+EF-016,Citi,citigroup.com,Financial Services,US,Clay company search,unknown,false
+EF-017,Morgan Stanley,morganstanley.com,Financial Services,US,Clay company search,unknown,false
+EF-018,American Express,americanexpress.com,Financial Services,US,Clay company search,unknown,false
+EF-019,Goldman Sachs,goldmansachs.com,Financial Services,US,Clay company search,unknown,false
+EF-020,Progressive,progressive.com,Insurance,US,vertical fit,unknown,false
+EF-021,Intel,intel.com,Semiconductors,US,Clay company search,unknown,false
+EF-022,Micron Technology,micron.com,Semiconductors,US,vertical fit,unknown,false
+EF-023,Applied Materials,appliedmaterials.com,Semiconductors,US,vertical fit,unknown,false
+EF-024,Target,target.com,Retail,US,vertical fit,unknown,false
+EF-025,The Home Depot,homedepot.com,Retail,US,vertical fit,unknown,false
