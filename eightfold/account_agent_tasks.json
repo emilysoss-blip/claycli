@@ -1,0 +1,53 @@
+{
+  "appointment_status": {
+    "type": "select",
+    "description": "Whether a public source confirms the triggering leader's current title and start date. Verified = title and start month both sourced. Year only = title sourced, start year only. Not verified = no public source.",
+    "options": "[{\"text\":\"Verified\"},{\"text\":\"Year only\"},{\"text\":\"Not verified\"}]"
+  },
+  "appointment_start": {
+    "type": "string",
+    "description": "Start date of the triggering leader in the current role, as YYYY-MM or YYYY. NOT_FOUND if no source states it. Never infer from profile edit dates."
+  },
+  "appointment_source_url": {
+    "type": "string",
+    "description": "URL of the source that states the leader's current title and start date. NOT_FOUND if none."
+  },
+  "signal_rationale": {
+    "type": "string",
+    "description": "Two to three plain sentences on why this appointment is a buying signal for Eightfold, tied to the leader's stated scope (headcount covered, mandate, programs owned)."
+  },
+  "work_history_summary": {
+    "type": "string",
+    "description": "The leader's last two roles before this one, with employer and dates, showing the current role is new. One line each."
+  },
+  "workforce_context": {
+    "type": "string",
+    "description": "Workforce events at the account in the last 12 months: hiring volume and mix, reorganizations, M&A, spin-offs, layoffs, reskilling or internal mobility programs. One line each with date and source URL."
+  },
+  "hr_tech_stack": {
+    "type": "string",
+    "description": "Publicly evidenced HRIS, ATS, recruiting CRM and talent intelligence vendors, each with a source URL. Name any Eightfold competitor in place (Phenom, Beamery, Gloat, SeekOut, HiredScore, Paradox). NOT_FOUND per category when unsourced."
+  },
+  "eightfold_relationship": {
+    "type": "select",
+    "description": "Whether public evidence shows the account already works with Eightfold AI (case study, press release, job posting naming Eightfold).",
+    "options": "[{\"text\":\"Public evidence found\"},{\"text\":\"No public evidence\"}]"
+  },
+  "entry_point": {
+    "type": "select",
+    "description": "The Eightfold product area most likely to land first at this account, given the leader's scope and the workforce context.",
+    "options": "[{\"text\":\"Talent Acquisition\"},{\"text\":\"Talent Management and Mobility\"},{\"text\":\"Workforce Planning\"}]"
+  },
+  "first_contact": {
+    "type": "string",
+    "description": "Name and title of the contact to approach first, chosen from the account's audience contacts, with a one-line reason."
+  },
+  "opener": {
+    "type": "string",
+    "description": "A two-sentence opening message to the first contact. Reference the appointment and one sourced account fact. No flattery and no claim without a source."
+  },
+  "open_risks": {
+    "type": "string",
+    "description": "What could not be verified, stale contact data (for example an email at a previous employer), and any reason the account may fail the ICP or seniority gate."
+  }
+}
