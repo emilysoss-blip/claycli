@@ -1,0 +1,43 @@
+domain,account_key,entities_returned,count_is_lower_bound,parent_returned,stale_or_inactive_pages,wrong_company_pages,size_or_revenue_contradictions,match_class,finding,fix
+aetna.com,cvs-health,1,no,yes,0,0,0,clean,"Aetna, a CVS Health Company (41,157)",Enrich by domain.
+analog.com,analog-devices,1,no,yes,0,0,0,clean,"Analog Devices (27,904)",Enrich by domain.
+anthem.com,elevance-health,2,no,yes,0,0,1,shared_domain,"2 entities; largest: Anthem Blue Cross and Blue Shield (10,447); Anthem BCBS Medicaid Health Plans (43)",Enrich each hiring entity by its LinkedIn URL from divisions.csv; the domain alone cannot choose between them.
+appliedmaterials.com,applied-materials,1,no,yes,0,0,0,clean,"Applied Materials (33,320)",Enrich by domain.
+bankofamerica.com,bank-of-america,2,no,yes,0,0,0,shared_domain,"2 entities; largest: Bank of America (227,047); Bank of America Private Bank (3,731)",Enrich each hiring entity by its LinkedIn URL from divisions.csv; the domain alone cannot choose between them.
+carelon.com,elevance-health,2,no,yes,1,0,0,clean_with_stale_pages,"Carelon (3,197); AIM Specialty Health (renamed) (537)","Enrich by domain, then suppress the stale pages in divisions.csv so none of them takes a contact."
+chase.com,jpmorganchase,1,no,yes,0,0,0,clean,"Chase (35,456)",Enrich by domain.
+cigna.com,cigna-group,1,no,yes,0,0,1,clean,"Cigna Healthcare (29,395)",Enrich by domain.
+commonspirit.org,commonspirit-health,10,yes,no,0,0,8,parent_missing_by_domain,"10+ member hospitals and regions, never the parent. 8 of the 10 carry size band '10,001+' on 114-1,090 employees (Dignity Health California: 29 hospitals, 293 employees).","Enrich on linkedin.com/company/commonspirithealth, which resolves to CommonSpirit Health (48,637) on commonspirit.careers."
+cvshealth.com,cvs-health,1,no,yes,0,0,0,clean,"CVS Health (142,370)",Enrich by domain.
+elevancehealth.com,elevance-health,2,no,yes,1,0,1,clean_with_stale_pages,"Elevance Health (44,188); Anthem, Inc. (renamed) (19,436)","Enrich by domain, then suppress the stale pages in divisions.csv so none of them takes a contact."
+evernorth.com,cigna-group,1,no,yes,0,0,0,clean,"Evernorth Health Services (7,647)",Enrich by domain.
+flex.com,flex,1,no,yes,0,0,0,clean,"Flex (56,696)",Enrich by domain.
+ge.com,ge-aerospace,2,no,yes,0,0,0,stale_parent,"Legacy GE page (95,424) whose own text says content moved to GE Aerospace and GE Vernova; plus GE Digital.",Never enrich on ge.com. Route GE Digital to GE Vernova by LinkedIn URL.
+geaerospace.com,ge-aerospace,2,no,yes,0,0,0,shared_domain,"2 entities; largest: GE Aerospace (115,922); GE Research (884)",Enrich each hiring entity by its LinkedIn URL from divisions.csv; the domain alone cannot choose between them.
+gehealthcare.com,ge-healthcare,1,no,yes,0,0,0,clean,"GE HealthCare (60,146)",Enrich by domain.
+gevernova.com,ge-vernova,5,no,yes,4,0,0,clean_with_stale_pages,"GE Vernova (70,995); GE Power (inactive) (16,996); Alstom Power (inactive) (6,507); GE Renewable Energy (inactive) (4,759); GE Grid Solutions (inactive) (4,736)","Enrich by domain, then suppress the stale pages in divisions.csv so none of them takes a contact."
+hcahealthcare.com,hca-healthcare,2,no,yes,0,0,0,shared_domain,"2 entities; largest: HCA Healthcare (155,698); HCA Healthcare Physician Services (2,733)",Enrich each hiring entity by its LinkedIn URL from divisions.csv; the domain alone cannot choose between them.
+honeywell.com,honeywell,1,no,yes,0,0,0,clean,"Honeywell Technologies (129,754)",Enrich by domain.
+hopkinsmedicine.org,johns-hopkins,8,yes,yes,0,0,0,shared_domain,"8 entities; largest: Johns Hopkins Medicine (39,514); Johns Hopkins Hospital (14,399); JHU School of Medicine (7,066); Johns Hopkins Bayview Medical Center (2,376)",Enrich each hiring entity by its LinkedIn URL from divisions.csv; the domain alone cannot choose between them.
+jabil.com,jabil,1,no,yes,0,0,0,clean,"Jabil (64,662)",Enrich by domain.
+jhu.edu,johns-hopkins,26,yes,yes,1,0,3,shared_domain,"26 entities; largest: The Johns Hopkins University (18,367); Johns Hopkins Bloomberg School of Public Health (3,631); Johns Hopkins Whiting School of Engineering (1,004); Johns Hopkins School of Nursing (829)",Enrich each hiring entity by its LinkedIn URL from divisions.csv; the domain alone cannot choose between them.
+jpmorganchase.com,jpmorganchase,1,no,yes,0,0,0,clean,"JPMorganChase (238,400)",Enrich by domain.
+kaiserpermanente.org,kaiser-permanente,2,no,no,2,0,0,no_usable_match,"Two placeholder pages (type Partnership, industry 'Blockchain Services', no headcount).","Enrich on linkedin.com/company/kaiser-permanente, which resolves to Kaiser Permanente (kp.org, 139,271)."
+kla.com,kla,1,no,yes,0,0,1,clean,"KLA (17,265)",Enrich by domain.
+lamresearch.com,lam-research,1,no,yes,0,0,0,clean,"Lam Research (18,409)",Enrich by domain.
+lockton.com,lockton,1,no,yes,0,0,0,clean,"Lockton (15,209)",Enrich by domain.
+marsh.com,marsh,8,yes,yes,1,0,1,shared_domain,"8 entities; largest: Marsh (65,841); Marsh McLennan (closed page) (17,314); Marsh Europe (2,127); Marsh IMEA (1,417)",Enrich each hiring entity by its LinkedIn URL from divisions.csv; the domain alone cannot choose between them.
+marshmclennan.com,marsh,1,no,no,0,1,0,wrong_company,"Resolves to 'Celedinas Insurance Group', 31 employees, carrying Marsh McLennan boilerplate.",Drop the domain. The parent is now Marsh on marsh.com (linkedin.com/company/marshglobal).
+mayoclinic.org,mayo-clinic,1,no,yes,0,0,0,clean,"Mayo Clinic (49,199)",Enrich by domain.
+mercer.com,marsh,3,no,no,0,0,0,satellite_only,"Regional pages only: Mercer UK (270), Mercer Latinoamerica (125), Mercer Sverige (23).",The Mercer LinkedIn page itself now reads 'Marsh People Solutions' (96). Treat Mercer as a Marsh division and confirm in Salesforce whether it is a separate account.
+micron.com,micron,1,no,yes,0,0,0,clean,"Micron Technology (44,321)",Enrich by domain.
+nationwide.com,nationwide,1,no,yes,0,0,0,clean,"Nationwide (31,628)",Enrich by domain.
+optum.com,unitedhealth-group,6,yes,yes,2,0,0,shared_domain,"6 entities; largest: Optum (114,911); naviHealth (984); Landmark Health (790); Optum Philippines (667)",Enrich each hiring entity by its LinkedIn URL from divisions.csv; the domain alone cannot choose between them.
+progressive.com,progressive,1,no,yes,0,0,0,clean,"Progressive Insurance (37,894)",Enrich by domain.
+statefarm.com,state-farm,2,no,yes,0,0,0,clean_with_stale_pages,"2 entities; largest: State Farm (111,988); State Farm Agent (11,996)","Enrich by domain; suppress 'State Farm Agent' (independent agents, not employees)."
+thecignagroup.com,cigna-group,1,no,yes,0,0,0,clean,"The Cigna Group (50,136)",Enrich by domain.
+ti.com,texas-instruments,2,no,yes,0,0,0,shared_domain,"2 entities; largest: Texas Instruments (31,289); Texas Instruments India (814)",Enrich each hiring entity by its LinkedIn URL from divisions.csv; the domain alone cannot choose between them.
+travelers.com,travelers,1,no,yes,0,0,0,clean,"Travelers (37,678)",Enrich by domain.
+truist.com,truist,2,no,yes,1,0,0,clean_with_stale_pages,"Truist (29,574); SunTrust (inactive) (11,541)","Enrich by domain, then suppress the stale pages in divisions.csv so none of them takes a contact."
+uhc.com,unitedhealth-group,1,no,yes,0,0,0,clean,"UnitedHealthcare (16,974)",Enrich by domain.
+unitedhealthgroup.com,unitedhealth-group,1,no,yes,0,0,0,clean,"UnitedHealth Group (92,856)",Enrich by domain.

@@ -1,0 +1,12 @@
+{
+  "captured": "2026-10-15",
+  "task_id": "mcp-task_0tmyludxqyP2TXBkPsw",
+  "query": "select from companies where domain in (kaiserpermanente.org, marshmclennan.com, mercer.com, commonspirit.org) and company_size = '10,001+'",
+  "has_more": false,
+  "findings": {
+    "kaiserpermanente.org": "Only two placeholder pages, 'Kaiser Permanente-US' and 'Kaiser Permanente-LA': type Partnership, industry 'Blockchain Services', no employee count. The operating Kaiser Permanente entity does not resolve by domain.",
+    "marshmclennan.com": "Resolves to 'Celedinas Insurance Group' (31 employees, Palm Beach Gardens FL), whose description is Marsh McLennan boilerplate. Wrong company, silently.",
+    "mercer.com": "Regional pages only: Mercer UK (270), Mercer Latinoamerica (125), Mercer Sverige (23). Global Mercer does not resolve. Two more Mercer regions sit on marsh.com instead.",
+    "commonspirit.org": "Still no parent entity. The size-filtered query (size band 10,001+) surfaced 6 more member hospitals on top of the 4 already seen: Harrison 750, Longmont 448, Holy Cross Jordan Valley 334, Davis 308, Salt Lake 198, Mountain Point 114 employees, all tagged '10,001+'."
+  }
+}

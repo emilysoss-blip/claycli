@@ -1,0 +1,14 @@
+{
+  "captured": "2026-10-15",
+  "method": "Native search filter on employee_growth_3mo (ratio; 1.03 = +3% over 3 months). Used because enrichment read-back (get-task-context) returned 'Internal error' on every attempt. Searches return the matching set only, not the ratio itself, so the result is a band, not a number.",
+  "base_filter": "domain in (34 cohort domains) and company_size = '10,001+'",
+  "queries": [
+    {"band":"growing_3pct_plus","filter":"employee_growth_3mo >= 1.03","task_ids":["mcp-task_0tmym4oNdoEKc5TZbbY","mcp-task_0tmym4ugcRdhuSXRtAA"],"has_more_after_last_page":false,
+     "cohort_entities":["Applied Materials","Optum","GE Vernova","GE Aerospace","Micron Technology","Lockton","Lam Research","Evernorth Health Services","Analog Devices","JPMorganChase"],
+     "satellite_noise":["JP Morgan Chase & Co (1,135)","Applied Materials Taiwan","Applied Materials India","Applied Materials South East Asia","GE HealthCare Voluson Ultrasound (60)","GE HealthCare Europe (46)","Johns Hopkins Technology Ventures (178)","Analog Devices Korea (21)","Texas Instruments Europe (33)","CVS Health Ireland (71)","Johns Hopkins Connects (3)","Honewell Automation India Limited (20, misspelled)","bankofamerica (13)","Cummings Scholars at JHU","Jabil Guangzhou (115)","Analog Devices Thailand (6)","UnitedHealth Group us (36)","Elevance Health-US (36, 'Blockchain Services')"]},
+    {"band":"shrinking_3pct_plus","filter":"employee_growth_3mo <= 0.97","task_ids":["mcp-task_0tmym507S6msUvWFkBc"],"has_more_after_last_page":false,
+     "cohort_entities":["Marsh"],
+     "satellite_noise":["JHU Office of Diversity and Inclusion (6)","ROB-EX A/S (9)","HCA Healthcare Journal of Medicine (6)","GE Renewable Energy (inactive)","Analog Devices Asia Pacific (84)","Marsh Latinoamerica (1,408)","Johns Hopkins University Bloomberg Center (27)"]}
+  ],
+  "note": "Satellite pages carry the '10,001+' size band of their parent with tiny headcounts, so a growth filter on a parent domain returns them too. Only entities in divisions.csv count. Everything not in either band is 'flat_or_unreported' (between -3% and +3%, or no ratio) - not 'flat'."
+}

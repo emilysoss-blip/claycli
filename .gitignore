@@ -1,2 +1,10 @@
 __pycache__/
 *.pyc
+
+# Named prospect data stays local (public repo). See eightfold/README.md.
+eightfold/data/raw/clay_talent_leaders_*.json
+eightfold/data/talent_leaders.csv
+eightfold/data/talent_leaders.json
+eightfold/data/why_now.csv
+eightfold/data/why_now.json
+*.private.html

@@ -1,0 +1,23 @@
+{
+  "dispatched": "2026-10-15",
+  "tool": "Clay MCP add-company-data-points",
+  "data_points": ["Open Jobs", "Tech Stack", "Headcount Growth"],
+  "dispatches": [
+    {"task_id":"mcp-task_0tmylr6NVb7s2aZo24N","entities":{"33834141":"UnitedHealth Group","64202896":"CVS Health","2469366":"Elevance Health","10873996":"HCA Healthcare","15483693":"Optum"}},
+    {"task_id":"mcp-task_0tmylt75G9ot9XtEJZ5","entities":{"26946837":"Lockton","23398935":"State Farm","25884556":"Progressive Insurance"}},
+    {"task_id":"mcp-task_0tmyltdGWZhQXekrvWo","entities":{"14806981":"Honeywell Technologies","16170221":"Flex","42990936":"KLA"}}
+  ],
+  "accepted_state": "in-progress on all 11 entities (33 enrichment cells) at dispatch",
+  "read_back": {
+    "attempts": [
+      {"tool":"get-task-context","task_id":"mcp-task_0tmyltdGWZhQXekrvWo","entity_ids":["14806981","16170221","42990936"],"result":"Internal error"},
+      {"tool":"get-task-context","task_id":"mcp-task_0tmylt75G9ot9XtEJZ5","result":"Internal error"},
+      {"tool":"get-task-context","task_id":"cgas-search-id_0tmyltda6rEbwNeR3V2","result":"Internal error"},
+      {"tool":"get-task-context","task_id":"mcp-task_0tmylr6NVb7s2aZo24N","entity_ids":["33834141"],"result":"Internal error"},
+      {"tool":"add-company-data-points (re-read)","task_id":"mcp-task_0tmyltdGWZhQXekrvWo","entity_ids":["42990936"],"result":"Internal error"},
+      {"tool":"get-task-context","task_id":"mcp-task_0tmylr6NVb7s2aZo24N","result":"Internal error"}
+    ],
+    "status": "No enrichment values were retrieved. Open requisition volume and HR tech stack are therefore 'unknown' on every row, and tiering treats them as unknown, not as negative."
+  },
+  "same_failure_as": "The airport build in this repo hit the identical get-task-context Internal error (task mcp-task_0tm35ji7wdtQyooSwrr per docs/README.md)."
+}
