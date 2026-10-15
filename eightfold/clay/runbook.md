@@ -5,9 +5,9 @@ wired to the files in this repo. Placeholders in `<angle brackets>` come from re
 output. Never paste them unchanged. Record every ID in the manifest at the bottom as it
 comes back.
 
-**Status:** not executed. The Clay CLI could not be installed in the build environment, so no
-workflow, trigger, signal or segment exists yet. What *was* run went through the Clay MCP
-against workspace `91642` (Clay Demos GTM). See `../README.md`.
+**Status:** partly executed on 2026-10-15 with Clay CLI 1.9.0. The workflow is built and
+tested on 10 accounts, and is not published; see [`cli_build.md`](./cli_build.md) for IDs,
+results and findings. Signals, Audiences fields and Salesforce writeback are not built yet.
 
 Order of operations, and why it is this order:
 
@@ -256,12 +256,12 @@ A published workflow and a paused signal are separate controls. Check both.
 | Object | ID | Notes |
 |---|---|---|
 | Workspace | `91642` Clay Demos (GTM) | MCP connection used for this build |
-| Workflow | | |
-| CSV trigger | | |
-| Identity group | | |
-| Research group | | |
-| Qualification group | | |
-| NewHire signal | `td_` / `sig_` | |
+| Workflow | `wf_0tmyo3dtqBTPxC5cfhA` | draft, validated, not published |
+| CSV trigger | `c1f5fe62-0eee-4b73-8bc2-b69c734adc51` (node `wfn_0tmyo3kQhMa2bu3NTNt`) | live from creation |
+| Identity group | `wfng_0tmyo9lNX9f9pyapv67` | |
+| Research group | `wfng_0tmyo9nEJZWKywc9XW6` | |
+| Qualification group | `wfng_0tmyo9o9msMw57sYKWb` | |
+| NewHire signal | not created | blocked on population, see cli_build.md |
 | JobPost signal | `td_` / `sig_` | |
 | Company segments | Tier 1 / Needs Review / Activation | |
 | White-space workflow | | |

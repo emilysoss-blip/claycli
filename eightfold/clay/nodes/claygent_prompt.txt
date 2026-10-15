@@ -1,0 +1,11 @@
+Organization: {{account_name}} ({{account_domain}}), {{country}}.
+Missing field: the HCM or ATS system this organization has deployed (for example Workday, SAP SuccessFactors, Oracle HCM, Taleo, iCIMS, Greenhouse, SmartRecruiters, Avature, Phenom).
+
+Research only this field. Use official company pages, the careers site, vendor case studies, press releases and job postings that require hands-on experience administering the system.
+
+Rules:
+- Return the system name only when a source states it is deployed (evidence_type "deployed") or the company states it uses it (evidence_type "stated").
+- A careers-site vendor or job-board domain alone is a clue, not proof: return it with evidence_type "clue" and uncertainty "high".
+- Do not infer from a similar company name, a parent or subsidiary, or a generic HR job description.
+- observed_at is the date stated in the source, not today's date.
+- If the evidence does not establish an answer, return claygent_hcm "unknown", evidence_type "none", uncertainty "high", source_url "none".

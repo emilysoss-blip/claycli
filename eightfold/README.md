@@ -25,6 +25,8 @@ data/raw/                    every Clay company response this build used, with t
 build/*.py                   regenerates all of the above; edit these, not the CSVs
 build/test_engine.py         the unit checks guide section 7 asks for, plus the leader gate (22 tests)
 clay/runbook.md              the CLI build, step by step, with the corrections applied
+clay/cli_build.md            what was built in Clay: workflow and node IDs, 10-account test, findings
+clay/nodes/                  code-node source, generated from build/tiering.py by build/node_code.py
 clay/guide_corrections.md    four commands in the guide that would break the build, with plugin-doc citations
 clay/claygent_fallback.md    eligibility gate, prompt, output schema, reconciliation rules
 ```
@@ -204,8 +206,9 @@ qualified TA leader's record carrying an email at a previous employer.
   parents and accepted. `get-task-context` returned `Internal error` on all six read attempts.
   This is the same failure the airport build hit. The values should be in the Clay workspace
   under the task IDs in `data/raw/clay_enrichment_dispatch.json`.
-- **The CLI build.** The Clay CLI could not be installed here, so no workflow, trigger,
-  signal, segment or Audiences field exists yet. `clay/runbook.md` is the sequence to run.
+- **The rest of the CLI build.** The workflow now exists in Clay and passed a 10-account test
+  (`clay/cli_build.md`, results in `data/cli_test10_results.csv`). It is not published, and
+  no signal, segment or Audiences field has been created yet.
 - **Contacts.** No emails were looked up or stored. Person enrichment and email validation
   come after the qualified list is reviewed (guide section 8).
 - **Claygent.** Specified, not run. Nothing in this build used AI to fill a field.
