@@ -8,3 +8,5 @@ eightfold/data/talent_leaders.json
 eightfold/data/why_now.csv
 eightfold/data/why_now.json
 *.private.html
+# Raw CLI output (workspace inventories name other demos); keep local.
+eightfold/clay/cli_runs/
