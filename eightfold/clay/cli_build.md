@@ -104,6 +104,9 @@ The "new talent leader" signal (`NewHire`) needs a watched population. `clay sig
 - **A table-watched signal would be exact, but the CLI cannot create tables.** It can only
   read them.
 
+**Decision (2026-10-15): the signal is left out of the POC.** It gets created once
+Eightfold's real account list is in, on a population that can be matched exactly.
+
 `clay signals list` also fails in this workspace with `contract_mismatch` at
 `triggerDefinitions.939.signal.settings`, so the duplicate check has to be done in the app.
 
@@ -111,7 +114,7 @@ The "new talent leader" signal (`NewHire`) needs a watched population. `clay sig
 
 - Publish (the draft only runs from the CSV trigger).
 - The remaining 20 accounts, and division-grain rows for multi-entity parents.
-- NewHire / JobPost signals (population decision above).
+- NewHire / JobPost signals: deferred until Eightfold's account list is in (see above).
 - Audiences fields (`Eightfold Fit Score`, `Eightfold Fit Tier`, `Eightfold Research
   Status`) and the activation segment.
 - Salesforce writeback, Marketo, 6sense.

@@ -261,7 +261,7 @@ A published workflow and a paused signal are separate controls. Check both.
 | Identity group | `wfng_0tmyo9lNX9f9pyapv67` | |
 | Research group | `wfng_0tmyo9nEJZWKywc9XW6` | |
 | Qualification group | `wfng_0tmyo9o9msMw57sYKWb` | |
-| NewHire signal | not created | blocked on population, see cli_build.md |
+| NewHire signal | not created | deferred until Eightfold's account list is in; see cli_build.md |
 | JobPost signal | `td_` / `sig_` | |
 | Company segments | Tier 1 / Needs Review / Activation | |
 | White-space workflow | | |
