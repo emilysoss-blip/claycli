@@ -6,7 +6,8 @@ An account foundation and Clay build spec for 50 airports, keyed on airport doma
 
 See also `docs/industrial-rail-prospecting-playbook.md`: the three-use-case Clay playbook
 (industrial site managers, trade-show list enrichment, rail / people-mover expansion) with
-live results from the workspace.
+live results from the workspace. `docs/target-accounts.md` and `data/target_accounts.csv`
+hold the tiered target account list for the same prospect.
 
 ```
 data/airports.csv            50 rows, 25 columns - the account list
